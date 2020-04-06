@@ -50,7 +50,6 @@ pgtools.dropdb(initDbConfig, config.database, (err, res) => {
         query: `CREATE TABLE customLists (
           id SERIAL PRIMARY KEY,
           userId INT NOT NULL,
-          private BOOLEAN NOT NULL,
           name TEXT NOT NULL,
           data JSON
         )`
@@ -61,6 +60,7 @@ pgtools.dropdb(initDbConfig, config.database, (err, res) => {
           id SERIAL PRIMARY KEY,
           userId INT NOT NULL,
           listId INT NOT NULL,
+          private BOOLEAN NOT NULL,
           data JSON
         )`
       }
