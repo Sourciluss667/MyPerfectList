@@ -11,7 +11,7 @@ const initDbConfig = {
 
 // Delete db
 pgtools.dropdb(initDbConfig, config.database, (err, res) => {
-  if (err) console.log(`${config.database} doesn't exist !`) // db n'existe pas
+  if (err) console.log(`${config.database} doesn't exist !`, err) // db n'existe pas
   else console.log(`${config.database} deleted successfully !`)
 
   // Create db
@@ -72,5 +72,9 @@ pgtools.dropdb(initDbConfig, config.database, (err, res) => {
         else console.log(`Table ${q[i].name} created successfully !`)
       })
     }
+
+    pool.end(() => {
+      console.log('Close db connection !')
+    })
   })
 })
