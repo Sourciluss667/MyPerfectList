@@ -1,7 +1,7 @@
 module.exports = {
   database: 'myPerfectList',
   host: 'localhost',
-  password: 'quentinpass',
+  password: 'be8ca9',
   port: 5432,
   user: 'postgres'
 }
