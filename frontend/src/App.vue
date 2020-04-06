@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import 'bulma/css/bulma.css' // Import Bulma CSS Framework
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
