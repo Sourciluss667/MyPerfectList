@@ -7,6 +7,7 @@ MyPerfectList est une Plateforme WEB regroupant différentes collections existan
 ```
 cd backend
 npm i
+npm run init
 cd ../frontend
 npm i
 ```
