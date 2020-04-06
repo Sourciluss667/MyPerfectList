@@ -24,8 +24,11 @@ npm i
 # Technologies
 
 [NodeJS](https://nodejs.org/)
+
 [ExpressJS](https://expressjs.com/)
+
 [Postgresql](https://www.postgresql.org/)
 
 [VueJS](https://vuejs.org/)
+
 [Bulma](https://bulma.io/)
