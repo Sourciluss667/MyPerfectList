@@ -55,13 +55,13 @@ export default {
   },
   methods: {
     siginOption() { 
-      this.$emit("siginOption");
+      this.$emit("siginOption")
     },
     loginOption() {
-      this.$emit("loginOption");
+      this.$emit("loginOption")
     },
     logout() {
-      this.$emit("logout");
+      this.$emit("logout")
     },
   },
 };
