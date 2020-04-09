@@ -14,6 +14,9 @@
       <section class="section is-medium">
         <div class="container has-text-centered">
           <!-- Contenu affiché -->
+          <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
+          <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
+          <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <Welcome v-if="showWelcome" />
           <Login v-if="isLogin" v-on:connected="connected" />
           <SiginUp v-if="isSiginUp" v-on:loginOption="loginOption" />
@@ -21,24 +24,22 @@
         </div>
       </section>
 
-      <!-- FOOTER -->
-      <footer class="footer">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-4 has-text-centered is-hidden-tablet"><a class="title is-4" href="#">MyPerfectList</a></div>
-            <div class="column is-4">
-              <div class="level"><a class="level-item" href="#">Features</a><a class="level-item" href="#">Enterprise</a></div>
-            </div>
-            <div class="column is-4 has-text-centered is-hidden-mobile"><a class="title is-4" href="#">MyPerfectList</a></div>
-            <div class="column is-4 has-text-right">
-              <div class="level"><a class="level-item" href="#">Support</a><a class="level-item" href="#">ICO</a></div>
-            </div>
-          </div>
-          <p class="subtitle has-text-centered is-6">&copy; 2020 MyPerfectList. All right reserved.</p>
-        </div>
-      </footer>
-    </div>
+    <!-- Footer -->
+    <nav class="navbar is-fixed-bottom is-light">
+      <div class="navbar-start">
+        <div class="navbar-item">Made by <span class="icon" style="margin-left: 5px;cursor: pointer;" title="Quentin, Komi, Benjamin"><i class="fas fa-user-friends"></i></span></div>
+      </div>
+      <div class="navbar-brand">
+        <div class="navbar-item">© MyPerfectList</div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item"><a target="_blank" href="https://github.com/Sourciluss667/MyPerfectList"><span class="icon"><i class="fab fa-github-alt"></i></span></a></div>
+        <div class="navbar-item"><a target="_blank" href="https://discord.gg/Mu3c7d5"><span class="icon"><i class="fab fa-discord"></i></span></a></div>
+        <div class="navbar-item"><a target="_blank" href="https://www.intechinfo.fr/"><span class="icon"><i class="fas fa-graduation-cap"></i></span></a></div>
+      </div>
+    </nav>
 
+    </div>
   </div>
 </template>
 

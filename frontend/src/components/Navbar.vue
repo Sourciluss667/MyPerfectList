@@ -1,6 +1,6 @@
 <template>
   <div>
-      <nav class="navbar">
+      <nav class="navbar is-fixed-top is-light">
         <div class="container">
           <div class="navbar-brand"><a class="navbar-item">MyPerfectList</a><a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></a></div>
           <div class="navbar-menu">
@@ -39,51 +39,6 @@
         </div>
       </nav>
 
-
-
-<!--
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item">
-            <img
-              src="https://bulma.io/images/bulma-type-white.png"
-              alt="Logo"
-            />
-          </a>
-          <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div id="navbarMenuHeroA" class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item" v-if="isConnected">
-              notification
-            </a>
-           
-            <a class="navbar-item" v-if="isConnected">
-              Settings
-            </a>
-             <a class="navbar-item" v-if="isConnected">
-             username: {{username}}
-            </a>
-            <span class="navbar-item">
-              <a  @click="siginOption" class="button is-primary is-inverted" v-if="!isConnected">
-                <span>Sign Up</span>
-              </a>
-              <a class="navbar-item"> </a>
-              <a @click="loginOption" class="button is-primary is-inverted" v-if="!isConnected">
-                <span>Login</span>
-              </a>
-              <a @click="logout" class="button is-primary is-inverted" v-if="isConnected">
-                <span>Logout</span>
-              </a>
-            </span>
-          </div>
-        </div>
-      </div>
-    -->
   </div>
 </template>
 
