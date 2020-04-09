@@ -1,30 +1,44 @@
 <template>
   <div>
-    <br /><br />
-    <h1 class="title">Signup page</h1>
-    <br /><br />
+    <h1 class="title is-3">Log in</h1><br>
 
-    <ul>
-      <li class="error">{{ errormsg }}</li>
-    </ul>
-    <br />
+    <h3 class="subtitle is-5 error" v-if="errormsg != ''">{{ errormsg }}</h3>
 
-    <label for="email">Email:</label><br />
-    <input
-      v-model="email"
-      type="text"
-      placeholder="Email"
-      id="email"
-      name="email"
-    /><br /><br />
-    <label for="password">Password:</label><br /><br />
-    <input
-      v-model="password"
-      type="password"
-      id="password"
-      name="password"
-    /><br /><br />
-    <button @click="submitForm">Login</button>
+    <!-- Desktop & Tablet -->
+    <form @submit="submitForm" onsubmit="return false;" class="is-hidden-mobile" style="position: relative;width: 350px;left: 50%;transform: translateX(-50%);">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="email" placeholder="Email" v-model="email" title="Email">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+        </div>
+      </div>
+      <div class="field">
+        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Log in</button>
+      </div><a>Lost your password ?</a>
+    </form>
+
+    <!-- Responsive -->
+    <form @submit="submitForm" onsubmit="return false;" class="is-hidden-tablet">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="email" placeholder="Email" v-model="email" title="Email">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+        </div>
+      </div>
+      <div class="field">
+        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Log in</button>
+      </div><a>Lost your password ?</a>
+    </form>
+
+
   </div>
 </template>
 

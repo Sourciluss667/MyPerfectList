@@ -1,30 +1,80 @@
 <template>
   <div>
-    <h1>Sign up</h1>
+    <h1 class="title is-3">Sign up</h1><br>
+
     <p v-if="errors.length" class="error">
       <b>Please correct the following error(s):</b>
       <ul>
         <li v-for="error in errors" v-bind:key="error.key">{{ error.msg }}</li>
       </ul>
     </p>
+
     <p style="color:green">{{successMsg}}</p>
   
-      <label for="username">Username:</label><br />
-      <input v-model="username" type="text" id="username" name="username" /><br />
+    <!-- Desktop & Tablet -->
+    <form @submit="submitForm" onsubmit="return false;" class="is-hidden-mobile" style="position: relative;width: 350px;left: 50%;transform: translateX(-50%);">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Username" v-model="username" title="Username">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="email" placeholder="Email" v-model="email" title="Email">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="date" placeholder="Birthdate" v-model="birthdate" title="Birthdate">
+        </div>
+      </div>
+      <div class="field">
+        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+      </div><a>Already have an account ?</a>
+    </form>
 
-      <label for="password">Password:</label><br />
-      <input v-model="password" type="password" id="password" name="password" /><br />
+    <!-- Responsive -->
+    <form @submit="submitForm" onsubmit="return false;" class="is-hidden-tablet">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Username" v-model="username" title="Username">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="email" placeholder="Email" v-model="email" title="Email">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="password" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="date" placeholder="Birthdate" v-model="birthdate" title="Birthdate">
+        </div>
+      </div>
+      <div class="field">
+        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+      </div><a>Already have an account ?</a>
+    </form>
 
-      <label for="password-re">Re-enter password:</label><br />
-      <input v-model="passwordConf" type="password" id="password-re" name="password" /><br />
-
-      <label for="email">email:</label><br />
-      <input v-model="email" type="email" id="email" name="email" /><br />
-
-      <label for="birthdate">Birth date</label><br />
-      <input v-model="birthdate" type="date" id="birthdate" name="birthdate" /><br />
-      <button @click="submitForm">Sign Up</button>
-    
   </div>
 </template>
 
