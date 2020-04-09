@@ -7,7 +7,7 @@ class User {
   /** @type {String} */
   name;
   /** @type {String} */
-  username;
+  username
   /** @type {String} */
   email;
   /** @type {String} */

@@ -4,4 +4,4 @@ module.exports = {
   password: 'pgpass',
   port: 5432,
   user: 'postgres'
-};
+}

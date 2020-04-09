@@ -6,9 +6,9 @@ const bcrypt = require('bcrypt');
 
 class PostgresStore {
   /** @type { import('pg').Pool } */
-  pool;
+  pool
   /** @type { import('pg').PoolClient } */
-  client;
+  client
   
   async init () {
     this.pool = new pg.Pool({...config});

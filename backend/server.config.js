@@ -4,4 +4,4 @@ module.exports = {
   ADMIN_USERNAME: 'Komi',
   SESSION_SECRET: 'MyPerfectList_intech_s4',
   PASSWORD: 'komi'
-};
+}
