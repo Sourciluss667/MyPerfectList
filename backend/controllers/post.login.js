@@ -5,7 +5,6 @@ const User = require('../models/user_model')
  * @param {import('express').Response} res
  */
 async function postLogin (req, res) {
-  console.log('enter')
   // si l'utilisateur est déjà connecté, alors on lui retourne Unauthorized
   if (req.session.userId) {
     res.status(401).json({ msg: 'Already authenticated' })
@@ -29,4 +28,10 @@ async function postLogin (req, res) {
   res.status(401).json({ msg: 'Unknown email or password' })
 }
 
-module.exports = postLogin
+function logOut (req, res) {
+  if (req.session.userId) {
+    req.session.destroy()
+  }
+}
+
+module.exports = { postLogin, logOut }

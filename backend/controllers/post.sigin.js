@@ -24,7 +24,6 @@ async function postSigin (req, res) {
   user.username = req.body.username
   console.log(req.body.birthdate)
   user.birthdate = req.body.birthdate
-  console.log('ssss ', user.birthdate)
   user = await User.create(user)
   if (user && user.id) {
     res.status(200).json('The account is created successfully!')

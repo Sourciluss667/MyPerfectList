@@ -5,7 +5,7 @@ class User {
   /** @type {Number} */
   id;
   /** @type {String} */
-  name;
+  name; 
   /** @type {String} */
   username
   /** @type {String} */
