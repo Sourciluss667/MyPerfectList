@@ -8,6 +8,7 @@
           v-on:loginOption="loginOption"
           v-on:siginOption="siginOption"
           v-on:logout="logout"
+          v-on:profileOption="profileOption"
       />
 
       <!-- BODY -->
@@ -20,6 +21,7 @@
           <Welcome v-if="showWelcome" />
           <Login v-if="isLogin" v-on:connected="connected" />
           <SiginUp v-if="isSiginUp" v-on:loginOption="loginOption" />
+          <Profile v-if="isProfile" :userData="user"/>
 
         </div>
       </section>
@@ -44,11 +46,12 @@
 </template>
 
 <script>
-import "bulma/css/bulma.css"; // Import Bulma CSS Framework
-import Navbar from "./components/Navbar";
-import Login from "./components/Login";
-import SiginUp from "./components/SiginUp";
-import Welcome from "./components/Welcome"
+import "bulma/css/bulma.css" // Import Bulma CSS Framework
+import Navbar from './components/Navbar'
+import Login from './components/Login'
+import SiginUp from './components/SiginUp'
+import Welcome from './components/Welcome'
+import Profile from './components/Profile'
 
 export default {
   name: "App",
@@ -56,27 +59,30 @@ export default {
     Navbar,
     Login,
     SiginUp,
-    Welcome
+    Welcome,
+    Profile
   },
   data() {
     return {
       isLogin: false,
       isSiginUp: false,
       isConnected: false,
+      isProfile: false,
       user: {},
-      showWelcome: true
+      showWelcome: false
     };
   },
-  async created() {
+  created() {
+    // Init app (verif if connected)
     if (this.$session.exists()) {
-      this.isSiginUp = false;
-      this.isSiginUp = false;
-      this.showWelcome = false;
       this.isConnected = true;
       this.user = { ...this.$session.get("sessionId") };
     }
+    else {
+      this.init()
+    }
   },
-  beforeCreate: function() {
+  beforeCreate() {
     if (!this.$session.exists()) {
       // this.$router.push('/')
     }
@@ -108,10 +114,17 @@ export default {
       this.init();
       //  this.$router.push('/')
     },
+    profileOption() {
+      this.isProfile = true;
+      this.isLogin = false;
+      this.isSiginUp = false;
+      this.showWelcome = false;
+    },
     init() {
       this.isLogin = false;
       this.isSiginUp = false;
       this.isConnected = false;
+      this.isProfile = false;
       this.showWelcome = true;
       this.user = {};
     },

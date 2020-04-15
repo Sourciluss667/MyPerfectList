@@ -98,7 +98,7 @@ class User {
     // on le stocke avec le reste en base de données
 
     const result = await PostgresStore.pool.query({
-      text: `INSERT INTO ${User.tableName} (name, username, email,birthdate, password)
+      text: `INSERT INTO ${User.tableName} (name, username, email, birthdate, password)
         VALUES ($1, $2, $3, $4,$5) RETURNING *`,
       values: [user.name, user.username, user.email, user.birthdate, hashedPassword]
     })

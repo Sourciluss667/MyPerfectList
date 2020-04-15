@@ -19,6 +19,7 @@ async function postSigin (req, res) {
     return
   }
   user = new User()
+  user.name = req.body.name
   user.email = req.body.email
   user.password = req.body.password
   user.username = req.body.username

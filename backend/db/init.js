@@ -31,7 +31,7 @@ pgtools.dropdb(initDbConfig, config.database, (err, res) => {
         name: 'users',
         query: `CREATE TABLE users (
           id SERIAL PRIMARY KEY,
-          name TEXT,
+          name TEXT NOT NULL,
           username TEXT NOT NULL,
           password TEXT NOT NULL,
           email TEXT NOT NULL,
