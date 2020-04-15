@@ -7,7 +7,7 @@ const User = require('../models/user_model')
 async function postLogin (req, res) {
   // si l'utilisateur est déjà connecté, alors on lui retourne Unauthorized
   if (req.session.userId) {
-    res.status(401).json({ msg: 'Already authenticated' })
+    res.status(401).json('Already authenticated')
     return
   }
   // on vérifie l'email et le mot de passe de l'utilisateur
@@ -20,12 +20,12 @@ async function postLogin (req, res) {
   // dans l'objet req.session
   if (user) {
     req.session.userId = user.id
-    res.json(user)
+    res.status(200).json(user)
     return
   }
 
   // si on n'a pas trouvé d'utilisateur, alors on retourne une erreur 401 (unauthorized)
-  res.status(401).json({ msg: 'Unknown email or password' })
+  res.status(401).json('Unknown email or password')
 }
 /*
 function logOut (req, res) {

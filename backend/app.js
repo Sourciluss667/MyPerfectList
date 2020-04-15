@@ -11,6 +11,18 @@ var usersRouter = require('./routes/users')
 var cors = require('cors')
 var app = express()
 
+// ces lignes (cors) sont importantes pour les sessions dans la version de développement
+app.use(cors({
+  credentials: true,
+  origin: config.URL_FRONTEND
+}))
+app.use(session({
+  secret: config.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // ne changez que si vous avez activé le https
+}))
+
 // on initalise la connexion à la base de données
 PostgresStore.init()
 // PostgresStore.createUserAdmin()
@@ -19,9 +31,7 @@ app.use(express.json())
 app.use(bodyParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(session({ secret: config.SESSION_SECRET }))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(cors())
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)

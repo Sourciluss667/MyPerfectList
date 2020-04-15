@@ -8,8 +8,11 @@ async function getCurrentUser (req, res) {
   // si l'utilisateur est déjà connecté, alors on lui retourne l'user
   if (req.session.userId) {
     const user = await User.getById(req.session.id)
-    res.json(user)
-    return
+    if (user) {
+      delete user.password
+      res.json(user)
+      return
+    }
   }
   res.json(null)
 }

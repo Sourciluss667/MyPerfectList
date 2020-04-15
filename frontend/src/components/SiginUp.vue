@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="field">
-        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
       </div><a>Already have an account ?</a>
     </form>
 
@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="field">
-        <button type="submit" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
       </div><a>Already have an account ?</a>
     </form>
 
@@ -101,7 +101,8 @@ export default {
       username:null,
       name:null,
       birthdate:null,
-      successMsg:''
+      successMsg:'',
+      disabledOption:false
     };
   },
   methods: {
@@ -141,26 +142,45 @@ export default {
 
       return true;
     },
-    submitForm() {
+    async submitForm() {
+      this.disabledOption = true;
       if (this.checkForm()) {
-
-        siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate, name:this.name })
+      await  siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate, name:this.name })
           .then((resp) => { 
-            if (resp.status === 200) {
-                resp.json().then((msg) =>{ 
-                  this.successMsg=msg;
+            if (resp.status === 200) { 
+                  this.successMsg=resp.data;
                   this.errors=[];
-                  setTimeout(()=>{ this.$emit("loginOption") }, 5000);
-                });
+                  this.init(); 
+                  setTimeout(()=>{
+                    
+                     this.$emit("loginOption") }, 5000);
             } else {
-              resp.json().then((rep) => (this.errors.push({key:this.randomKey(),msg: rep})));
+              this.password="";
+              this.passwordConf="";
+              this.disabledOption = false;
+              this.errors.push({key:this.randomKey(),msg: resp.data});
             }
           })
           .catch((error) => {
             this.errors.push(error);
+            this.disabledOption = false;
           });
+      }else{
+        this.disabledOption = false;
       }
+      
     },
+    init(){
+      this.errors=[];
+      this.password="";
+      this.email="";
+      this.passwordConf="";
+      this.username="";
+      this.name="";
+      this.birthdate="";
+      this.successMsg="";
+      this.disabledOption=false;
+    }
   }
 };
 </script>

@@ -74,13 +74,11 @@ class User {
 
   /**
    * @param {String} id
-   * @param {String[]} scope
    * @returns {Promise<User>}
    */
-  static async getById (id, scope) {
-    const fields = scope.join(', ')
+  static async getById (id) {
     const result = await PostgresStore.pool.query({
-      text: `SELECT ${fields} FROM ${User.tableName} WHERE id=$1`,
+      text: `SELECT * FROM ${User.tableName} WHERE id=$1`,
       values: [id]
     })
     return result.rows[0]

@@ -6,7 +6,7 @@ const User = require('../models/user_model')
  */
 async function postSigin (req, res) {
   if (req.session.userId) {
-    res.status(200).send('Already authenticated')
+    res.status(200).json('Already authenticated')
     return
   }
   // on vérifie l'email et le mot de passe de l'utilisateur
@@ -23,14 +23,13 @@ async function postSigin (req, res) {
   user.email = req.body.email
   user.password = req.body.password
   user.username = req.body.username
-  console.log(req.body.birthdate)
   user.birthdate = req.body.birthdate
   user = await User.create(user)
   if (user && user.id) {
     res.status(200).json('The account is created successfully!')
     return
   }
-  res.status(401).json({ msg: 'System error' })
+  res.status(401).json('System error')
 }
 
 module.exports = postSigin
