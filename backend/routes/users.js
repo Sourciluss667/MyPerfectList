@@ -1,11 +1,22 @@
-var express = require('express');
-var router = express.Router();
-const postLogin = require('../controllers/post.login');
-const postSigin = require('../controllers/post.sigin');
-const getCurrentUser = require('../controllers/get.currentUser');
+var express = require('express')
+var router = express.Router()
+const postLogin = require('../controllers/post.login')
+const postSigin = require('../controllers/post.sigin')
+const getCurrentUser = require('../controllers/get.currentUser')
 
-router.post('/login', postLogin);
-router.post('/sigin', postSigin);
-router.get('/', getCurrentUser);
+function logOut (req, res) {
+  console.log(req.session)
+  if (req.session.userId) {
+    delete req.session.userId
+    req.session.destroy()
+  }
+  console.log(req.session)
+  res.status(200).send('deconnected')
+}
 
-module.exports = router;
+router.post('/login', postLogin)
+router.post('/sigin', postSigin)
+router.get('/logout', logOut)
+router.get('/current_user', getCurrentUser)
+
+module.exports = router
