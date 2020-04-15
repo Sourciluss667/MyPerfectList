@@ -20,6 +20,11 @@
       </div>
       <div class="field">
         <div class="control">
+          <input class="input" type="text" placeholder="Fullname" v-model="name" title="Fullname">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
           <input class="input" type="email" placeholder="Email" v-model="email" title="Email">
         </div>
       </div>
@@ -48,6 +53,11 @@
       <div class="field">
         <div class="control">
           <input class="input" type="text" placeholder="Username" v-model="username" title="Username">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Fullname" v-model="name" title="Fullname">
         </div>
       </div>
       <div class="field">
@@ -89,6 +99,7 @@ export default {
       email: null,
       passwordConf: null,
       username:null,
+      name:null,
       birthdate:null,
       successMsg:''
     };
@@ -100,6 +111,10 @@ export default {
     checkForm() {
       if(!this.username){
         this.errors.push({key:this.randomKey(),msg:"Username required."});
+        return false;
+      }
+      if(!this.name){
+        this.errors.push({key:this.randomKey(),msg:"Name required."});
         return false;
       }
       if(!this.password){
@@ -129,7 +144,7 @@ export default {
     submitForm() {
       if (this.checkForm()) {
 
-        siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate })
+        siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate, name:this.name })
           .then((resp) => { 
             if (resp.status === 200) {
                 resp.json().then((msg) =>{ 
