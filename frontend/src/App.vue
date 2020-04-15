@@ -128,6 +128,7 @@ export default {
     logoutOption() { 
        logout();
       this.init();
+      logout()
     },
     profileOption() {
       this.isProfile = true;

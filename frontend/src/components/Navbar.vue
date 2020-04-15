@@ -2,7 +2,14 @@
   <div>
       <nav class="navbar is-fixed-top is-light">
         <div class="container">
-          <div class="navbar-brand"><a class="navbar-item">MyPerfectList</a><a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></a></div>
+          <div class="navbar-brand">
+            <a>
+              <figure class="image has-image-centered">
+                <img src="../assets/logo.png">
+              </figure>
+            </a>
+            <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></a>
+          </div>
           <div class="navbar-menu">
 
             <!-- MENU isConnected -->
