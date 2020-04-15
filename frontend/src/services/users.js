@@ -21,6 +21,12 @@ function siginUp (user) {
     body: JSON.stringify(user)
   })
 }
+function logout () {
+  return fetch(`${SERVER_URL}/users/logout`, {
+    method: 'GET'
+  })
+}
+
 function getCurrentUser () {
   return fetch(`${SERVER_URL}/users`)
     .then(resp => {
@@ -31,4 +37,4 @@ function getCurrentUser () {
     })
 }
 
-export { login, siginUp, getCurrentUser }
+export { login, siginUp, getCurrentUser, logout }

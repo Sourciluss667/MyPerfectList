@@ -27,11 +27,12 @@ async function postLogin (req, res) {
   // si on n'a pas trouvé d'utilisateur, alors on retourne une erreur 401 (unauthorized)
   res.status(401).json({ msg: 'Unknown email or password' })
 }
-
+/*
 function logOut (req, res) {
   if (req.session.userId) {
     req.session.destroy()
   }
 }
+*/
 
-module.exports = { postLogin, logOut }
+module.exports = postLogin
