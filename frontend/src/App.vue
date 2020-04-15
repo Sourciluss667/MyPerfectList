@@ -52,7 +52,7 @@ import Login from './components/Login'
 import SiginUp from './components/SiginUp'
 import Welcome from './components/Welcome'
 import Profile from './components/Profile'
-import logout from './services/users'
+import { logout } from './services/users'
 
 export default {
   name: "App",
@@ -113,7 +113,7 @@ export default {
     logoutOption() {
       this.$session.destroy();
       this.init();
-      
+      logout()
     },
     profileOption() {
       this.isProfile = true;
