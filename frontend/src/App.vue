@@ -7,7 +7,7 @@
           :isConnected="isConnected"
           v-on:loginOption="loginOption"
           v-on:siginOption="siginOption"
-          v-on:logout="logout"
+          v-on:logout="logoutOption"
           v-on:profileOption="profileOption"
       />
 
@@ -52,6 +52,7 @@ import Login from './components/Login'
 import SiginUp from './components/SiginUp'
 import Welcome from './components/Welcome'
 import Profile from './components/Profile'
+import logout from './services/users'
 
 export default {
   name: "App",
@@ -109,10 +110,10 @@ export default {
       this.isSiginUp = false;
       this.showWelcome = false;
     },
-    logout() {
+    logoutOption() {
       this.$session.destroy();
       this.init();
-      //  this.$router.push('/')
+      
     },
     profileOption() {
       this.isProfile = true;
