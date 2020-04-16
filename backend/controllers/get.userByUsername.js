@@ -12,7 +12,7 @@ async function getUserByUsername (req, res) {
     delete user.password
     res.json(user)
   } else {
-    res.sendStatus(404)
+    res.json({})
   }
 }
 
