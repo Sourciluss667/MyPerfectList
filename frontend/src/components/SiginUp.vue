@@ -9,7 +9,8 @@
       </ul>
     </p>
 
-    <p style="color:green">{{successMsg}}</p>
+    <p style="color:green; font-size: 20px;">{{successMsg}} </p><br/> 
+     
   
     <!-- Desktop & Tablet -->
     <form @submit="submitForm" onsubmit="return false;" class="is-hidden-mobile" style="position: relative;width: 350px;left: 50%;transform: translateX(-50%);">
@@ -148,9 +149,10 @@ export default {
       await  siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate, name:this.name })
           .then((resp) => { 
             if (resp.status === 200) { 
-                  this.successMsg=resp.data;
+              console.log('dafa == ',resp.data);
                   this.errors=[];
-                  this.init(); 
+                  this.init();  
+                  this.successMsg=resp.data;
                   setTimeout(()=>{
                     
                      this.$emit("loginOption") }, 5000);
