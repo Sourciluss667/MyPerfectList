@@ -6,7 +6,8 @@ import VueRouter from 'vue-router'
 import { routes } from './routes'
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 Vue.config.productionTip = false

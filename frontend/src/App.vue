@@ -86,9 +86,10 @@ export default {
   async created() {
     // Init app (verif if connected)
     const user = await getCurrentUser();
-    console.log(user);
+
     if (user) {
       this.user = { ...user };
+      this.isConnected = true
     } else {
       this.init();
     }
@@ -97,15 +98,16 @@ export default {
     connected(user) {
       this.user = { ...user };
       this.isConnected = true;
+      if (this.$router.currentRoute.path != '/') this.$router.push('/');
     },
     logoutOption() { 
-       logout();
+      logout();
       this.init();
-      logout()
     },
     init() {
       this.isConnected = false;
       this.user = {};
+      if (this.$router.currentRoute.path != '/') this.$router.push('/');
     },
   },
 };
