@@ -7,7 +7,7 @@ const User = require('../models/user_model')
 async function getCurrentUser (req, res) {
   // si l'utilisateur est déjà connecté, alors on lui retourne l'user
   if (req.session.userId) {
-    const user = await User.getById(req.session.id)
+    const user = await User.getById(req.session.userId)
     if (user) {
       delete user.password
       res.json(user)

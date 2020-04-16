@@ -16,7 +16,7 @@ app.use(cors({
   credentials: true,
   origin: config.URL_FRONTEND
 }))
-app.use(session({ 
+app.use(session({
   secret: config.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
