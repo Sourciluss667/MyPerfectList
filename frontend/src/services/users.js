@@ -1,8 +1,8 @@
 /**
  * HTTP request calls to the backend server
  */
-const SERVER_URL = 'http://localhost:4200'
 import axios from 'axios'
+const SERVER_URL = 'http://localhost:4200'
 
 axios.defaults.withCredentials = true
 
@@ -22,9 +22,7 @@ function siginUp (user) {
   })
 }
 function logout () {
-  return axios.get(`${SERVER_URL}/users/logout`, {
-    method: 'GET'
-  })
+  return axios.get(`${SERVER_URL}/users/logout`)
 }
 
 function getCurrentUser () {
