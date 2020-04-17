@@ -6,7 +6,7 @@ const getAllUsername = require('../controllers/get.allUsername')
 router.get('/users/:val', async (req, res) => {
   const searchStr = req.params.val.toLowerCase()
   const result = []
-  
+
   const allUsername = await getAllUsername()
 
   allUsername.forEach(element => {
