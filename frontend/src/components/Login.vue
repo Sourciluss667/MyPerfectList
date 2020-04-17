@@ -6,6 +6,11 @@
     <h3 class="subtitle is-5 error" v-if="errormsg != ''">{{ errormsg }}</h3>
 
     <!-- Desktop & Tablet -->
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"  
+      :is-full-page="fullPage"
+    ></loading>
     <form
       @submit="submitForm"
       onsubmit="return false;"
@@ -77,7 +82,8 @@
       </div>
       <div class="field">
         <button
-          type="submit" :disabled="disabledOption"
+          type="submit"
+          :disabled="disabledOption"
           class="button is-primary is-fullwidth"
           @click="submitForm"
         >
@@ -91,16 +97,22 @@
 
 <script>
 import { login } from "../services/users.js";
+// Import component
+import Loading from "vue-loading-overlay";
+// Import stylesheet
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "Login",
-  components: {},
+  components: { Loading },
   data() {
     return {
       errormsg: "",
       password: null,
       email: null,
       disabledOption: false,
+      isLoading: false,
+      fullPage: true,
     };
   },
   methods: {
@@ -119,24 +131,32 @@ export default {
 
       return true;
     },
-   async submitForm() {
+    async submitForm() {
       this.disabledOption = true;
       if (this.checkForm()) {
-       await login({ email: this.email, password: this.password })
+        this.isLoading = true;
+        await login({ email: this.email, password: this.password })
           .then((resp) => {
             if (resp.status === 200) {
               const user = resp.data;
-              this.$parent.connected(user)
+              setTimeout(() => {
+                this.isLoading = false;
+                this.disabledOption = false;
+                this.$parent.connected(user);
+              }, 5000);
             } else {
               this.password = "";
               this.errormsg = resp.msg;
+              this.isLoading = false;
+              this.disabledOption = false;
             }
           })
           .catch((error) => {
             this.errormsg = error;
+            this.isLoading = false;
+            this.disabledOption = false;
           });
       }
-      this.disabledOption = false;
     },
     validEmail: function() {
       /*   var re = new RegExp("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/");
