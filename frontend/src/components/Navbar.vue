@@ -3,7 +3,7 @@
       <nav class="navbar is-fixed-top is-light">
         <div class="container">
           <div class="navbar-brand">
-            <a>
+            <a @click="welcome">
               <figure class="image has-image-centered">
                 <img src="../assets/logo.png">
               </figure>
@@ -33,7 +33,7 @@
 
                 <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">{{username}}</a> <!-- DROPDOWN -->
                   <div class="navbar-dropdown">
-                    <a class="navbar-item navbar-item-dropdown" :click="profile()"><span class="icon" style="margin-right: 5px;"><i class="fas fa-user-circle"></i></span>Profile</a>
+                    <a class="navbar-item navbar-item-dropdown" @click="profile"><span class="icon" style="margin-right: 5px;"><i class="fas fa-user-circle"></i></span>Profile</a>
                     <a class="navbar-item navbar-item-dropdown"><span class="icon" style="margin-right: 5px;"><i class="fas fa-cog"></i></span>Settings</a>
                     <a class="navbar-item navbar-item-dropdown has-text-danger" @click="logout"><span class="icon" style="margin-right: 5px;"><i class="fas fa-sign-out-alt"></i></span>Logout</a>
                   </div>
@@ -58,16 +58,19 @@ export default {
   },
   methods: {
     siginOption() { 
-      this.$emit("siginOption");
+      this.$router.push('/signup')
     },
     loginOption() {
-      this.$emit("loginOption");
+      this.$router.push('/login')
     },
     logout() {
       this.$emit("logout");
     },
     profile() {
-      this.$emit("profileOption");
+      this.$router.push(`/profile/${this.username}`)
+    },
+    welcome() {
+      this.$router.push('/')
     }
   },
 };

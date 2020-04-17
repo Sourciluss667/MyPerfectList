@@ -32,4 +32,11 @@ function getCurrentUser () {
     }) 
 }
 
-export { login, siginUp, getCurrentUser, logout }
+function getUserByUsername (username) {
+  return axios.get(`${SERVER_URL}/users/userbyusername/${username}`)
+    .then(res => {
+      return res.data
+    })
+}
+
+export { login, siginUp, getCurrentUser, logout, getUserByUsername }

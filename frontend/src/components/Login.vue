@@ -91,6 +91,7 @@
 
 <script>
 import { login } from "../services/users.js";
+
 export default {
   name: "Login",
   components: {},
@@ -123,10 +124,9 @@ export default {
       if (this.checkForm()) {
        await login({ email: this.email, password: this.password })
           .then((resp) => {
-            console.log(resp);
             if (resp.status === 200) {
               const user = resp.data;
-              this.$emit("connected", user);
+              this.$parent.connected(user)
             } else {
               this.password = "";
               this.errormsg = resp.msg;

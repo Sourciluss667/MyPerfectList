@@ -5,10 +5,7 @@
       <Navbar
         :username="user.username"
         :isConnected="isConnected"
-        v-on:loginOption="loginOption"
-        v-on:siginOption="siginOption"
         v-on:logout="logoutOption"
-        v-on:profileOption="profileOption"
       />
 
       <!-- BODY -->
@@ -18,10 +15,15 @@
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
+          <!--
           <Welcome v-if="showWelcome" />
           <Login v-if="isLogin" v-on:connected="connected" />
           <SiginUp v-if="isSiginUp" v-on:loginOption="loginOption" />
           <Profile v-if="isProfile" :userData="user" />
+          -->
+
+          <router-view></router-view>
+
         </div>
       </section>
 
@@ -68,81 +70,44 @@
 <script>
 import "bulma/css/bulma.css"; // Import Bulma CSS Framework
 import Navbar from "./components/Navbar";
-import Login from "./components/Login";
-import SiginUp from "./components/SiginUp";
-import Welcome from "./components/Welcome";
-import Profile from "./components/Profile";
 import { logout, getCurrentUser } from "./services/users";
 
 export default {
   name: "App",
   components: {
-    Navbar,
-    Login,
-    SiginUp,
-    Welcome,
-    Profile,
+    Navbar
   },
   data() {
     return {
-      isLogin: false,
-      isSiginUp: false,
       isConnected: false,
-      isProfile: false,
-      user: {},
-      showWelcome: false,
+      user: {}
     };
   },
   async created() {
     // Init app (verif if connected)
     const user = await getCurrentUser();
-    console.log(user);
+
     if (user) {
       this.user = { ...user };
+      this.isConnected = true
     } else {
       this.init();
     }
   },
   methods: {
-    loginOption() {
-      if (!this.isConnected) {
-        this.isLogin = true;
-        this.isSiginUp = false;
-        this.showWelcome = false;
-      }
-    },
-    siginOption() {
-      if (!this.isConnected) {
-        this.isSiginUp = true;
-        this.isLogin = false;
-        this.showWelcome = false;
-      }
-    },
     connected(user) {
       this.user = { ...user };
       this.isConnected = true;
-      this.isLogin = false;
-      this.isSiginUp = false;
-      this.showWelcome = false;
+      if (this.$router.currentRoute.path != '/') this.$router.push('/');
     },
     logoutOption() { 
-       logout();
+      logout();
       this.init();
-      logout()
-    },
-    profileOption() {
-      this.isProfile = true;
-      this.isLogin = false;
-      this.isSiginUp = false;
-      this.showWelcome = false;
     },
     init() {
-      this.isLogin = false;
-      this.isSiginUp = false;
       this.isConnected = false;
-      this.isProfile = false;
-      this.showWelcome = true;
       this.user = {};
+      if (this.$router.currentRoute.path != '/') this.$router.push('/');
     },
   },
 };
