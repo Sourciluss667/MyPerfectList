@@ -10,6 +10,12 @@
     </p>
 
     <p style="color:green; font-size: 20px;">{{successMsg}} </p><br/> 
+
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"  
+      :is-full-page="fullPage"
+    ></loading> 
      
   
     <!-- Desktop & Tablet -->
@@ -91,8 +97,14 @@
 
 <script>
 import { siginUp } from "../services/users.js";
+// Import component
+import Loading from "vue-loading-overlay";
+// Import stylesheet
+import "vue-loading-overlay/dist/vue-loading.css";
+
 export default {
   name: "SiginUp",
+  components: { Loading },
   data() {
     return {
       errors: [],
@@ -103,7 +115,9 @@ export default {
       name:null,
       birthdate:null,
       successMsg:'',
-      disabledOption:false
+      disabledOption:false,
+      isLoading: false,
+      fullPage: true,
     };
   },
   methods: {
@@ -146,6 +160,7 @@ export default {
     async submitForm() {
       this.disabledOption = true;
       if (this.checkForm()) {
+      this.isLoading = true;
       await  siginUp({ email: this.email, password: this.password,username: this.username, birthdate:this.birthdate, name:this.name })
           .then((resp) => { 
             if (resp.status === 200) { 
@@ -153,12 +168,16 @@ export default {
                   this.errors=[];
                   this.init();  
                   this.successMsg=resp.data;
-                  setTimeout(()=>{
-                    
-                     this.$emit("loginOption") }, 5000);
+
+                  setTimeout(() => {
+                    this.isLoading = false;
+                    this.disabledOption = false;
+                    this.$emit("loginOption");
+                  }, 5000);
             } else {
               this.password="";
               this.passwordConf="";
+              this.isLoading = false;
               this.disabledOption = false;
               this.errors.push({key:this.randomKey(),msg: resp.data});
             }
@@ -166,11 +185,11 @@ export default {
           .catch((error) => {
             this.errors.push(error);
             this.disabledOption = false;
+            this.isLoading = false; 
           });
       }else{
         this.disabledOption = false;
-      }
-      
+      }   
     },
     init(){
       this.errors=[];
