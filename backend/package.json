@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "standard && node ./bin/www",
-    "init": "node ./db/init.js"
+    "init": "node ./db/init.js",
+    "debug": "nodemon ./bin/www"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",

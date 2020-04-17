@@ -1,6 +1,12 @@
-# MyPerfectList
+# What is this ?
+
 MyPerfectList est une Plateforme WEB regroupant différentes collections existantes (IMDb, MAL, etc) et permettant d'en créer d'autres accessible à tous en ayant pour but de centraliser les données des utilisateurs de ses differents sites. Elle permettra donc de ne plus avoir besoin d'utiliser plusieurs liens vers plusiseurs sites differents afin de connaitre les gouts d'une personne et de pouvoir avoir une vue d'ensemble de tous les sites de base de données auquel l'utilisateur est membre ainsi que de voir ses listes personnalisés.
 
+# Requirements
+
+> [NodeJS](https://nodejs.org/)
+>
+> [Postgresql](https://www.postgresql.org/)
 
 # How to setup
 
@@ -12,15 +18,13 @@ cd ../frontend
 npm i
 ```
 
-# How to use
+### Backend
+
+`npm start`
 
 ### Frontend
 
 `npm run serve`
-
-### Backend
-
-`npm start`
 
 # Technologies
 
@@ -28,7 +32,6 @@ npm i
 > [VueJS](https://vuejs.org/)
 >
 > [Bulma](https://bulma.io/)
-
 ### Backend
 > [NodeJS](https://nodejs.org/)
 >

@@ -84,6 +84,21 @@ class User {
     return result.rows[0]
   }
 
+  static async getByUsername (username) {
+    const result = await PostgresStore.pool.query({
+      text: `SELECT * FROM ${User.tableName} WHERE username=$1`,
+      values: [username]
+    })
+    return result.rows[0]
+  }
+
+  static async getAllUsername () {
+    const result = await PostgresStore.pool.query({
+      text: `SELECT username FROM ${User.tableName}`
+    })
+    return result.rows
+  }
+
   /**
    * @param {{email: String, firstname: String, lastname: String, password: String}} user
    * @return {Promise<User>}
