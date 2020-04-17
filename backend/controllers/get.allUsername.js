@@ -1,7 +1,7 @@
 const User = require('../models/user_model')
 
-async function getAllUsername () {
-  return await User.getAllUsername()
+function getAllUsername () {
+  return User.getAllUsername()
 }
 
 module.exports = getAllUsername
