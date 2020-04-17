@@ -39,7 +39,6 @@
           type="submit"
           class="button is-primary is-fullwidth"
           :disabled="disabledOption"
-          @click="submitForm"
         >
           Log in
         </button>

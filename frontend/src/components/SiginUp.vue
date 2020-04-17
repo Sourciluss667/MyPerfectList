@@ -82,7 +82,7 @@
         </div>
       </div>
       <div class="field">
-        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth">Sign up</button>
       </div><a>Already have an account ?</a>
     </form>
 
