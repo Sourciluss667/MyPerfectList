@@ -14,10 +14,17 @@
 
             <!-- MENU isConnected -->
             <div class="navbar-start" v-if="isConnected">
-              <a class="navbar-item">Features</a>
-              <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link"><span class="icon"><i class="fas fa-bell"></i></span></a> <!-- DROPDOWN -->
-                  <div class="navbar-dropdown"><a class="navbar-item navbar-item-dropdown">Notif</a><a class="navbar-item navbar-item-dropdown">Notif</a></div>
+              <a class="navbar-item" @click="search">Search</a>
+              <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">Collections</a> <!-- DROPDOWN -->
+                <div class="navbar-dropdown">
+                  <a class="navbar-item navbar-item-dropdown">MyAnimeList</a>
+                  <a class="navbar-item navbar-item-dropdown">IMDb</a>
+                  <a class="navbar-item navbar-item-dropdown">Rottentomatoes</a>
+                  <a class="navbar-item navbar-item-dropdown">GoodReads</a>
+                  <a class="navbar-item navbar-item-dropdown">RateYourMusic</a>
+                  <a class="navbar-item navbar-item-dropdown">Others</a>
                 </div>
+              </div>
             </div>
 
             <!-- Login/Signin !isConnected -->
@@ -29,7 +36,13 @@
 
             <!-- MENU END isConnected -->
             <div class="navbar-end" v-if="isConnected">
-              <div class="navbar-item">
+
+                <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link"><span class="icon"><i class="fas fa-bell"></i></span></a> <!-- DROPDOWN -->
+                <div class="navbar-dropdown">
+                  <a class="navbar-item navbar-item-dropdown">Notif</a>
+                  <a class="navbar-item navbar-item-dropdown">Notif</a>
+                </div>
+              </div>
 
                 <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">{{username}}</a> <!-- DROPDOWN -->
                   <div class="navbar-dropdown">
@@ -38,8 +51,6 @@
                     <a class="navbar-item navbar-item-dropdown has-text-danger" @click="logout"><span class="icon" style="margin-right: 5px;"><i class="fas fa-sign-out-alt"></i></span>Logout</a>
                   </div>
                 </div>
-
-              </div>
             </div>
 
           </div>
@@ -68,6 +79,9 @@ export default {
     },
     profile() {
       this.$router.push(`/profile/${this.username}`)
+    },
+    search() {
+      this.$router.push('/search')
     },
     welcome() {
       this.$router.push('/')

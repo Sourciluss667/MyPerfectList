@@ -104,8 +104,6 @@ export default {
       // GET USER BY USERNAME
       this.userData = await getUserByUsername(username);
 
-      console.log(this.userData);
-
       if (this.userData.username != username) {
         console.log("error find profile");
         this.$router.push("/404");
