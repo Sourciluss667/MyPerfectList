@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "bulma": "^0.8.1",
     "core-js": "^3.6.4",
+    "goodreads-api-node": "0.0.10",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.1.6",

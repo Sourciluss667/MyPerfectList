@@ -20,7 +20,7 @@
                   <a class="navbar-item navbar-item-dropdown">MyAnimeList</a>
                   <a class="navbar-item navbar-item-dropdown">IMDb</a>
                   <a class="navbar-item navbar-item-dropdown">Rottentomatoes</a>
-                  <a class="navbar-item navbar-item-dropdown">GoodReads</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="goodreads">GoodReads</a>
                   <a class="navbar-item navbar-item-dropdown">RateYourMusic</a>
                   <a class="navbar-item navbar-item-dropdown">Others</a>
                 </div>
@@ -76,6 +76,9 @@ export default {
     },
     logout() {
       this.$emit("logout");
+    },
+    goodreads() {
+      this.$router.push(`/goodreads`)
     },
     profile() {
       this.$router.push(`/profile/${this.username}`)

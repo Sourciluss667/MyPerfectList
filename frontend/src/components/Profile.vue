@@ -76,7 +76,9 @@
       <a>Report this profile</a>
       <br />
     </div>
-    <div class="column" style="background: green;">Content</div>
+    <div class="column" style="background: green;">Content
+      <a @click="goodreadsProfile">GoodReads of {{username}}</a>
+    </div>
   </div>
 </template>
 
@@ -89,7 +91,8 @@ export default {
     return {
       editMode: false,
       // Contient id, name, username, email, birthdate, gender
-      userData: {}
+      userData: {},
+      username: String
     };
   },
   async created() {
@@ -98,6 +101,9 @@ export default {
   methods: {
     edit() {
       this.editMode = !this.editMode;
+    },
+    goodreadsProfile() {
+      this.$router.push(`/goodreadsprofile/${this.username}`)
     },
     async init() {
       const username = this.$route.params.username;
