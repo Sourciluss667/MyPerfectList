@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top:-10%">
-    <h1 class="title is-3">Sign up</h1><br>
+    <h1 class="title is-3">Sign up</h1>
 
     <p v-if="errors.length" class="error">
       <b>Please correct the following error(s):</b>
