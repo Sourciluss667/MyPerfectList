@@ -36,6 +36,7 @@ pgtools.dropdb(initDbConfig, config.database, (err, res) => {
           password TEXT NOT NULL,
           email TEXT NOT NULL,
           birthdate DATE,
+          creationdate DATE,
           gender CHAR(1),
           IMDb TEXT,
           RottenTomatoes TEXT,

@@ -7,7 +7,7 @@ class User {
   /** @type {String} */
   name;
   /** @type {String} */
-  username
+  username;
   /** @type {String} */
   email;
   /** @type {String} */
@@ -28,6 +28,8 @@ class User {
   rateYourMusic;
   /** @type {Array} */
   customLists;
+  /** @type {Date} */
+  creationdate;
 
   /**
    * @param {String} email
@@ -113,7 +115,13 @@ class User {
     const result = await PostgresStore.pool.query({
       text: `INSERT INTO ${User.tableName} (name, username, email, birthdate, password)
         VALUES ($1, $2, $3, $4,$5) RETURNING *`,
-      values: [user.name, user.username, user.email, user.birthdate, hashedPassword]
+      values: [
+        user.name,
+        user.username,
+        user.email,
+        user.birthdate,
+        hashedPassword
+      ]
     })
 
     const userResult = result.rows[0]
