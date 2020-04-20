@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top:-10%">
     <h1 class="title is-3">Sign up</h1><br>
 
     <p v-if="errors.length" class="error">
@@ -9,8 +9,7 @@
       </ul>
     </p>
 
-    <p style="color:green; font-size: 20px;">{{successMsg}} </p><br/> 
-
+     
     <loading
       :active.sync="isLoading"
       :can-cancel="false"  
@@ -172,7 +171,7 @@ export default {
                   setTimeout(() => {
                     this.isLoading = false;
                     this.disabledOption = false;
-                    this.$emit("loginOption");
+                    this.$router.push("/confirmation_sigin");
                   }, 5000);
             } else {
               this.password="";
