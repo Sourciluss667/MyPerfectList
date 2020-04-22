@@ -99,7 +99,7 @@ export default {
       this.$router.push('/collections/Rottentomatoes')
     },
     othersCollection() {
-      this.$router.push('/collections/Others')
+      this.$router.push('/collections/others')
     },
     goodReadsCollection() {
       this.$router.push('/collections/GoodReads')

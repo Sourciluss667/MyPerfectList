@@ -8,6 +8,7 @@
         <li v-for="error in errors" v-bind:key="error.key">{{ error.msg }}</li>
       </ul>
     </p>
+    <br/>
 
      
     <loading
@@ -36,12 +37,12 @@
       </div>
       <div class="field">
         <div class="control">
-          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+          <input class="input" type="password" min="6" placeholder="Password" v-model="password" title="Password">
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="input" type="password" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
+          <input class="input" type="password" min="6" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
         </div>
       </div>
       <div class="field">
@@ -51,7 +52,7 @@
       </div>
       <div class="field">
         <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
-      </div><a>Already have an account ?</a>
+      </div><a  @click="loginOption">Already have an account ?</a>
     </form>
 
     <!-- Responsive -->
@@ -73,12 +74,12 @@
       </div>
       <div class="field">
         <div class="control">
-          <input class="input" type="password" placeholder="Password" v-model="password" title="Password">
+          <input class="input" type="password" min="6" placeholder="Password" v-model="password" title="Password">
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="input" type="password" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
+          <input class="input" type="password" min="6" placeholder="Confirm Password" v-model="passwordConf" title="Confirm Password">
         </div>
       </div>
       <div class="field">
@@ -88,7 +89,7 @@
       </div>
       <div class="field">
         <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
-      </div><a>Already have an account ?</a>
+      </div><a  @click="loginOption">Already have an account ?</a>
     </form>
 
   </div>
@@ -124,6 +125,7 @@ export default {
       return Math.random();
     },
     checkForm() {
+      this.errors=[];
       if(!this.username){
         this.errors.push({key:this.randomKey(),msg:"Username required."});
         return false;
@@ -142,6 +144,10 @@ export default {
       }
       if(!this.email){
         this.errors.push({key:this.randomKey(),msg:"Email required."});
+        return false;
+      }
+      if(this.password.length<6){
+        this.errors.push({key:this.randomKey(),msg:"The password length must greater than or equal to 6 ."})
         return false;
       }
 
@@ -178,6 +184,7 @@ export default {
               this.passwordConf="";
               this.isLoading = false;
               this.disabledOption = false;
+              console.log('da==', resp.data)
               this.errors.push({key:this.randomKey(),msg: resp.data});
             }
           })
@@ -200,6 +207,9 @@ export default {
       this.birthdate="";
       this.successMsg="";
       this.disabledOption=false;
+    },
+      loginOption() {
+      this.$router.push('/login')
     }
   }
 };

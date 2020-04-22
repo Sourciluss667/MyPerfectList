@@ -11,6 +11,7 @@ import Rottentomatoes from './components/colllections/Rottentomatoes'
 import GoodReads from './components/colllections/GoodReads'
 import RateYourMusic from './components/colllections/RateYourMusic'
 import Others from './components/colllections/Others'
+import PasswordLost from './components/PasswordLost'
 
 export const routes = [
   { path: '/', component: Welcome },
@@ -25,5 +26,6 @@ export const routes = [
   { path: '/collections/Rottentomatoes', component: Rottentomatoes },
   { path: '/collections/GoodReads', component: GoodReads },
   { path: '/collections/RateYourMusic', component: RateYourMusic },
-  { path: '/collections/Others', component: Others }
+  { path: '/collections/others', component: Others },
+  { path: '/reset_password', component: PasswordLost }
 ]
