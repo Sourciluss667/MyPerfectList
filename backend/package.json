@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "standard && node ./bin/www",
-    "init": "node ./db/init.js",
+    "reset": "node ./db/init.js",
     "debug": "nodemon ./bin/www"
   },
   "dependencies": {

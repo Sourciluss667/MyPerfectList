@@ -178,7 +178,7 @@ export default {
                     this.isLoading = false;
                     this.disabledOption = false;
                     this.$router.push("/confirmation_sigin");
-                  }, 5000);
+                  }, 2000);
             } else {
               this.password="";
               this.passwordConf="";

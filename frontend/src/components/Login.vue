@@ -143,7 +143,7 @@ export default {
                 this.isLoading = false;
                 this.disabledOption = false;
                 this.$parent.connected(user);
-              }, 5000);
+              }, 2000);
             } else {
               this.password = "";
               this.errormsg = resp.msg;
