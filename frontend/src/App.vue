@@ -23,7 +23,6 @@
           -->
 
           <router-view></router-view>
-
         </div>
       </section>
 
@@ -75,12 +74,12 @@ import { logout, getCurrentUser } from "./services/users";
 export default {
   name: "App",
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     return {
       isConnected: false,
-      user: {}
+      user: {},
     };
   },
   async created() {
@@ -89,7 +88,7 @@ export default {
 
     if (user) {
       this.user = { ...user };
-      this.isConnected = true
+      this.isConnected = true;
     } else {
       this.init();
     }
@@ -98,17 +97,17 @@ export default {
     connected(user) {
       this.user = { ...user };
       this.isConnected = true;
-      if (this.$router.currentRoute.path != '/') this.$router.push('/');
+      if (this.$router.currentRoute.path != "/") this.$router.push("/");
     },
-    logoutOption() { 
+    logoutOption() {
       logout();
       this.init();
     },
     init() {
       this.isConnected = false;
       this.user = {};
-      if (this.$router.currentRoute.path != '/') this.$router.push('/');
-    },
+      if (this.$router.currentRoute.path != "/") this.$router.push("/");
+    } 
   },
 };
 </script>

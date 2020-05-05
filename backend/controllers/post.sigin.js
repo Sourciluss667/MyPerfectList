@@ -1,21 +1,33 @@
+
+const { validationResult } = require('express-validator')
 const User = require('../models/user_model')
 
 /**
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
+
 async function postSigin (req, res) {
   if (req.session.userId) {
     res.status(200).json('Already authenticated')
     return
   }
+
+  const errors = validationResult(req)
+
+  console.log('errorrrr=   ', errors)
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   // on vérifie l'email et le mot de passe de l'utilisateur
   let user = await User.getByEmail(req.body.email, ['id', 'name'])
 
   // si on a trouvé un utilisateur correspondant, alors on sauvegarde son ID
   // dans l'objet req.session
   if (user) {
-    res.status(201).json('user already exites!')
+    res.status(400).json('user already exites!')
     return
   }
   user = new User()
@@ -29,7 +41,7 @@ async function postSigin (req, res) {
     res.status(200).json('The account is created successfully!')
     return
   }
-  res.status(401).json('System error')
+  res.status(400).json('System error')
 }
 
 module.exports = postSigin

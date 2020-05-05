@@ -17,12 +17,12 @@
               <a class="navbar-item" @click="search">Search</a>
               <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">Collections</a> <!-- DROPDOWN -->
                 <div class="navbar-dropdown">
-                  <a class="navbar-item navbar-item-dropdown">MyAnimeList</a>
-                  <a class="navbar-item navbar-item-dropdown">IMDb</a>
-                  <a class="navbar-item navbar-item-dropdown">Rottentomatoes</a>
-                  <a class="navbar-item navbar-item-dropdown">GoodReads</a>
-                  <a class="navbar-item navbar-item-dropdown">RateYourMusic</a>
-                  <a class="navbar-item navbar-item-dropdown">Others</a>
+                  <a class="navbar-item navbar-item-dropdown"  @click="myAnimeListCollection">MyAnimeList</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="IMDbCollection">IMDb</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="rottentomatoesCollection">Rottentomatoes</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="goodReadsCollection">GoodReads</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="rateYourMusicCollection">RateYourMusic</a>
+                  <a class="navbar-item navbar-item-dropdown" @click="othersCollection">Others</a>
                 </div>
               </div>
             </div>
@@ -88,6 +88,24 @@ export default {
     },
     welcome() {
       this.$router.push('/')
+    },
+    myAnimeListCollection() {
+      this.$router.push('/collections/MyAnimeList')
+    },
+    IMDbCollection() {
+      this.$router.push('/collections/IMDb')
+    },
+    rateYourMusicCollection() {
+      this.$router.push('/collections/RateYourMusic')
+    },
+    rottentomatoesCollection() {
+      this.$router.push('/collections/Rottentomatoes')
+    },
+    othersCollection() {
+      this.$router.push('/collections/others')
+    },
+    goodReadsCollection() {
+      this.$router.push('/collections/GoodReads')
     }
   },
 };
