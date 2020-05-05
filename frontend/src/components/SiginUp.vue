@@ -87,8 +87,8 @@
           <input class="input" type="date" placeholder="Birthdate" v-model="birthdate" title="Birthdate">
         </div>
       </div>
-      <div class="field">
-        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth" @click="submitForm">Sign up</button>
+      <div class="field"> <!-- MERGE CONFLICT ICI -->
+        <button type="submit" :disabled="disabledOption" class="button is-primary is-fullwidth">Sign up</button>
       </div><a>Already have an account ?</a>
     </form>
 
