@@ -47,7 +47,7 @@
                 <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">{{username}}</a> <!-- DROPDOWN -->
                   <div class="navbar-dropdown">
                     <a class="navbar-item navbar-item-dropdown" @click="profile"><span class="icon" style="margin-right: 5px;"><i class="fas fa-user-circle"></i></span>Profile</a>
-                    <a class="navbar-item navbar-item-dropdown"><span class="icon" style="margin-right: 5px;"><i class="fas fa-cog"></i></span>Settings</a>
+                    <a class="navbar-item navbar-item-dropdown" @click="settings"><span class="icon" style="margin-right: 5px;"><i class="fas fa-cog"></i></span>Settings</a>
                     <a class="navbar-item navbar-item-dropdown has-text-danger" @click="logout"><span class="icon" style="margin-right: 5px;"><i class="fas fa-sign-out-alt"></i></span>Logout</a>
                   </div>
                 </div>
@@ -86,6 +86,9 @@ export default {
     search() {
       this.$router.push('/search')
     },
+    settings() {
+      this.$router.push('/settings')
+    },
     welcome() {
       this.$router.push('/')
     },
@@ -102,7 +105,7 @@ export default {
       this.$router.push('/collections/Rottentomatoes')
     },
     othersCollection() {
-      this.$router.push('/collections/Others')
+      this.$router.push('/collections/others')
     },
     goodReadsCollection() {
       this.$router.push('/collections/GoodReads')

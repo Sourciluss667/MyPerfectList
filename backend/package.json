@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "standard && node ./bin/www",
-    "init": "node ./db/init.js",
+    "reset": "node ./db/init.js",
     "debug": "nodemon ./bin/www"
   },
   "dependencies": {
@@ -18,8 +18,10 @@
     "express": "~4.16.1",
     "express-session": "^1.17.0",
     "goodreads-api-node": "0.0.10",
+    "express-validator": "^6.4.0",
     "mal-scraper": "^2.6.8",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.4.6",
     "pg": "^8.0.0",
     "pgtools": "^0.3.0",
     "standard": "^14.3.3"

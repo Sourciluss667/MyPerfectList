@@ -128,6 +128,20 @@ class User {
     delete userResult.password // on ne renvoie jamais le mot de passe de l'utilisateur
     return userResult
   }
+
+  /**
+    * @param {Number} id
+    * @param {String} password */
+  static async update (id, password) {
+    let userResult = await PostgresStore.client.query({
+      text: `UPDATE ${User.tableName} SET password = $2 WHERE id=$1 RETURNING *`,
+      values: [id, password]
+    })
+
+    userResult = userResult.rows[0]
+    delete userResult.password // on ne renvoie jamais le mot de passe de l'utilisateur
+    return userResult
+  }
 }
 
 /** @type {String} */

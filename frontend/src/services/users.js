@@ -8,17 +8,17 @@ axios.defaults.withCredentials = true
 
 function login (user) {
   return axios.post(`${SERVER_URL}/users/login`, {
-    'email': user.email,
-    'password': user.password,
+    email: user.email,
+    password: user.password
   })
 }
-function siginUp (user) { 
+function siginUp (user) {
   return axios.post(`${SERVER_URL}/users/sigin`, {
-    'username':user.username,
-    'name':user.name,
-    'email': user.email,
-    'password': user.password,
-    'birthdate':user.birthdate
+    username: user.username,
+    name: user.name,
+    email: user.email,
+    password: user.password,
+    birthdate: user.birthdate
   })
 }
 function logout () {
@@ -27,9 +27,9 @@ function logout () {
 
 function getCurrentUser () {
   return axios.get(`${SERVER_URL}/users/current_user`)
-    .then(resp => { 
-      return resp.data;
-    }) 
+    .then(resp => {
+      return resp.data
+    })
 }
 
 function getUserByUsername (username) {
@@ -38,5 +38,11 @@ function getUserByUsername (username) {
       return res.data
     })
 }
+function passwordLost (email) {
+  return axios.get(`${SERVER_URL}/users/passwordlost/${email}`)
+    .then(res => {
+      return res.data
+    })
+}
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername }
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost }
