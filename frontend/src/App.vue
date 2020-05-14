@@ -9,19 +9,13 @@
       />
 
       <!-- BODY -->
-      <section class="section is-medium" style="padding: 1.5rem 1.5rem;"  >
+      <section class="section is-medium">
          
         <div class="container has-text-centered"> 
           <!-- Contenu affiché -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
-          <!--
-          <Welcome v-if="showWelcome" />
-          <Login v-if="isLogin" v-on:connected="connected" />
-          <SiginUp v-if="isSiginUp" v-on:loginOption="loginOption" />
-          <Profile v-if="isProfile" :userData="user" />
-          -->
 
           <router-view></router-view>
         </div>
