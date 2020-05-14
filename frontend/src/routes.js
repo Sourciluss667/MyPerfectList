@@ -12,6 +12,7 @@ import GoodReads from './components/colllections/GoodReads'
 import RateYourMusic from './components/colllections/RateYourMusic'
 import Others from './components/colllections/Others'
 import PasswordLost from './components/PasswordLost'
+import Settings from './components/Settings'
 
 export const routes = [
   { path: '/', component: Welcome },
@@ -27,5 +28,6 @@ export const routes = [
   { path: '/collections/GoodReads', component: GoodReads },
   { path: '/collections/RateYourMusic', component: RateYourMusic },
   { path: '/collections/others', component: Others },
-  { path: '/reset_password', component: PasswordLost }
+  { path: '/reset_password', component: PasswordLost },
+  { path: '/settings', component: Settings}
 ]
