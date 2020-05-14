@@ -17,7 +17,7 @@
               <a class="navbar-item" @click="search">Search</a>
               <div class="navbar-item has-dropdown is-hoverable"><a class="navbar-link">Collections</a> <!-- DROPDOWN -->
                 <div class="navbar-dropdown">
-                  <a class="navbar-item navbar-item-dropdown"  @click="myAnimeListCollection">MyAnimeList</a>
+                  <a class="navbar-item navbar-item-dropdown"  @click="myAnimeListCollection">Anime</a>
                   <a class="navbar-item navbar-item-dropdown" @click="IMDbCollection">IMDb</a>
                   <a class="navbar-item navbar-item-dropdown" @click="rottentomatoesCollection">Rottentomatoes</a>
                   <a class="navbar-item navbar-item-dropdown" @click="goodReadsCollection">GoodReads</a>
@@ -90,7 +90,7 @@ export default {
       this.$router.push('/')
     },
     myAnimeListCollection() {
-      this.$router.push('/collections/MyAnimeList')
+      this.$router.push('/collections/MyAnimeList').catch(err=>{console.log('component view was already loaded',err)});
     },
     IMDbCollection() {
       this.$router.push('/collections/IMDb')

@@ -6,11 +6,9 @@
 
 <script>
 export default {
-  name: "ConfirmationSiginUp",
+  name: "Others",
   methods: {
-    loginOption() {
-      this.$router.push("/login");
-    },
+     
   },
 };
 </script>

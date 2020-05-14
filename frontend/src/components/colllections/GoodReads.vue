@@ -1,16 +1,14 @@
 <template>
   <div>
-    <p>MyAnimeList collections</p>
+    <p>GoodReads collections</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ConfirmationSiginUp",
+  name: "GoodReads",
   methods: {
-    loginOption() {
-      this.$router.push("/login");
-    },
+   
   },
 };
 </script>

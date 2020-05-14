@@ -1,25 +1,61 @@
 <template>
-  <div id="page">
-   
+  <div id="page"> 
+    <BreadCrumb/>
+    <nav class="level">
+      <!-- Left side -->
+      <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5"><strong>123</strong> animes</p>
+        </div>
+        <div class="level-item">
+          <div class="field has-addons">
+            <p class="control">
+              <input
+                class="input is-focused"
+                style="width:400px"
+                type="text"
+                placeholder="Find an anime"
+              />
+            </p>
+            <p class="control">
+              <button class="button">
+                Search
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
 
-    <div class="container is-fluid" id="content">
-      <section
-        data-section-id="2"
-        data-component-id="29e6_13_02_awz"
-        data-category="blog"
-        class="section"
-      >
-        
-          <h2 class="title has-text-centered" data-config-id="header">
-           <p>MyAnimeList collections</p>
+      <!-- Right side -->
+      <div class="level-right">
+        <p class="level-item"><strong>All</strong></p>
+        <p class="level-item"><a>Review</a></p>
+        <p class="level-item"><a>Deleted</a></p>
+        <p class="level-item"><a class="button is-success">Add</a></p>
+      </div>
+    </nav>
+    <section class="hero is-light" style="margin-bottom:20px">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Primary title
+          </h1>
+          <h2 class="subtitle">
+            Primary subtitle
           </h2>
-          <div class="columns is-multiline" data-config-id="posts_02">
-            <div class="column is-6-tablet is-3-desktop">
+        </div>
+      </div>
+    </section>
+    <section class="hero is-light">
+      <div class="hero-body" style="padding: 1rem 1rem;">
+        <div class="container">
+          <div class="columns is-multiline">
+            <div class="column is-6-tablet is-3-desktop" style="width: 15%;">
               <div class="card" style="height: 100%">
                 <div class="card-image">
                   <a href="#"
                     ><img
-                      src="placeholder/pictures/bg_4-3.svg?primary=00d1b2"
+                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
                       alt=""
                   /></a>
                 </div>
@@ -29,53 +65,16 @@
                       >25 Jun 2019 | By Dinesh Chugtai</small
                     >
                   </div>
-                  <h5 class="title is-6">
-                    <a href="#">Why I'm the Best Programmer Ever</a>
-                  </h5>
-                  <p>
-                    I feel like not everybody outside of Pied Piper knows it, so
-                    I wanted to make it clear why I'm the best programmer in the
-                    world.
-                  </p>
-                  <a
-                    class="button is-primary"
-                    href="#"
-                    data-config-id="primary-action"
-                    >Action</a>
                 </div>
               </div>
             </div>
+
             <div class="column is-6-tablet is-3-desktop">
               <div class="card" style="height: 100%">
                 <div class="card-image">
                   <a href="#"
                     ><img
-                      src="placeholder/pictures/bg_4-3.svg?primary=00d1b2"
-                      alt=""
-                  /></a>
-                </div>
-                <div class="card-content">
-                  <div class="block">
-                    <small class="is-size-7"
-                      >25 Jun 2018 | By Bertram Gilfoyle</small
-                    >
-                  </div>
-                  <h5 class="title is-6">
-                    <a href="#">Secrets of Decentralization</a>
-                  </h5>
-                  <p>
-                    What makes decentralization so great? Let me enlighten you
-                    with my wisdom
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6-tablet is-3-desktop">
-              <div class="card" style="height: 100%">
-                <div class="card-image">
-                  <a href="#"
-                    ><img
-                      src="placeholder/pictures/bg_4-3.svg?primary=00d1b2"
+                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
                       alt=""
                   /></a>
                 </div>
@@ -85,14 +84,6 @@
                       >25 Jun 2018 | By Monica Hall</small
                     >
                   </div>
-                  <h5 class="title is-6">
-                    <a href="#">How Our ICO Almost Failed</a>
-                  </h5>
-                  <p>
-                    This is a short story about how we uncovered an insane
-                    problem with our ICO, fixed it, and still managed to secure
-                    vast funding.
-                  </p>
                 </div>
               </div>
             </div>
@@ -101,7 +92,7 @@
                 <div class="card-image">
                   <a href="#"
                     ><img
-                      src="placeholder/pictures/bg_4-3.svg?primary=00d1b2"
+                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
                       alt=""
                   /></a>
                 </div>
@@ -109,29 +100,31 @@
                   <div class="block">
                     <small class="is-size-7">25 Jun 2018 | By Jared Dunn</small>
                   </div>
-                  <h5 class="title is-6">
-                    <a href="#">Why Strong Tea Isn't Good For CEOs</a>
-                  </h5>
-                  <p>
-                    An exhaustive guide about how different teas can affect a
-                    CEO during their workday.
-                  </p>
                 </div>
               </div>
             </div>
-          </div> 
-      </section>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+import BreadCrumb from '../BreadCrumb';
 export default {
-  name: "ConfirmationSiginUp",
+  name: "MyAnimeList",
+  props: {
+    breaCrumbObject:{}
+  },
+  components: { 
+    BreadCrumb
+  },
+  created() { 
+    console.log(this.breaCrumbObject);
+  },
   methods: {
-    loginOption() {
-      this.$router.push("/login");
-    },
+
   },
 };
 </script>
