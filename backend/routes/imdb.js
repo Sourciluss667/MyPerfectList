@@ -11,11 +11,16 @@ router.get('/:token', async (req, res) => {
   html = html.text
 
   const indexStart = html.search(/IMDbReactInitialState.push/) // + IMDbReactInitialState.push( length
-  const indexEnd = html.indexOf(';', indexStart)
+  const indexEnd = html.indexOf(');', indexStart)
 
-  let result = html.substring(indexStart + 27, indexEnd - 1)
+  let result = html.substring(indexStart + 27, indexEnd)
 
-  result = JSON.parse(result)
+  try {
+    result = JSON.parse(result)
+  } catch (err) {
+    console.log(result)
+    console.error(err)
+  }
 
   res.send(result.titles)
 })
