@@ -9,11 +9,8 @@ const PostgresStore = require('./utils/PostgresStore')
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 var searchRouter = require('./routes/search')
-<<<<<<< HEAD
 var animeRouter = require('./routes/anime')
-=======
 var imdbRouter = require('./routes/imdb')
->>>>>>> master
 var cors = require('cors')
 var app = express()
 
