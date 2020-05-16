@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "bulma": "^0.8.1",
     "core-js": "^3.6.4",
+    "superagent": "^5.2.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-loading-overlay": "^3.3.2",
