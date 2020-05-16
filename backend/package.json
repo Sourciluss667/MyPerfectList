@@ -24,7 +24,8 @@
     "nodemailer": "^6.4.6",
     "pg": "^8.0.0",
     "pgtools": "^0.3.0",
-    "standard": "^14.3.3"
+    "standard": "^14.3.3",
+    "superagent": "^5.2.2"
   },
   "standard": {
     "parser": "babel-eslint"

@@ -10,17 +10,12 @@
 
       <!-- BODY -->
       <section class="section is-medium">
-        <div class="container has-text-centered">
+         
+        <div class="container has-text-centered"> 
           <!-- Contenu affiché -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
           <!-- METTRE NOUVEAU COMPOSANTS ICI AVEC UN V-IF -->
-          <!--
-          <Welcome v-if="showWelcome" />
-          <Login v-if="isLogin" v-on:connected="connected" />
-          <SiginUp v-if="isSiginUp" v-on:loginOption="loginOption" />
-          <Profile v-if="isProfile" :userData="user" />
-          -->
 
           <router-view></router-view>
         </div>
@@ -69,17 +64,19 @@
 <script>
 import "bulma/css/bulma.css"; // Import Bulma CSS Framework
 import Navbar from "./components/Navbar";
+
 import { logout, getCurrentUser } from "./services/users";
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navbar
   },
   data() {
     return {
       isConnected: false,
       user: {},
+      params:{}
     };
   },
   async created() {
@@ -107,7 +104,7 @@ export default {
       this.isConnected = false;
       this.user = {};
       if (this.$router.currentRoute.path != "/") this.$router.push("/");
-    } 
+    },
   },
 };
 </script>

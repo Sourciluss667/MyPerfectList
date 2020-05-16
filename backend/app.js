@@ -9,6 +9,7 @@ const PostgresStore = require('./utils/PostgresStore')
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 var searchRouter = require('./routes/search')
+var imdbRouter = require('./routes/imdb')
 var cors = require('cors')
 var app = express()
 
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/search', searchRouter)
+app.use('/imdb', imdbRouter)
 
 module.exports = app
 
