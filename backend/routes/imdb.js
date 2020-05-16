@@ -7,9 +7,17 @@ router.get('/:token', async (req, res) => {
   const token = req.params.token
   const agent = superagent.agent()
   
-  const result = await agent.get(`https://www.imdb.com/user/${token}/watchlist`)
-  
-  res.send(result.text)
+  let html = await agent.get(`https://www.imdb.com/user/${token}/watchlist`)
+  html = html.text
+
+  const indexStart = html.search(/IMDbReactInitialState.push/) // + IMDbReactInitialState.push( length
+  const indexEnd = html.indexOf(';', indexStart)
+
+  let result = html.substring(indexStart + 27, indexEnd - 1)
+
+  result = JSON.parse(result)
+
+  res.send(result.titles)
 })
 
 module.exports = router

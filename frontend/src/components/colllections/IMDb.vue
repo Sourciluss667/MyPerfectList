@@ -1,7 +1,6 @@
 <template>
   <div>
     <p>IMDb collections</p>
-    RECHERCHER CECI : IMDbReactInitialState.push
     {{ history }}
 
 
@@ -24,9 +23,11 @@ export default {
   async created () {
     const token = 'ur115944803'
     this.history = await fetch(`http://localhost:4200/imdb/${token}`)
-    this.history = await this.history.text()
+    this.history = await this.history.json()
+    console.log(this.history)
   }
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
