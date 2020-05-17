@@ -122,7 +122,7 @@ export default {
     BreadCrumb
   },
   async created() { 
-   await searchAnime();
+    await searchAnime('phanio');
     console.log(this.breaCrumbObject);
   },
   methods: {
