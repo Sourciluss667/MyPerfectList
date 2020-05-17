@@ -11,7 +11,7 @@ async function searchAnime (req, res) {
   // Helpers for types, genres and list you might need for your research
   console.log(search.helpers)
 
- const result = await search.search(type, {
+  const result = await search.search(type, {
     // All optionnals, but all values must be in their relative search.helpers.availableValues.
     maxResults: 100, // how many results at most (default: 50)
     has: 250, // If you already have results and just want what follows it, you can say it here. Allows pagination!
@@ -35,11 +35,10 @@ async function searchAnime (req, res) {
     genreType: 0, // 0 for include genre list, 1 for exclude genre list
     genres: [1] // go check search.helpers.availableValues.genres.<type>.value
   })
-    .then(data => {return data})
+    .then(data => { return data })
     .catch(console.error)
 
-    return res.send(result)
-
+  return res.send(result)
 }
 
 module.exports = searchAnime
