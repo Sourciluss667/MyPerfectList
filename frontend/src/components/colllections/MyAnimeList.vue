@@ -112,6 +112,7 @@
 
 <script>
 import BreadCrumb from '../BreadCrumb';
+import {searchAnime} from '../../services/anime'
 export default {
   name: "MyAnimeList",
   props: {
@@ -120,7 +121,8 @@ export default {
   components: { 
     BreadCrumb
   },
-  created() { 
+  async created() { 
+   await searchAnime();
     console.log(this.breaCrumbObject);
   },
   methods: {
