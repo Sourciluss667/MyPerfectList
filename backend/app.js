@@ -11,6 +11,9 @@ var usersRouter = require('./routes/users')
 var searchRouter = require('./routes/search')
 var animeRouter = require('./routes/anime')
 var imdbRouter = require('./routes/imdb')
+var goodreadsRouter = require('./routes/goodreads')
+var rateyourmusicRouter = require('./routes/rateyourmusic')
+var rottentomatoesRouter = require('./routes/rottentomatoes')
 var cors = require('cors')
 var app = express()
 
@@ -41,6 +44,9 @@ app.use('/users', usersRouter)
 app.use('/search', searchRouter)
 app.use('/animes', animeRouter)
 app.use('/imdb', imdbRouter)
+app.use('/goodreads', goodreadsRouter)
+app.use('/rottentomatoes', rottentomatoesRouter)
+app.use('/rateyourmusic', rateyourmusicRouter)
 
 module.exports = app
 

@@ -83,6 +83,11 @@
       </div>
     <div class="column" style="background: green;">Content
       <a @click="goodreadsProfile">GoodReads of {{username}}</a>
+      <a @click="iMDBProfile">iMDB of {{username}}</a>
+      <a @click="myAnimeListProfile">MyAnimeList of {{username}}</a>
+      <a @click="rateYourMusicProfile">RateYourMusic of {{username}}</a>
+      <a @click="rottenTomatoesProfile">RottenTomatoes of {{username}}</a>
+      <a @click="goodreadsProfile">other list of {{username}}</a>
     </div>
     </div>
   </div>

@@ -40,7 +40,7 @@ export default {
     Object.keys(req).forEach(function(k){
       // req[k] = Element
       const e = req[k]
-      let add = {showdetails: false, title: e.a.album, desc: e.plot, genres: e.metadata.genres, type: e.type, year: e.primary.year, poster: {h: e.poster.height, w: e.poster.width, url: e.poster.url}}
+      let add = {showdetails: false, title: e.primary.title, desc: e.plot, genres: e.metadata.genres, type: e.type, year: e.primary.year, poster: {h: e.poster.height, w: e.poster.width, url: e.poster.url}}
       toAdd.push(add)
     })
 
