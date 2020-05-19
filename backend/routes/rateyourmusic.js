@@ -9,21 +9,21 @@ router.get('/:token', async (req, res) => {
 
   let html = await fetch(profileRYMLink)
 
-  html = html.text()
+  html = html.text().then(text => {
+    const indexStart = html.search('<tbody>')
+    const indexEnd = html.indexOf('</tbody>', indexStart)
 
-  const indexStart = html.search('<tbody>')
-  const indexEnd = html.indexOf('</tbody>', indexStart)
+    let result = html.substring(indexStart + 7, indexEnd)
 
-  let result = html.substring(indexStart + 7, indexEnd)
+    try {
+      result = JSON.parse(result)
+    } catch (err) {
+      console.log(result)
+      console.error(err)
+    }
 
-  try {
-    result = JSON.parse(result)
-  } catch (err) {
-    console.log(result)
-    console.error(err)
-  }
-
-  res.send(result)
+    res.send(result)
+  })
 })
 
 module.exports = router

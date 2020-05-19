@@ -38,7 +38,7 @@ export default {
      }
   },
   async created () {
-    const token = 'zackdrake'
+    const token = '103381785-zack-drake'
     let req = await fetch(`http://localhost:4200/goodreads/${token}`)
     req = await req.json()
     let toAdd = []

@@ -41,6 +41,8 @@ export default {
     const token = 'zackdrake'
     let req = await fetch(`http://localhost:4200/rateyourmusic/${token}`)
     req = await req.json()
+    req = req.text()
+
     let toAdd = []
     Object.keys(req).forEach(function(k){
       // req[k] = Element
