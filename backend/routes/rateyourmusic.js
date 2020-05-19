@@ -4,11 +4,11 @@ var superagent = require('superagent')
 
 /* GET home page. */
 router.get('/:token', async (req, res) => {
-  // const token = req.params.token
+  const token = req.params.token
   const agent = superagent.agent()
 
-  // let html = await agent.get(`https://fr.rateyourmusic.com/collection/${token}/recent/`)
-  let html = await agent.get('https://fr.rateyourmusic.com/collection/zackdrake/recent/')
+  let html = await agent.get(`https://fr.rateyourmusic.com/collection/${token}/recent/`)
+  // let html = await agent.get('https://fr.rateyourmusic.com/collection/zackdrake/recent/')
   html = html.text
 
   const indexStart = html.search('<tbody>')
