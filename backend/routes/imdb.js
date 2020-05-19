@@ -6,7 +6,7 @@ var superagent = require('superagent')
 router.get('/:token', async (req, res) => {
   const token = req.params.token
   const agent = superagent.agent()
-  
+
   let html = await agent.get(`https://www.imdb.com/user/${token}/watchlist`)
   html = html.text
 
