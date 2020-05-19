@@ -44,5 +44,15 @@ function passwordLost (email) {
       return res.data
     })
 }
+function changeTokens (tokensObj) {
+  let obj = {
+    imdb: tokensObj.imdb,
+    mal: tokensObj.mal,
+    rym: tokensObj.rym,
+    gd: tokensObj.gd,
+    rt: tokensObj.rt
+  }
+  return axios.post(`${SERVER_URL}/users/changeTokens`, obj)
+}
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost }
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens }

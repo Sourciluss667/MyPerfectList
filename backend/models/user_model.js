@@ -42,7 +42,6 @@ class User {
       values: [email]
     })
     // on récupère le premier résultat du SELECT, et on prend le password
-    console.log('bbb=', result.rows)
     if (result.rows.length) {
       const currentPassword = result.rows[0].password
       // comme ce password est hashé, on le compare via bcrypt avec le mot de passe
@@ -142,7 +141,40 @@ class User {
     delete userResult.password // on ne renvoie jamais le mot de passe de l'utilisateur
     return userResult
   }
+
+
+/**
+   * @param {{imdb: String, mal: String, rym: String, gd: String, rt: String}} tokens
+   * @param {Number} id
+   * @return {Promise<User>}
+   */
+  static async changeTokens (tokens, id) {
+    const result = await PostgresStore.pool.query({
+      text: `UPDATE ${User.tableName} SET imdb=$1,myanimelist=$2,rottentomatoes=$3,goodreads=$4,rateyourmusic=$5 WHERE id=$6 RETURNING *`,
+      values: [
+        tokens.imdb,
+        tokens.mal,
+        tokens.rt,
+        tokens.gd,
+        tokens.rym,
+        id
+      ]
+    })
+
+    const userResult = result.rows[0]
+    delete userResult.password
+    return userResult
+  }
+
+
+
+
+
+
+
+
 }
+
 
 /** @type {String} */
 User.tableName = 'users'

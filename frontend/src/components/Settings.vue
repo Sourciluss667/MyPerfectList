@@ -26,7 +26,14 @@
           perso
         </div>
         <div id="linked-accounts" v-if="linkedAcc">
-          linked acc
+          <form @submit.prevent="linkedAccHandler">
+            <label for="imdb">IMDB Token : </label><input type="text" name="imdb" placeholder="ur115944803" id="imdb" v-model="linkedAccObj.imdb"><br>
+            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="xxxxxxxxx" id="mal" v-model="linkedAccObj.mal"><br>
+            <label for="rym">RYM Token : </label><input type="text" name="rym" placeholder="xxxxxxxxx" id="rym" v-model="linkedAccObj.rym"><br>
+            <label for="gd">GoodReads Token : </label><input type="text" name="gd" placeholder="xxxxxxxxx" id="gd" v-model="linkedAccObj.gd"><br>
+            <label for="rt">RottentTomatoes Token : </label><input type="text" name="rt" placeholder="xxxxxxxxx" id="rt" v-model="linkedAccObj.rt"><br><br>
+            <input type="submit" value="Change !">
+          </form>
         </div>
         <div id="preferences" v-if="pref">
           pref
@@ -40,6 +47,8 @@
 </template>
 
 <script>
+import { changeTokens } from "../services/users.js";
+
 export default {
   name: "Settings",
   data () {
@@ -47,7 +56,8 @@ export default {
       pInformation: false,
       linkedAcc: false,
       pref: false,
-      other: false
+      other: false,
+      linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''}
     }
   },
   created () {
@@ -57,6 +67,13 @@ export default {
     this.other = false
   },
   methods: {
+    async linkedAccHandler () {
+      // Send new token to backend with JSON obj
+      const res = await changeTokens(this.linkedAccObj)
+      if (res.status === 200) {
+        console.log('TOKENS CHANGE !')
+      }
+    },
     pInfoState () {
       this.pInformation = true
       this.linkedAcc = false

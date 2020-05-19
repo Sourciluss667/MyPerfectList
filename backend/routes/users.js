@@ -5,6 +5,7 @@ const postSigin = require('../controllers/post.sigin')
 const getCurrentUser = require('../controllers/get.currentUser')
 const getUserByUsername = require('../controllers/get.userByUsername')
 const passwordLost = require('../controllers/passwordLost')
+const changeTokens = require('../controllers/post.changeTokens')
 const { check } = require('express-validator')
 
 function logOut (req, res) {
@@ -22,6 +23,7 @@ router.post('/sigin', [
   check('email').isEmail(),
   check('password').isLength({ min: 6 })
 ], postSigin)
+router.post('/changeTokens', changeTokens)
 router.get('/logout', logOut)
 router.get('/current_user', getCurrentUser)
 router.get('/userbyusername/:username', getUserByUsername)
