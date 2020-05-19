@@ -1,5 +1,6 @@
 <template>
   <div id="imdb-watchlist" style="position: relative; top: -90px;">
+      
     
     <section class="hero">
       <div class="hero-body has-text-left">
@@ -43,7 +44,8 @@ export default {
     const token = 'ur115944803'
     let req = await fetch(`http://localhost:4200/imdb/${token}`)
     req = await req.json()
-    let toAdd = []
+
+  /*let toAdd = []
     Object.keys(req).forEach(function(k){
       // req[k] = Element
       const e = req[k]
@@ -53,9 +55,11 @@ export default {
 
     toAdd.forEach(e => {
       this.history.push(e)
-    });
+    }); 
+    */
   }
 };
+document.write(req);
 
 </script>
 

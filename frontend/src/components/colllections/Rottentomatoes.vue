@@ -1,6 +1,6 @@
 <template>
   <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
-    
+                <h3>yo{{ req }}yo</h3>
     <section class="hero">
       <div class="hero-body has-text-left">
         <div class="content is-inline-block" v-for="row in history" :key="row.title" v-on:mouseover="mouseover(row)" v-on:mouseleave="mouseleave(row)">
@@ -23,10 +23,11 @@
 
 <script>
 export default {
-  name: "RottenTomatoe",
+  name: "RottenTomatoes",
     data () {
     return {
-      history: [] // {title: 'Titre', desc: 'Description', genres: [], type: "Type", year: [], poster: {h: 0, w: 0, url: ''}}
+      history: [], // {title: 'Titre', desc: 'Description', genres: [], type: "Type", year: [], poster: {h: 0, w: 0, url: ''}}
+      req: ''
     }
   },
    methods: {
@@ -38,6 +39,7 @@ export default {
      }
   },
   async created () {
+    
     const token = '576805712'
     let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
     req = await req.json()
@@ -48,7 +50,6 @@ export default {
       let add = {showdetails: false, title: e.or_q_albumartist.a.album, poster: {h: e.or_q_small_album.a.img.height, w: e.or_q_small_album.a.img.width, url: e.or_q_small_album.a.img.url}}
       toAdd.push(add)
     })
-
     toAdd.forEach(e => {
       this.history.push(e)
     });

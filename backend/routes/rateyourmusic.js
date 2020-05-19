@@ -7,23 +7,17 @@ router.get('/:token', async (req, res) => {
   const token = req.params.token
   const profileRYMLink = `https://fr.rateyourmusic.com/collection/${token}/recent/`
 
-  let html = await fetch(profileRYMLink)
-
-  html = html.text().then(text => {
-    const indexStart = html.search('<tbody>')
-    const indexEnd = html.indexOf('</tbody>', indexStart)
-
-    let result = html.substring(indexStart + 7, indexEnd)
-
-    try {
-      result = JSON.parse(result)
-    } catch (err) {
-      console.log(result)
-      console.error(err)
-    }
-
-    res.send(result)
+  await fetch(profileRYMLink).then(function (response) {
+    return response.text()
   })
+    .then(function (text) {
+      const indexStart = text.search('<tbody>')
+      const indexEnd = text.indexOf('</tbody>', indexStart)
+
+      const result = text.substring(indexStart + 7, indexEnd)
+      console.log(result)
+      res.send(result)
+    })
 })
 
 module.exports = router

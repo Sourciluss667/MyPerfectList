@@ -10,19 +10,12 @@ router.get('/:token', async (req, res) => {
   let html = await agent.get(`https://www.rottentomatoes.com/user/id/${token}`)
   html = html.text
 
-  const indexStart = html.search('<ul>')
-  const indexEnd = html.indexOf('</ul>', indexStart)
+  const indexStart = html.search('<li class="ratings__user-rating-review">')
+  const indexEnd = html.indexOf('<span class="js-rating-display-name hide">', indexStart)
 
-  let result = html.substring(indexStart + 7, indexEnd)
-
-  try {
-    result = JSON.parse(result)
-  } catch (err) {
-    console.log(result)
-    console.error(err)
-  }
-
-  res.send(result.a.albums)
+  const result = html.substring(indexStart + 7, indexEnd)
+  console.log(result)
+  res.send(result)
 })
 
 module.exports = router
