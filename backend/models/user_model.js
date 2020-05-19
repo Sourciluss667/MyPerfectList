@@ -142,8 +142,7 @@ class User {
     return userResult
   }
 
-
-/**
+  /**
    * @param {{imdb: String, mal: String, rym: String, gd: String, rt: String}} tokens
    * @param {Number} id
    * @return {Promise<User>}
@@ -165,16 +164,7 @@ class User {
     delete userResult.password
     return userResult
   }
-
-
-
-
-
-
-
-
 }
-
 
 /** @type {String} */
 User.tableName = 'users'

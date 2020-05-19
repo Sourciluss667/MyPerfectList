@@ -44,10 +44,8 @@ async function searchAnimeUsingToken (req, res) {
       return res.status(401).end()
     }
     const payload = await jwt.verify(token, jwtKey)
-    console.log('pay==', payload)
     if (bdOption === mangalist || bdOption === animelist) {
       const jsonResponse = await agent.get(`https://myanimelist.net/${bdOption}/${payload.malUserName}/load.json?status=7&offset=0`)
-      console.log(jsonResponse.text)
       res.send(jsonResponse.text)
     } else {
       res.status(401).send('No match option')

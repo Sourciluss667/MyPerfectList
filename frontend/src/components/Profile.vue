@@ -1,5 +1,5 @@
 <template>
-  <div id="page">
+  <div id="page" style="position: relative; top: -90px;">
     <BreadCrumb />
     <div id="profile" class="columns">
       <div class="column is-one-quarter has-background-light">

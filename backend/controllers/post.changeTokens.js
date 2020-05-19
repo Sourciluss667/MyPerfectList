@@ -12,18 +12,15 @@ async function postChangeTokens (req, res) {
     const rym = req.body.rym
     const gd = req.body.gd
     const rt = req.body.rt
-    const result = await User.changeTokens({imdb, mal, rym, rt, gd }, req.session.userId)
+    const result = await User.changeTokens({ imdb, mal, rym, rt, gd }, req.session.userId)
     if (result.imdb === imdb) {
       res.sendStatus(200)
-    }
-    else {
+    } else {
       res.sendStatus(500)
     }
-  }
-  else {
+  } else {
     res.sendStatus(403)
   }
-  
 }
 
 module.exports = postChangeTokens
