@@ -40,7 +40,8 @@ export default {
      }
   },
   async created () {
-    const token = 'ur115944803'
+    const token = this.$parent.user.imdb
+    console.log('token: ' + token)
     let req = await fetch(`http://localhost:4200/imdb/${token}`)
     req = await req.json()
     let toAdd = []
