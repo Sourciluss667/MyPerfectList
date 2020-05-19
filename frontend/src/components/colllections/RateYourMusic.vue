@@ -1,5 +1,5 @@
 <template>
-  <div id="imdb-watchlist" style="position: relative; top: -90px;">
+  <div id="rateyourmusic-watchlist" style="position: relative; top: -90px;">
     
     <section class="hero">
       <div class="hero-body has-text-left">
@@ -24,6 +24,11 @@
 <script>
 export default {
   name: "RateYourMusic",
+    data () {
+    return {
+      history: [] // {title: 'Titre', desc: 'Description', genres: [], type: "Type", year: [], poster: {h: 0, w: 0, url: ''}}
+    }
+  },
    methods: {
      mouseover: function (row) {
        row.showdetails = true

@@ -49,16 +49,3 @@ app.use('/rottentomatoes', rottentomatoesRouter)
 app.use('/rateyourmusic', rateyourmusicRouter)
 
 module.exports = app
-
-// Goodreads API
-const goodreads = require('goodreads-api-node')
-const callbackURL = '/goodreads'
-const myCredentials = {
-  key: 'Ok9UBRmL17fcTvCbiLmQQ',
-  secret: '1To17EVvXKaHkOxLPVqShzmwwFPT8wzGRsRZj2WfP4'
-}
-const gr = goodreads(myCredentials)
-console.log(gr)
-gr.initOAuth(callbackURL)
-gr.getBooksByAuthor('175417')
-  .then(console.log)

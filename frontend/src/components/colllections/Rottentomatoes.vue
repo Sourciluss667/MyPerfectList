@@ -1,132 +1,58 @@
 <template>
-  <div id="page"> 
-    <BreadCrumb/>
-    <nav class="level">
-      <!-- Left side -->
-      <div class="level-left">
-        <div class="level-item">
-          <p class="subtitle is-5"><strong>123</strong> Goodread collection</p>
-        </div>
-        <div class="level-item">
-          <div class="field has-addons">
-            <p class="control">
-              <input
-                class="input is-focused"
-                style="width:400px"
-                type="text"
-                placeholder="Find a book"
-              />
-            </p>
-            <p class="control">
-              <button class="button">
-                Search
-              </button>
+  <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
+    
+    <section class="hero">
+      <div class="hero-body has-text-left">
+        <div class="content is-inline-block" v-for="row in history" :key="row.title" v-on:mouseover="mouseover(row)" v-on:mouseleave="mouseleave(row)">
+          <div class="content-overlay"></div>
+          <img :src="row.poster.url" class="content-image">
+          <div v-if="row.showdetails" class="content-details has-text-white">
+            <h3>{{ row.title }}</h3>
+            <p>
+              <b>Genres</b><br><span v-for="(g, index) in row.genres" :key="g">{{ g }}{{ row.genres.length - 1 === index ? '' : ', ' }}</span><br>
+              <b>Années</b><br>{{ row.year[0] }} - {{ row.year[1] }}<br><br>
+              <b>Description</b><br>{{ row.desc.substring(0, 116) }}...<br>
             </p>
           </div>
         </div>
       </div>
-
-      <!-- Right side -->
-      <div class="level-right">
-        <p class="level-item"><strong>All</strong></p>
-        <p class="level-item"><a>Review</a></p>
-        <p class="level-item"><a class="button is-success">Add</a></p>
-      </div>
-    </nav>
-    <section class="hero is-light" style="margin-bottom:20px">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            Primary title
-          </h1>
-          <h2 class="subtitle">
-            Primary subtitle
-          </h2>
-        </div>
-      </div>
     </section>
-    <section class="hero is-light">
-      <div class="hero-body" style="padding: 1rem 1rem;">
-        <div class="container">
-          <div class="columns is-multiline">
-            <div class="column is-6-tablet is-3-desktop" style="width: 15%;">
-              <div class="card" style="height: 100%">
-                <div class="card-image">
-                  <a href="#"
-                    ><img
-                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
-                      alt=""
-                  /></a>
-                </div>
-                <div class="card-content">
-                  <div class="block">
-                    <small class="is-size-7"
-                      >25 Jun 2019 | By Dinesh Chugtai</small
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="column is-6-tablet is-3-desktop">
-              <div class="card" style="height: 100%">
-                <div class="card-image">
-                  <a href="#"
-                    ><img
-                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
-                      alt=""
-                  /></a>
-                </div>
-                <div class="card-content">
-                  <div class="block">
-                    <small class="is-size-7"
-                      >25 Jun 2018 | By Monica Hall</small
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6-tablet is-3-desktop">
-              <div class="card" style="height: 100%">
-                <div class="card-image">
-                  <a href="#"
-                    ><img
-                      src="https://bulma.dev/placeholder/pictures/bg_4-3.svg?primary=00d1b2"
-                      alt=""
-                  /></a>
-                </div>
-                <div class="card-content">
-                  <div class="block">
-                    <small class="is-size-7">25 Jun 2018 | By Jared Dunn</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
 <script>
-import BreadCrumb from '../BreadCrumb';
-import {searchAnime} from '../../services/anime'
 export default {
-  name: "MyAnimeList",
-  props: {
-    breaCrumbObject:{}
+  name: "RottenTomatoe",
+    data () {
+    return {
+      history: [] // {title: 'Titre', desc: 'Description', genres: [], type: "Type", year: [], poster: {h: 0, w: 0, url: ''}}
+    }
   },
-  components: { 
-    BreadCrumb
+   methods: {
+     mouseover: function (row) {
+       row.showdetails = true
+     },
+     mouseleave: function (row) {
+       row.showdetails = false
+     }
   },
-  async created() { 
-   await searchAnime();
-    console.log(this.breaCrumbObject);
-  },
-  methods: {
+  async created () {
+    const token = '576805712'
+    let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
+    req = await req.json()
+    let toAdd = []
+    Object.keys(req).forEach(function(k){
+      // req[k] = Element
+      const e = req[k]
+      let add = {showdetails: false, title: e.or_q_albumartist.a.album, poster: {h: e.or_q_small_album.a.img.height, w: e.or_q_small_album.a.img.width, url: e.or_q_small_album.a.img.url}}
+      toAdd.push(add)
+    })
 
-  },
+    toAdd.forEach(e => {
+      this.history.push(e)
+    });
+  }
 };
 </script>
 

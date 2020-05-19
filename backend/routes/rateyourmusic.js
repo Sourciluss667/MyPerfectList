@@ -1,15 +1,15 @@
 var express = require('express')
 var router = express.Router()
-var superagent = require('superagent')
+var fetch = require('node-fetch')
 
 /* GET home page. */
 router.get('/:token', async (req, res) => {
   const token = req.params.token
-  const agent = superagent.agent()
+  const profileRYMLink = `https://fr.rateyourmusic.com/collection/${token}/recent/`
 
-  let html = await agent.get(`https://fr.rateyourmusic.com/collection/${token}/recent/`)
-  // let html = await agent.get('https://fr.rateyourmusic.com/collection/zackdrake/recent/')
-  html = html.text
+  let html = await fetch(profileRYMLink)
+
+  html = html.text()
 
   const indexStart = html.search('<tbody>')
   const indexEnd = html.indexOf('</tbody>', indexStart)

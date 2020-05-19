@@ -7,11 +7,11 @@ router.get('/:token', async (req, res) => {
   const token = req.params.token
   const agent = superagent.agent()
 
-  let html = await agent.get(`https://fr.rateyourmusic.com/collection/${token}/recent/`)
+  let html = await agent.get(`https://www.rottentomatoes.com/user/id/${token}`)
   html = html.text
 
-  const indexStart = html.search('<tbody>')
-  const indexEnd = html.indexOf('</tbody>', indexStart)
+  const indexStart = html.search('<ul>')
+  const indexEnd = html.indexOf('</ul>', indexStart)
 
   let result = html.substring(indexStart + 7, indexEnd)
 
