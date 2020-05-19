@@ -27,11 +27,11 @@
         </div>
         <div id="linked-accounts" v-if="linkedAcc">
           <form @submit.prevent="linkedAccHandler">
-            <label for="imdb">IMDB Token : </label><input type="text" name="imdb" placeholder="ur115944803" id="imdb" v-model="linkedAccObj.imdb"><br>
-            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="xxxxxxxxx" id="mal" v-model="linkedAccObj.mal"><br>
-            <label for="rym">RYM Token : </label><input type="text" name="rym" placeholder="xxxxxxxxx" id="rym" v-model="linkedAccObj.rym"><br>
-            <label for="gd">GoodReads Token : </label><input type="text" name="gd" placeholder="xxxxxxxxx" id="gd" v-model="linkedAccObj.gd"><br>
-            <label for="rt">RottentTomatoes Token : </label><input type="text" name="rt" placeholder="xxxxxxxxx" id="rt" v-model="linkedAccObj.rt"><br><br>
+            <label for="imdb">IMDB Token : </label><input type="text" name="imdb" placeholder="ex: ur115944803" id="imdb" v-model="linkedAccObj.imdb"><br>
+            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="ex: xxxxxxxxx" id="mal" v-model="linkedAccObj.mal"><br>
+            <label for="rym">RYM Token : </label><input type="text" name="rym" placeholder="ex: xxxxxxxxx" id="rym" v-model="linkedAccObj.rym"><br>
+            <label for="gd">GoodReads Token : </label><input type="text" name="gd" placeholder="ex: xxxxxxxxx" id="gd" v-model="linkedAccObj.gd"><br>
+            <label for="rt">RottentTomatoes Token : </label><input type="text" name="rt" placeholder="ex: xxxxxxxxx" id="rt" v-model="linkedAccObj.rt"><br><br>
             <input type="submit" value="Change !">
           </form>
         </div>
@@ -57,7 +57,8 @@ export default {
       linkedAcc: false,
       pref: false,
       other: false,
-      linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''}
+      linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''},
+      parentUserLoaded: false
     }
   },
   created () {
@@ -65,6 +66,16 @@ export default {
     this.linkedAcc = false
     this.pref = false
     this.other = false
+  },
+  updated () {
+    if (!this.parentUserLoaded) {
+      this.linkedAccObj.imdb = this.$parent.user.imdb
+      this.linkedAccObj.mal = this.$parent.user.myanimelist
+      this.linkedAccObj.rym = this.$parent.user.rateyourmusic
+      this.linkedAccObj.gd = this.$parent.user.goodreads
+      this.linkedAccObj.rt = this.$parent.user.rottentomatoes
+      this.parentUserLoaded = true
+    }
   },
   methods: {
     async linkedAccHandler () {
