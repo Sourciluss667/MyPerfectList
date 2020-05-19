@@ -3,11 +3,32 @@
  */
 import axios from 'axios'
 const SERVER_URL = 'http://localhost:4200'
-const URL = 'https://myanimelist.net/animelist/username/load.json?status=7&offset=0'
+
 
 axios.defaults.withCredentials = true
 
-export async function searchAnime (malUserName) {
-  const result = await axios.get(`${SERVER_URL}/animes/${malUserName}`)
+export async function getCookie(cname) {
+  const name = cname.trim() + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  console.log('caaa=='+decodedCookie)
+  let ca = decodedCookie.split(';');
+  console.log('ca=='+ca) 
+  for(var i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    c = c.trim(); 
+    console.log('fff=='+c.startsWith(name))
+    if (c.startsWith(name)) {
+      return c.substring(name.length, c.length);
+    }
+  }   
+  return "";
+}
+
+export async function searchAnime (malUserName, bdOption) {
+  const result = await axios.get(`${SERVER_URL}/animes/${malUserName}/${bdOption}`)
+  return result.data
+}
+export async function searchAnimeUsingToken (token,bdOption) { 
+  const result = await axios.get(`${SERVER_URL}/animes/tokenusing/${token}/${bdOption}`)
   return result.data
 }
