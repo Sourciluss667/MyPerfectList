@@ -40,7 +40,7 @@ export default {
   },
   async created () {
     
-    const token = '576805712'
+    const token = '978507916'
     let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
     req = await req.json()
     let toAdd = []

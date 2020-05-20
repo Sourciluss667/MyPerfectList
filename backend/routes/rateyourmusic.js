@@ -11,7 +11,7 @@ router.get('/:token', async (req, res) => {
     return response.text()
   })
     .then(function (text) {
-      const indexStart = text.search('<tbody>')
+      const indexStart = text.search('<td class="or_q_small_album">')
       const indexEnd = text.indexOf('</tbody>', indexStart)
 
       const result = text.substring(indexStart + 7, indexEnd)
