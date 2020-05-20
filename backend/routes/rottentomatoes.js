@@ -39,6 +39,7 @@ router.get('/:token', async (req, res) => {
     movieTitle = movieTitle.replace('\n', '')
     movieTitle = movieTitle.replace(',,', ',')
   }
+  
   movieTitle = movieTitle.replace('tings__user-rating-review,   ,', '')
   movieTitle = movieTitle.replace(',', '')
 
@@ -70,10 +71,10 @@ router.get('/:token', async (req, res) => {
   imageUrl = imageUrl.split(',')
   imageUrl = imageUrl.filter(e => e !== '')
 
-  console.log(movieTitle)
-  console.log(imageUrl)
+  const movieData = movieTitle.concat(imageUrl)
+  console.log(movieData)
 
-  res.send(result)
+  res.send(movieData)
 })
 
 module.exports = router
