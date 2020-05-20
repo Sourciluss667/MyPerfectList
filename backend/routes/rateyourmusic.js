@@ -16,6 +16,7 @@ router.get('/:token', async (req, res) => {
 
       const result = text.substring(indexStart + 7, indexEnd)
       console.log(result)
+
       res.send(result)
     })
 })

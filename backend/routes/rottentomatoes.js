@@ -39,7 +39,7 @@ router.get('/:token', async (req, res) => {
     movieTitle = movieTitle.replace('\n', '')
     movieTitle = movieTitle.replace(',,', ',')
   }
-  
+
   movieTitle = movieTitle.replace('tings__user-rating-review,   ,', '')
   movieTitle = movieTitle.replace(',', '')
 
