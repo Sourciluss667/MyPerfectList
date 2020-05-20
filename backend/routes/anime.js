@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-const searchAnime = require('../controllers/get.anime')
+const { searchAnime, searchAnimeUsingToken } = require('../controllers/get.anime')
 
 async function isAuthenticated (req, res, next) {
   if (req.session.userId) {
@@ -11,6 +11,7 @@ async function isAuthenticated (req, res, next) {
 }
 
 /* get anime search */
-router.get('/', isAuthenticated, searchAnime)
+router.get('/:maluser/:bdOption', isAuthenticated, searchAnime)
+router.get('/tokenusing/:token/:bdOption', isAuthenticated, searchAnimeUsingToken)
 
 module.exports = router

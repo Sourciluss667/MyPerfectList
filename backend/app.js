@@ -16,7 +16,7 @@ var rateyourmusicRouter = require('./routes/rateyourmusic')
 var rottentomatoesRouter = require('./routes/rottentomatoes')
 var cors = require('cors')
 var app = express()
-
+// var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 // ces lignes (cors) sont importantes pour les sessions dans la version de développement
 app.use(cors({
   credentials: true,

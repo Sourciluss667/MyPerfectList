@@ -111,6 +111,7 @@ export default {
 
 <style>
 /* HIDE SCROLLBAR ALL NAVIGATORS */
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 body {
   overflow: hidden;
   scrollbar-width: none;
