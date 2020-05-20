@@ -1,6 +1,5 @@
 <template>
   <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
-    <h3>yo yo</h3>
                 <h3>{{ infoToDisplay }}</h3>
 
   </div>
