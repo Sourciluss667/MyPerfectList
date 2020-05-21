@@ -1,6 +1,4 @@
 const PostgresStore = require('../utils/PostgresStore')
-PostgresStore.init()
-
 const config = require('./config')
 const pgtools = require('pgtools')
 
@@ -27,7 +25,12 @@ const q = [
       birthdate DATE,
       creation_date DATE,
       gender gender_enum, 
-      avatar_URL TEXT
+      avatar_URL TEXT,
+      imdb TEXT,
+      rottenTomatoes TEXT,
+      myAnimeList TEXT,
+      rateYourMusic TEXT,
+      goodreads TEXT
     )`
   },
   {
@@ -42,7 +45,7 @@ const q = [
       priority INTEGER, 
       is_watched BOOLEAN, 
       creation_date DATE,
-      user_id INTEGER REFERENCES user(id)
+      user_id INTEGER REFERENCES users(id)
     )`
   },
   {
@@ -80,11 +83,12 @@ const initDB = async () => {
   }
 
   try {
+    await PostgresStore.init()
     for (let i = 0; i < q.length; i++) {
-      await PostgresStore.client.query(q[i])
+      console.log(i, '==', q[i].query)
+      await PostgresStore.client.query(q[i].query)
       console.log(`Table ${q[i].name} created successfully !`)
     }
-
     PostgresStore.close()
   } catch (e) {
     console.log(e)
