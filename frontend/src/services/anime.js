@@ -32,3 +32,7 @@ export async function searchAnimeUsingToken (token,bdOption) {
   const result = await axios.get(`${SERVER_URL}/animes/tokenusing/${token}/${bdOption}`)
   return result.data
 }
+export async function authMALJwt(username, password) {
+const result = await axios.get(`${SERVER_URL}/animes/authToMALJWT/${username}/${password}`)
+  return result.data
+}

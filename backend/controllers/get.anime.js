@@ -1,7 +1,10 @@
 const superagent = require('superagent')
+// const malScraper = require('mal-scraper')
 const jwt = require('jsonwebtoken')
 const jwtKey = 'phanio-0123@PH2020'
 const jwtExpirySeconds = 300000
+const agent = superagent.agent()
+var fetch = require('node-fetch')
 
 // Create a token from a payload
 async function createToken (payload) {
@@ -16,13 +19,11 @@ const animelist = 'animelist'
  * @param {import('express').Response} res
  */
 async function searchAnime (req, res) {
-  const agent = superagent.agent()
   const malUserName = req.params.maluser
   const bdOption = req.params.bdOption
   try {
     if (bdOption === mangalist || bdOption === animelist) {
       const jsonResponse = await agent.get(`https://myanimelist.net/${bdOption}/${malUserName}/load.json?status=7&offset=0`)
-      console.log(jsonResponse.text)
       const token = await createToken({ malUserName })
       await res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 })
       res.status(200).send(jsonResponse.text)
@@ -36,7 +37,6 @@ async function searchAnime (req, res) {
 }
 
 async function searchAnimeUsingToken (req, res) {
-  const agent = superagent.agent()
   const bdOption = req.params.bdOption
   const token = req.cookies.token
   try {
@@ -50,6 +50,41 @@ async function searchAnimeUsingToken (req, res) {
     } else {
       res.status(401).send('No match option')
     }
+  } catch (err) {
+    console.error(err)
+    res.error.send(err)
+  }
+}
+
+/**
+ * authentification MAL using jwt
+ * @param {Http} req
+ * @param {Http} res
+ */
+async function authToMAL (req, res) {
+  const username = req.params.username
+  const password = req.params.password
+  try {
+    // const tk1 = await createToken({username})
+    // const tk2 = await createToken({password})
+    const url = 'https://myanimelist.net/login'
+    var myInit = {
+      method: 'POST',
+      cache: 'default',
+      body: JSON.stringify({ username, password })
+    }
+
+    await fetch(url, myInit).then(function (response) {
+      return response.text()
+    }).then(function (text) {
+      console.log(text)
+      res.send(text)
+    })
+
+    // console.log(html)
+    // let Api = malScraper.officialApi
+    // const apiObj = new Api({ username, password })
+    // apiObj.checkCredentials().then((data) => console.log(data)).catch((err) => console.log(err))
   } catch (err) {
     console.error(err)
     res.error.send(err)
@@ -92,4 +127,8 @@ async function searchAnimeUsingToken (req, res) {
   return res.send(result)
 } */
 
-module.exports = { searchAnime, searchAnimeUsingToken }
+module.exports = {
+  searchAnime,
+  searchAnimeUsingToken,
+  authToMAL
+}
