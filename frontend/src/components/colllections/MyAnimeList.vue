@@ -76,7 +76,7 @@
                       <p>Progress : {{item.num_watched_episodes}}/{{item.anime_num_episodes}}</p>
                     </div>  
                     <div  style="display:inline-block">
-                      <div class="dropdown"  :id="'ph-id'+item.anime_id" style="visibility: hidden">
+                      <div class="dropdown" @click="dropdownEvent(item.anime_id)"  :id="'ph-id'+item.anime_id" style="visibility: hidden">
                         <div class="dropdown-trigger">
                           <button class="button" aria-haspopup="true" :aria-controls="'dropdown-menu'+item.anime_id">
                             <span><i class="fas fa-share-square"></i></span> 
@@ -111,7 +111,7 @@
                       <p>Progress : {{item.num_read_chapters}}/{{item.manga_num_chapters}}</p>
                     </div>
                     <div  style="display:inline-block;vertical-align: bottom;margin-top: 21.5%;">
-                      <div class="dropdown"  :id="'ph-id'+item.manga_id" style="visibility: hidden">
+                      <div class="dropdown"  @click="dropdownEvent(item.manga_id)" :id="'ph-id'+item.manga_id" style="visibility: hidden">
                         <div class="dropdown-trigger">
                           <button class="button" aria-haspopup="true" :aria-controls="'dropdown-menu'+item.manga_id">
                             <span><i class="fas fa-share-square"></i></span> 
@@ -146,7 +146,7 @@
       </div>
     </section>
 
-    <div  class="modal" >
+    <div :class="isActiveModal" class="modal" >
       <div class="modal-background"></div>
       <div class="modal-card" style="width:30%">
         <header class="modal-card-head">
@@ -171,7 +171,7 @@
         </footer>
       </div>
     </div>
-    <div :class="isActiveModal" class="modal" >
+    <div  class="modal" >
       <div class="modal-background"></div>
       <div class="modal-card" style="width:30%">
         <header class="modal-card-head">
@@ -236,8 +236,7 @@ export default {
         this.histories = [...res];
         this.nbreAnime = this.animeList.length; 
         setTimeout(() => {
-          this.isLoading = false;
-          this.addEventDropdownItem();
+          this.isLoading = false; 
         }, 2000);
         this.hiddenIcon='visibility:hidden'; 
       }else{
@@ -260,8 +259,7 @@ export default {
       this.animeList = [...data];
       this.nbreAnime = this.animeList.length;
       setTimeout(() => {
-        this.isLoading = false; 
-        this.addEventDropdownItem();
+        this.isLoading = false;  
         if(this.nbreAnime==0){
           this.msg = "No result found!"
         }
@@ -283,8 +281,7 @@ export default {
         this.nbreAnime = this.animeList.length;
         this.nbreAnime = this.animeList.length; 
         setTimeout(() => {
-          this.isLoading = false;
-          this.addEventDropdownItem();
+          this.isLoading = false; 
           this.hiddenIcon='visibility:hidden'; 
           if(this.nbreAnime==0){
             this.msg = "No result found!";
@@ -308,8 +305,7 @@ export default {
         let dropdown =document.querySelectorAll('.dropdown'); 
         dropdown.forEach(el=>{
           el.removeEventListener('click', function(e){e.stopPropagation();}, true);  
-        });
-        this.addEventDropdownItem();
+        }); 
         if(this.nbreAnime==0){
           this.msg = "No result found!";
         }
@@ -332,8 +328,7 @@ export default {
           this.histories = [...res];
           this.nbreAnime = this.animeList.length;
           setTimeout(() => {
-            this.isLoading = false;
-            this.addEventDropdownItem();
+            this.isLoading = false; 
             if(this.nbreAnime==0){
               this.msg = "No result found!";
             }
@@ -389,14 +384,17 @@ export default {
       });
        
     },
-    addEventDropdownItem(){
-      let dropdown =document.querySelectorAll('.dropdown'); 
+    dropdownEvent(idEl){
+      //alert('cool')
+      let el = document.getElementById('ph-id'+idEl) 
+      el.classList.toggle('is-active');
+      /* let dropdown =document.querySelectorAll('.dropdown'); 
       dropdown.forEach(el=>{
           el.addEventListener('click', function(event) {
           event.stopPropagation(); 
           el.classList.toggle('is-active');
         }); 
-      });
+      }); */
     } 
   },
 };

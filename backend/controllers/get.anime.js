@@ -62,24 +62,26 @@ async function searchAnimeUsingToken (req, res) {
  * @param {Http} res
  */
 async function authToMAL (req, res) {
-  const username = req.params.username
-  const password = req.params.password
+  const { username, password } = req.params
+
   try {
     // const tk1 = await createToken({username})
     // const tk2 = await createToken({password})
-    const url = 'https://myanimelist.net/login'
-    var myInit = {
+    // const url = 'https://myanimelist.net/login'
+  //  var myInit = {
+  //    method: 'POST',
+  //    action : 'https://myanimelist.net/login.php?from=%2F',
+  //    body: JSON.stringify({ username, password })
+  //  }
+    console.log('pas==', username)
+    fetch('https://myanimelist.net/login.php?from=%2F', {
       method: 'POST',
-      cache: 'default',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': 'b1bc8b676c71026c9af9c5d6ef1491f4f1f2a624'
+      },
       body: JSON.stringify({ username, password })
-    }
-
-    await fetch(url, myInit).then(function (response) {
-      return response.text()
-    }).then(function (text) {
-      console.log(text)
-      res.send(text)
-    })
+    }).then(res => console.log(res)).catch(err => console.log(err))
 
     // console.log(html)
     // let Api = malScraper.officialApi
