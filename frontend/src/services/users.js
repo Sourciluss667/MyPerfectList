@@ -55,4 +55,8 @@ function changeTokens (tokensObj) {
   return axios.post(`${SERVER_URL}/users/changeTokens`, obj)
 }
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens }
+function changeAvatarUrl (url) {
+  return axios.post(`${SERVER_URL}/users/changeAvatar`, {url: url})
+}
+
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl }

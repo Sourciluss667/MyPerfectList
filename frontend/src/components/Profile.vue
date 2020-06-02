@@ -13,8 +13,8 @@
         </div>
         <br />
         <figure class="image is-128x128 has-image-centered">
-          <img class="is-rounded" src="../assets/default.png" />
-          <div class="icon icon-on-image is-size-1" v-if="editMode">
+          <img class="is-rounded" :src="userData.avatar_url" />
+          <div class="icon icon-on-image is-size-1" v-if="editMode" @click="editAvatar">
             <i class="fas fa-pen"></i>
           </div>
         </figure>
@@ -81,13 +81,15 @@
         <a>Report this profile</a>
         <br />
       </div>
-    <div class="column" style="background: green;">Content
+    <div class="column content">
+      <!--
       <a @click="goodreadsProfile">GoodReads of {{username}}</a>
       <a @click="iMDBProfile">iMDB of {{username}}</a>
       <a @click="myAnimeListProfile">MyAnimeList of {{username}}</a>
       <a @click="rateYourMusicProfile">RateYourMusic of {{username}}</a>
       <a @click="rottenTomatoesProfile">RottenTomatoes of {{username}}</a>
       <a @click="goodreadsProfile">other list of {{username}}</a>
+      -->
     </div>
     </div>
   </div>
@@ -95,6 +97,7 @@
 
 <script>
 import { getUserByUsername } from "../services/users";
+import { changeAvatarUrl } from "../services/users";
 import BreadCrumb from "./BreadCrumb";
 export default {
   name: "Profile",
@@ -103,7 +106,7 @@ export default {
       editMode: false,
       // Contient id, name, username, email, birthdate, gender
       userData: {},
-      username: String
+      username: ''
     };
   },
   components: {
@@ -113,18 +116,26 @@ export default {
     await this.init();
   },
   methods: {
-    edit() {
+    edit () {
       this.editMode = !this.editMode;
     },
-    goodreadsProfile() {
+    editAvatar () {
+      const url = prompt('Avatar URL :', '')
+      if (url !== '') {
+        this.userData.avatar_url = url
+        // Save url
+        changeAvatarUrl(url)
+      }
+    },
+    goodreadsProfile () {
       this.$router.push(`/goodreadsprofile/${this.username}`)
     },
-    async init() {
-      const username = this.$route.params.username;
+    async init () {
+      this.username = this.$route.params.username;
       // GET USER BY USERNAME
-      this.userData = await getUserByUsername(username);
+      this.userData = await getUserByUsername(this.username);
 
-      if (this.userData.username != username) {
+      if (this.userData.username != this.username) {
         console.log("error find profile");
         this.$router.push("/404");
       } else {
@@ -136,6 +147,10 @@ export default {
         this.userData.birthdate = new Date(
           this.userData.birthdate
         ).toLocaleDateString();
+        // Verify avatar url
+        if (this.userData.avatar_url === null) {
+        this.userData.avatar_url = 'https://i.ibb.co/QffVtzF/default-avatar-300x300.png'
+        }
       }
     },
   },
@@ -154,5 +169,12 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.content {
+  border: rgb(168, 168, 168) 1px solid;
+}
+
+.fa-pen {
+  cursor: pointer;
 }
 </style>
