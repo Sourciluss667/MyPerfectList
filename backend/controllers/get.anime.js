@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const jwtKey = 'phanio-0123@PH2020'
 const jwtExpirySeconds = 300000
 const agent = superagent.agent()
-var fetch = require('node-fetch')
+// var fetch = require('node-fetch')
 
 // Create a token from a payload
 async function createToken (payload) {
@@ -63,34 +63,56 @@ async function searchAnimeUsingToken (req, res) {
  */
 async function authToMAL (req, res) {
   const { username, password } = req.params
-
-  try {
-    // const tk1 = await createToken({username})
-    // const tk2 = await createToken({password})
-    // const url = 'https://myanimelist.net/login'
+  console.log('user==', username, password)
+  // try {
+  // const tk1 = await createToken({username})
+  // const tk2 = await createToken({password})
+  // const url = 'https://myanimelist.net/login'
   //  var myInit = {
   //    method: 'POST',
   //    action : 'https://myanimelist.net/login.php?from=%2F',
   //    body: JSON.stringify({ username, password })
   //  }
-    console.log('pas==', username)
-    fetch('https://myanimelist.net/login.php?from=%2F', {
+  /*  console.log('pas==', username)
+    agent.post('https://myanimelist.net/login.php', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': 'b1bc8b676c71026c9af9c5d6ef1491f4f1f2a624'
+
       },
       body: JSON.stringify({ username, password })
-    }).then(res => console.log(res)).catch(err => console.log(err))
+    }).then(res => console.log(res)).catch(err => console.log(err)) */
 
-    // console.log(html)
-    // let Api = malScraper.officialApi
-    // const apiObj = new Api({ username, password })
-    // apiObj.checkCredentials().then((data) => console.log(data)).catch((err) => console.log(err))
-  } catch (err) {
-    console.error(err)
-    res.error.send(err)
-  }
+  let html = await agent.get('https://myanimelist.net/login.php?from=%2F')
+
+  console.log(html.text)
+  html = html.text
+  let indexStart = html.search('<meta name=\'csrf_token\'')
+  let indexEnd = html.indexOf('\'>', indexStart)
+  let result = html.substring(indexStart, indexEnd + 2)
+  console.log(result)
+  indexStart = result.search('content=\'')
+  indexEnd = result.indexOf('\'>', indexStart)
+  result = result.substring(indexStart + 9, indexEnd)
+  console.log(result)
+
+  agent.post('https://myanimelist.net/login.php?from=%2F')
+    .send({ user_name: username, password })
+    .set('csrf_token', result)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+
+  // console.log(response)
+  // .then(res => console.log(res))
+  // .catch(err => console.log(err))
+
+  // console.log(html)
+  // let Api = malScraper.officialApi
+  // const apiObj = new Api({ username, password })
+  // apiObj.checkCredentials().then((data) => console.log(data)).catch((err) => console.log(err))
+  // } catch (err) {
+  //  console.error(err)
+  //  res.error.send(err)
+  // }
 }
 
 /* async function searchAnimeOLD (req, res) {
