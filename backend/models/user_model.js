@@ -183,6 +183,44 @@ class User {
     delete userResult.password
     return userResult
   }
+
+  /**
+   * @param {String} username
+   * @param {Number} id
+   * @return {Promise<User>}
+   */
+  static async changeUsername (username, id) {
+    const result = await PostgresStore.pool.query({
+      text: `UPDATE ${User.tableName} SET username=$1 WHERE id=$2 RETURNING *`,
+      values: [
+        username,
+        id
+      ]
+    })
+
+    const userResult = result.rows[0]
+    delete userResult.password
+    return userResult
+  }
+
+  /**
+   * @param {String} name
+   * @param {Number} id
+   * @return {Promise<User>}
+   */
+  static async changeName (name, id) {
+    const result = await PostgresStore.pool.query({
+      text: `UPDATE ${User.tableName} SET name=$1 WHERE id=$2 RETURNING *`,
+      values: [
+        name,
+        id
+      ]
+    })
+
+    const userResult = result.rows[0]
+    delete userResult.password
+    return userResult
+  }
 }
 
 /** @type {String} */
