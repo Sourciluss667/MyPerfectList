@@ -45,7 +45,7 @@
 
       <!-- Right side -->
       <div class="level-right">
-        <p class="level-item"><a class="button is-success" @click="addNew()">Add New</a></p> 
+        <p class="level-item"><a class="button is-success" @click="addNewAnime()">Add New</a></p> 
         <p class="level-item">
           <a class="button" @click="modalPop()" ><i class="fas fa-user-tag"></i></a>
           <span :style="hiddenIcon" title="Click to add your anime username!" style="position: absolute;margin-left: 2%;margin-top: -1.1%;"><i style="color:red" class="fa fa-question-circle"></i></span>
@@ -146,7 +146,7 @@
       </div>
     </section>
 
-    <div :class="isActiveModal" class="modal" >
+    <div  class="modal" :class="isActiveModalAdd"  >
       <div class="modal-background"></div>
       <div class="modal-card" style="width:30%">
         <header class="modal-card-head">
@@ -171,7 +171,7 @@
         </footer>
       </div>
     </div>
-    <div  class="modal" >
+    <div  class="modal" :class="isActiveModal" >
       <div class="modal-background"></div>
       <div class="modal-card" style="width:30%">
         <header class="modal-card-head">
@@ -218,6 +218,7 @@ export default {
       colorInput:"",
       isLoading:false,
       hiddenIcon:'', 
+      isActiveModalAdd:""
     };
   },
   components: { 
@@ -348,11 +349,15 @@ export default {
     },
     closeModal(){
       this.isActiveModal="";
+      this.isActiveModalAdd="";
     },
     addNew(){
       this.isActiveModal = "is-active";
 
       //window.open('https://myanimelist.net/login.php?from=%2Fanime%2F5114%2FFullmetal_Alchemist__Brotherhood','','top=0,left=0,width='+(screen.width/2)+',height='+(screen.height/2)+', toolbar=no, menubar=no, scrollbars=yes, resize=no, location=no, directories=no, status=no');
+    },
+    addNewAnime(){
+      this.isActiveModalAdd = "is-active";
     },
     authMAL(){
       if(this.usernameMAL && this.passwordMAL){
