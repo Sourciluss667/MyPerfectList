@@ -1,6 +1,12 @@
 <template>
   <div id="imdb-watchlist" style="position: relative; top: -90px;">
     
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"  
+      :is-full-page="true"
+    ></loading>
+
     <section class="hero">
       <div class="hero-body has-text-left">
         <div class="content is-inline-block" v-for="row in history" :key="row.title" v-on:mouseover="mouseover(row)" v-on:mouseleave="mouseleave(row)">
@@ -23,11 +29,17 @@
 
 
 <script>
+// Import component
+import Loading from "vue-loading-overlay";
+// Import stylesheet
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   name: "IMDb",
+  components: { Loading },
   data () {
     return {
+      isLoading: false,
       history: [] // {title: 'Titre', desc: 'Description', genres: [], type: "Type", year: [], poster: {h: 0, w: 0, url: ''}}
     }
   },
@@ -40,7 +52,11 @@ export default {
      }
   },
   async created () {
-    const token = this.$parent.user.imdb
+    let token = undefined
+    this.isLoading = true
+    do {
+      token = this.$parent.user.imdb
+    } while (token === undefined || token === null)
     console.log('token: ' + token)
     let req = await fetch(`http://localhost:4200/imdb/${token}`)
     req = await req.json()
@@ -55,6 +71,8 @@ export default {
     toAdd.forEach(e => {
       this.history.push(e)
     });
+
+    this.isLoading = false
   }
 };
 

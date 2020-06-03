@@ -1,15 +1,20 @@
 <template>
-  <div id="rateyourmusic-watchlist" style="position: relative; top: -90px;">
-    
+  <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
+<<<<<<< HEAD
+                    
     <h3>{{ infoToDisplay[numberArray/2 -1] }}</h3>
+    
                 <span v-html="bookTable2"></span>
+=======
+                <h3>{{ infoToDisplay }}</h3>
+>>>>>>> master
 
   </div>
 </template>
 
 <script>
 export default {
-  name: "RateYourMusic",
+  name: "RottenTomatoes",
     data () {
     return {
       infoToDisplay: ''
@@ -24,10 +29,11 @@ export default {
      }
   },
   async created () {
-    const token = 'zackdrake'
-    let req = await fetch(`http://localhost:4200/rateyourmusic/${token}`)
+    
+    const token = '978507916'
+    let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
     req = await req.text()
-     this.infoToDisplay = req.split(',')
+    this.infoToDisplay = req.split(',')
     this.infoToDisplay.push(req)
     this.numberArray = this.infoToDisplay.length
     for (let index = 0; index < this.numberArray/2 - 1; index++) {

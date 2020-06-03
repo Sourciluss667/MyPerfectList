@@ -1,6 +1,9 @@
 <template>
   <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
-                <h3>{{ infoToDisplay }}</h3>
+                    
+    <h3>{{ infoToDisplay[numberArray/2 -1] }}</h3>
+    
+                <span v-html="bookTable2"></span>
 
   </div>
 </template>
@@ -26,14 +29,17 @@ export default {
     const token = '978507916'
     let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
     req = await req.text()
-    this.infoToDisplay = req
-    this.infoToDisplay = this.infoToDisplay.replace('[', '')
-    this.infoToDisplay = this.infoToDisplay.replace(']', '')
-    for (let index = 0; index < 100; index++) {
-      this.infoToDisplay = this.infoToDisplay.replace('"', '')
-      this.infoToDisplay = this.infoToDisplay.replace(',', '\n')
-    }   
-    this.infoToDisplay.split(',')
+    this.infoToDisplay = req.split(',')
+    this.infoToDisplay.push(req)
+    this.numberArray = this.infoToDisplay.length
+    for (let index = 0; index < this.numberArray/2 - 1; index++) {
+      
+      this.bookTable2 = this.bookTable2 + '<tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p>'
+      
+    }
+    
+    this.bookTable2.push(req)
+    this.numberArray.push(req)
     this.infoToDisplay.push(req)
   }
 };

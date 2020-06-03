@@ -164,6 +164,25 @@ class User {
     delete userResult.password
     return userResult
   }
+
+  /**
+   * @param {String} url
+   * @param {Number} id
+   * @return {Promise<User>}
+   */
+  static async changeAvatar (url, id) {
+    const result = await PostgresStore.pool.query({
+      text: `UPDATE ${User.tableName} SET avatar_url=$1 WHERE id=$2 RETURNING *`,
+      values: [
+        url,
+        id
+      ]
+    })
+
+    const userResult = result.rows[0]
+    delete userResult.password
+    return userResult
+  }
 }
 
 /** @type {String} */
