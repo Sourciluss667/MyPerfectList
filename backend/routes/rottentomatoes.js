@@ -43,9 +43,6 @@ router.get('/:token', async (req, res) => {
   movieTitle = movieTitle.replace('tings__user-rating-review,   ,', '')
   movieTitle = movieTitle.replace(',', '')
 
-  movieTitle = movieTitle.split(',')
-  movieTitle = movieTitle.filter(e => e !== '')
-
   // retrieving the image URL
   let imageUrl = ''
   htmlData = htmlDataConst
@@ -62,14 +59,19 @@ router.get('/:token', async (req, res) => {
     imageUrl = imageUrl.replace(result, '')
     imageUrl = imageUrl + result + ','
   }
+  imageUrl = imageUrl + '****XY'
   for (let index = 0; index < movieTitle; index++) {
     imageUrl = imageUrl.replace(',">', '')
     imageUrl = imageUrl.replace('\n', '')
     imageUrl = imageUrl.replace(',,', ',')
   }
 
-  imageUrl = imageUrl.split(',')
-  imageUrl = imageUrl.filter(e => e !== '')
+  indexStart = imageUrl.search('ratings__user-rating-review">')
+  indexEnd = imageUrl.indexOf('****XY', indexStart)
+  result = imageUrl.substring(indexStart, indexEnd)
+
+  imageUrl = imageUrl.replace(result, '')
+  imageUrl = imageUrl.replace('****XY', '')
 
   const movieData = movieTitle.concat(imageUrl)
   console.log(movieData)
