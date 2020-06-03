@@ -59,4 +59,12 @@ function changeAvatarUrl (url) {
   return axios.post(`${SERVER_URL}/users/changeAvatar`, {url: url})
 }
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl }
+function changeUsername (username) {
+  return axios.post(`${SERVER_URL}/users/changeUsername`, { username })
+}
+
+function changeName (name) {
+  return axios.post(`${SERVER_URL}/users/changeName`, { name })
+}
+
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl, changeName, changeUsername }

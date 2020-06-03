@@ -20,12 +20,12 @@
         </figure>
         <br />
         <span class="title is-4">{{ userData.username }}</span>
-        <div class="icon" style="margin-right: 5px;" v-if="editMode">
+        <div class="icon" style="margin-right: 5px;" v-if="editMode" @click="editUsername">
           <i class="fas fa-pen"></i>
         </div>
         <br />
         <span class="subtitle is-5">{{ userData.name }}</span>
-        <div class="icon" style="margin-right: 5px;" v-if="editMode">
+        <div class="icon" style="margin-right: 5px;" v-if="editMode" @click="editName">
           <i class="fas fa-pen"></i>
         </div>
         <br />
@@ -62,7 +62,7 @@
           inventore quae placeat dolorum a voluptates nemo quaerat laboriosam
           amet earum repellendus sit pariatur dolor voluptate libero, dicta nam
           ipsum eaque.
-          <span class="icon" style="margin-right: 5px;" v-if="editMode">
+          <span class="icon" style="margin-right: 5px;" v-if="editMode" @click="editBio">
             <i class="fas fa-pen"></i>
           </span>
         </p>
@@ -117,7 +117,7 @@
 
 <script>
 import { getUserByUsername } from "../services/users";
-import { changeAvatarUrl } from "../services/users";
+import { changeAvatarUrl, changeName, changeUsername } from "../services/users";
 import BreadCrumb from "./BreadCrumb";
 export default {
   name: "Profile",
@@ -146,6 +146,23 @@ export default {
         // Save url
         changeAvatarUrl(url)
       }
+    },
+    editUsername () {
+      const usernamePrompt = prompt('Username :', this.username)
+      if (usernamePrompt !== '') {
+        this.userData.username = usernamePrompt
+        changeUsername(usernamePrompt)
+      }
+    },
+    editName () {
+      const name = prompt('Name :', this.userData.name)
+      if (name !== '') {
+        this.userData.name = name
+        changeName(name)
+      }
+    },
+    editBio () {
+      console.log('Not implemented')
     },
     listLinks (listName) {
       if (this.userData.id === this.$parent.user.id) { // My profile
