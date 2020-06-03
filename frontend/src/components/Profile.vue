@@ -82,14 +82,34 @@
         <br />
       </div>
     <div class="column content">
-      <!--
-      <a @click="goodreadsProfile">GoodReads of {{username}}</a>
-      <a @click="iMDBProfile">iMDB of {{username}}</a>
-      <a @click="myAnimeListProfile">MyAnimeList of {{username}}</a>
-      <a @click="rateYourMusicProfile">RateYourMusic of {{username}}</a>
-      <a @click="rottenTomatoesProfile">RottenTomatoes of {{username}}</a>
-      <a @click="goodreadsProfile">other list of {{username}}</a>
-      -->
+      <!-- My Profile -->
+        <div class="columns">
+          <div class="column">
+            <figure class="image is-128x128 has-image-centered">
+              <img class="is-rounded" src="../assets/MAL_400x400.jpg" style="cursor: pointer;" @click="listLinks('mal')" />
+            </figure>
+          </div>
+          <div class="column">
+            <figure class="image is-128x128 has-image-centered">
+              <img class="is-rounded" src="../assets/imdb.png" style="cursor: pointer;" @click="listLinks('imdb')" />
+            </figure>
+          </div>
+        <div class="column">
+            <figure class="image is-128x128 has-image-centered">
+              <img class="is-rounded" src="../assets/rt.png" style="cursor: pointer;" @click="listLinks('rt')" />
+            </figure>
+          </div>
+        <div class="column">
+            <figure class="image is-128x128 has-image-centered">
+              <img class="is-rounded" src="../assets/gd.jpg" style="cursor: pointer;" @click="listLinks('gd')" />
+            </figure>
+          </div>
+        <div class="column">
+            <figure class="image is-128x128 has-image-centered">
+              <img class="is-rounded" src="../assets/rym-512.png" style="cursor: pointer;" @click="listLinks('rym')" />
+            </figure>
+          </div>
+        </div>
     </div>
     </div>
   </div>
@@ -127,8 +147,26 @@ export default {
         changeAvatarUrl(url)
       }
     },
-    goodreadsProfile () {
-      this.$router.push(`/goodreadsprofile/${this.username}`)
+    listLinks (listName) {
+      if (this.userData.id === this.$parent.user.id) { // My profile
+        switch (listName) {
+          case 'mal':
+            this.$router.push('/collections/MyAnimeList')
+            break;
+            case 'imdb':
+            this.$router.push('/collections/IMDb')
+            break;
+            case 'rt':
+            this.$router.push('/collections/Rottentomatoes')
+            break;
+            case 'gd':
+            this.$router.push('/collections/GoodReads')
+            break;
+            case 'rym':
+            this.$router.push('/collections/RateYourMusic')
+            break;
+        }
+      }
     },
     async init () {
       this.username = this.$route.params.username;
