@@ -96,8 +96,16 @@ async function authToMAL (req, res) {
   console.log(result)
 
   agent.post('https://myanimelist.net/login.php?from=%2F')
-    .send({ user_name: username, password })
-    .set('csrf_token', result)
+    .send(
+      {
+        user_name: username,
+        password,
+        csrf_token: result,
+        cookie: 1,
+        submit: 1,
+        sublogin: 'Login'
+      }
+    )
     .then(res => console.log(res))
     .catch(err => console.log(err))
 

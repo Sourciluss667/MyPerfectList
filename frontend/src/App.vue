@@ -94,7 +94,7 @@ export default {
     connected(user) {
       this.user = { ...user };
       this.isConnected = true;
-      if (this.$router.currentRoute.path != "/") this.$router.push("/");
+      if (this.$router.currentRoute.path != "/") this.$router.push("/welcome");
     },
     logoutOption() {
       logout();
