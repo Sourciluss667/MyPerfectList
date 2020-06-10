@@ -33,6 +33,7 @@ export async function searchAnimeUsingToken (token,bdOption) {
   return result.data
 }
 export async function authMALJwt(username, password) {
-const result = await axios.get(`${SERVER_URL}/animes/authToMALJWT/${username}/${password}`)
+  const result = await axios.get(`${SERVER_URL}/animes/authToMALJWT/${username}/${password}`)
+  localStorage.setItem('token','') 
   return result.data
 }

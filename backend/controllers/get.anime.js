@@ -8,7 +8,10 @@ const agent = superagent.agent()
 
 // Create a token from a payload
 async function createToken (payload) {
-  const token = await jwt.sign(payload, jwtKey, { algorithm: 'HS256', expiresIn: jwtExpirySeconds })
+  const token = await jwt.sign(payload, jwtKey, {
+    algorithm: 'HS256',
+    expiresIn: jwtExpirySeconds
+  })
   return token
 }
 
@@ -25,7 +28,9 @@ async function searchAnime (req, res) {
     if (bdOption === mangalist || bdOption === animelist) {
       const jsonResponse = await agent.get(`https://myanimelist.net/${bdOption}/${malUserName}/load.json?status=7&offset=0`)
       const token = await createToken({ malUserName })
-      await res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000 })
+      await res.cookie('token', token, {
+        maxAge: jwtExpirySeconds * 1000
+      })
       res.status(200).send(jsonResponse.text)
     } else {
       res.status(401).send('No match option')
@@ -45,7 +50,9 @@ async function searchAnimeUsingToken (req, res) {
     }
     const payload = await jwt.verify(token, jwtKey)
     if (bdOption === mangalist || bdOption === animelist) {
-      const jsonResponse = await agent.get(`https://myanimelist.net/${bdOption}/${payload.malUserName}/load.json?status=7&offset=0`)
+      const jsonResponse = await agent.get(`https://myanimelist.net/${bdOption}/${
+                payload.malUserName
+            }/load.json?status=7&offset=0`)
       res.send(jsonResponse.text)
     } else {
       res.status(401).send('No match option')
@@ -68,11 +75,11 @@ async function authToMAL (req, res) {
   // const tk1 = await createToken({username})
   // const tk2 = await createToken({password})
   // const url = 'https://myanimelist.net/login'
-  //  var myInit = {
+  // var myInit = {
   //    method: 'POST',
   //    action : 'https://myanimelist.net/login.php?from=%2F',
   //    body: JSON.stringify({ username, password })
-  //  }
+  // }
   /*  console.log('pas==', username)
     agent.post('https://myanimelist.net/login.php', {
       method: 'POST',
@@ -84,30 +91,28 @@ async function authToMAL (req, res) {
 
   let html = await agent.get('https://myanimelist.net/login.php?from=%2F')
 
-  console.log(html.text)
+  // console.log(html.text)
   html = html.text
   let indexStart = html.search('<meta name=\'csrf_token\'')
   let indexEnd = html.indexOf('\'>', indexStart)
   let result = html.substring(indexStart, indexEnd + 2)
-  console.log(result)
+  // console.log(result)
   indexStart = result.search('content=\'')
   indexEnd = result.indexOf('\'>', indexStart)
   result = result.substring(indexStart + 9, indexEnd)
-  console.log(result)
+  // console.log(result)
 
-  agent.post('https://myanimelist.net/login.php?from=%2F')
-    .send(
-      {
-        user_name: username,
-        password,
-        csrf_token: result,
-        cookie: 1,
-        submit: 1,
-        sublogin: 'Login'
-      }
-    )
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+  agent.post('https://myanimelist.net/login.php?from=%2F').send({
+    user_name: username,
+    password,
+    csrf_token: result,
+    cookie: 1,
+    submit: 1,
+    sublogin: 'Login'
+  }).then(res => {
+    res.send()
+  }
+  ).catch(err => console.log(err))
 
   // console.log(response)
   // .then(res => console.log(res))
@@ -118,49 +123,26 @@ async function authToMAL (req, res) {
   // const apiObj = new Api({ username, password })
   // apiObj.checkCredentials().then((data) => console.log(data)).catch((err) => console.log(err))
   // } catch (err) {
-  //  console.error(err)
-  //  res.error.send(err)
+  // console.error(err)
+  // res.error.send(err)
   // }
 }
 
-/* async function searchAnimeOLD (req, res) {
-  const search = malScraper.search
-  const type = 'anime'
-  // Helpers for types, genres and list you might need for your research
-  console.log(search.helpers)
+async function getAnimeSuggestion (req, res) {
+  const html = await agent.get('https://myanimelist.net/addtolist.php?hidenav=1')
+    .send({
+      cookie: { MALHLOGSESSID: 'd4ee9ef3d876bf38162d1b3e630f779f' }
+    })
 
-  const result = await search.search(type, {
-    // All optionnals, but all values must be in their relative search.helpers.availableValues.
-    maxResults: 100, // how many results at most (default: 50)
-    has: 250, // If you already have results and just want what follows it, you can say it here. Allows pagination!
+  console.log(html.text)
 
-    term: 'Sakura', // search term
-    type: 0, // 0-> none, else go check search.helpers.availableValues.type
-    status: 0, // 0 -> none, else go check https://github.com/Kylart/MalScraper/blob/master/README.md#series-statuses-references or search.helpers.availableValues.status
-    score: 0, // 0-> none, else go check search.helpers.availableValues.score
-    producer: 0, // go check search.helpers.availableValue.p.<type>.value
-    rating: 0, // 0-> none, else go check search.helpers.availableValues.r
-    startDate: {
-      day: 12,
-      month: 2,
-      year: 1990
-    },
-    endDate: {
-      day: 12,
-      month: 2,
-      year: 2015
-    },
-    genreType: 0, // 0 for include genre list, 1 for exclude genre list
-    genres: [1] // go check search.helpers.availableValues.genres.<type>.value
-  })
-    .then(data => { return data })
-    .catch(console.error)
-
-  return res.send(result)
-} */
+  // return res.send(result)
+}
 
 module.exports = {
   searchAnime,
   searchAnimeUsingToken,
-  authToMAL
+  authToMAL,
+  getAnimeSuggestion
+
 }

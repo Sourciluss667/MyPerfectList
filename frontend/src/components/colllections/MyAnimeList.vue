@@ -5,8 +5,8 @@
     <nav class="level">
       <!-- Left side -->
       <div class="level-left">
-        <div class="level-item">
-          <p class="subtitle is-5"><strong>{{nbreAnime}}</strong></p>
+        <div class="level-item"> 
+          <span class="tag is-link">{{nbreAnime}}</span>
         </div> 
          
         <div class="control has-icons-left">
@@ -146,7 +146,7 @@
       </div>
     </section>
 
-    <div  class="modal" :class="isActiveModalAdd"  >
+    <div  class="modal" :class="isActiveModalAuth"  >
       <div class="modal-background"></div>
       <div class="modal-card" style="width:30%">
         <header class="modal-card-head">
@@ -191,6 +191,7 @@
         </footer>
       </div>
     </div> 
+    <AddNewAnime :visibility="isActiveModalAdd" v-on:closeModalAdd="closeModal"/>
   </div>
 </template> 
 <script>
@@ -198,6 +199,7 @@
 import BreadCrumb from '../BreadCrumb';
 import {searchAnime,searchAnimeUsingToken,getCookie,authMALJwt} from '../../services/anime';
 // Import component
+import AddNewAnime from './AddNewAnime';
 import Loading from "vue-loading-overlay";
 // Import stylesheet
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -218,12 +220,14 @@ export default {
       colorInput:"",
       isLoading:false,
       hiddenIcon:'', 
-      isActiveModalAdd:""
+      isActiveModalAuth:"",
+      isActiveModalAdd: ""
     };
   },
   components: { 
     BreadCrumb,
-    Loading
+    Loading,
+    AddNewAnime
   },
   async created() {  
     console.log(localStorage.getItem('name'))
@@ -349,10 +353,11 @@ export default {
     },
     closeModal(){
       this.isActiveModal="";
-      this.isActiveModalAdd="";
+      this.isActiveModalAuth="";
+      this.isActiveModalAdd = ""
     },
     addNew(){
-      this.isActiveModal = "is-active";
+      this.isActiveModalAdd = "is-active";
 
       //window.open('https://myanimelist.net/login.php?from=%2Fanime%2F5114%2FFullmetal_Alchemist__Brotherhood','','top=0,left=0,width='+(screen.width/2)+',height='+(screen.height/2)+', toolbar=no, menubar=no, scrollbars=yes, resize=no, location=no, directories=no, status=no');
     },
