@@ -152,6 +152,7 @@ export default {
       if (usernamePrompt !== '') {
         this.userData.username = usernamePrompt
         changeUsername(usernamePrompt)
+        this.$root.$emit('changeUsername', usernamePrompt)
       }
     },
     editName () {
