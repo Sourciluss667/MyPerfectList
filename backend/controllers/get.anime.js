@@ -102,7 +102,7 @@ async function authToMAL (req, res) {
   result = result.substring(indexStart + 9, indexEnd)
   // console.log(result)
 
-  agent.post('https://myanimelist.net/login.php?from=%2F').send({
+  const authInfo = await agent.post('https://myanimelist.net/login.php?from=%2F').send({
     user_name: username,
     password,
     csrf_token: result,
@@ -110,10 +110,15 @@ async function authToMAL (req, res) {
     submit: 1,
     sublogin: 'Login'
   }).then(res => {
-    res.send()
+    console.log(res.text)
+    return res.text
   }
-  ).catch(err => console.log(err))
+  ).catch(err => {
+    console.log(err)
+    return err
+  })
 
+  return res.send(authInfo)
   // console.log(response)
   // .then(res => console.log(res))
   // .catch(err => console.log(err))
@@ -129,7 +134,7 @@ async function authToMAL (req, res) {
 }
 
 async function getAnimeSuggestion (req, res) {
-  const html = await agent.get('https://myanimelist.net/addtolist.php?hidenav=1')
+  const html = await agent.get('https://myanimelist.net/addtolist.php?hidenav=1') 
     .send({
       cookie: { MALHLOGSESSID: 'd4ee9ef3d876bf38162d1b3e630f779f' }
     })
