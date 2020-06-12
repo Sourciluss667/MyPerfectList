@@ -45,7 +45,7 @@
 
       <!-- Right side -->
       <div class="level-right">
-        <p class="level-item"><a class="button is-success" @click="addNewAnime()">Add New</a></p> 
+        <p class="level-item"><a class="button is-success" @click="addAnime()">Add New</a></p> 
         <p class="level-item">
           <a class="button" @click="modalPop()" ><i class="fas fa-user-tag"></i></a>
           <span :style="hiddenIcon" title="Click to add your anime username!" style="position: absolute;margin-left: 2%;margin-top: -1.1%;"><i style="color:red" class="fa fa-question-circle"></i></span>
@@ -197,7 +197,7 @@
 <script>
 
 import BreadCrumb from '../BreadCrumb';
-import {searchAnime,searchAnimeUsingToken,getCookie,authMALJwt} from '../../services/anime';
+import {searchAnime,searchAnimeUsingToken,authMALJwt, getSuggestionAnime} from '../../services/anime';
 // Import component
 import AddNewAnime from './AddNewAnime';
 import Loading from "vue-loading-overlay";
@@ -229,31 +229,26 @@ export default {
     Loading,
     AddNewAnime
   },
-  async created() {  
-    console.log(localStorage.getItem('name'))
-      const token = await getCookie('token');
-      console.log('ddd ='+token)
-      this.bdOptionValue='animelist';
-      if(token){
-        this.isLoading=true;
-        const res = await  searchAnimeUsingToken(token, this.bdOptionValue);
-        this.animeList = [...res];
-        this.histories = [...res];
-        this.nbreAnime = this.animeList.length; 
-        setTimeout(() => {
-          this.isLoading = false; 
-        }, 2000);
-        this.hiddenIcon='visibility:hidden'; 
-      }else{
-        this.isActiveModal='is-active';
-        this.msg ="Please! selected an option, anime or mangas to display the list.";
-      }
-
-   
+  async created() {   
+    const token = await localStorage.getItem('MAL_USER_TOKEN')
+    this.bdOptionValue='animelist';
+    if(token){
+      this.isLoading=true;
+      const res = await  searchAnimeUsingToken(token, this.bdOptionValue);
+      this.animeList = [...res];
+      this.histories = [...res];
+      this.nbreAnime = this.animeList.length; 
+      setTimeout(() => {
+        this.isLoading = false; 
+      }, 2000);
+      this.hiddenIcon='visibility:hidden'; 
+    }else{
+      this.isActiveModal='is-active';
+      this.msg ="Please! selected an option, anime or mangas to display the list.";
+    }
   },
   methods: {
     getPath(video_url){
-      console.log(video_url);
       return 'https://myanimelist.net'+video_url;
     },
     searchBd(){
@@ -269,9 +264,6 @@ export default {
           this.msg = "No result found!"
         }
       }, 2000);
-
-      
-      
     },
    async goSearch(){
       this.bdOptionValue='animelist';
@@ -291,8 +283,7 @@ export default {
           if(this.nbreAnime==0){
             this.msg = "No result found!";
           }
-        }, 2000);
-        
+        }, 2000); 
       }else{
         this.colorInput='border-color:red';
       }
@@ -306,7 +297,6 @@ export default {
       this.nbreAnime = this.animeList.length;
       setTimeout(() => {
         this.isLoading = false;
-        
         let dropdown =document.querySelectorAll('.dropdown'); 
         dropdown.forEach(el=>{
           el.removeEventListener('click', function(e){e.stopPropagation();}, true);  
@@ -322,7 +312,7 @@ export default {
       this.animeList = [];
       this.histories = [];
       this.searchValue="";
-      const token = await getCookie('token');
+      const token = await localStorage.getItem('MAL_USER_TOKEN');
       console.log('ddd ='+token) 
       this.msg='';
       if(token){
@@ -361,18 +351,43 @@ export default {
 
       //window.open('https://myanimelist.net/login.php?from=%2Fanime%2F5114%2FFullmetal_Alchemist__Brotherhood','','top=0,left=0,width='+(screen.width/2)+',height='+(screen.height/2)+', toolbar=no, menubar=no, scrollbars=yes, resize=no, location=no, directories=no, status=no');
     },
-    addNewAnime(){
-      this.isActiveModalAdd = "is-active";
+    async addAnime(){
+      this.isActiveModalAdd = "";
+      const MAL_SESSION_ID_TOKEN = await localStorage.getItem('MAL_SESSION_ID_TOKEN')
+      const token = await localStorage.getItem('MAL_USER_TOKEN')
+      const passMal = await localStorage.getItem('MAL_PS_ID_TOKEN') 
+      if(MAL_SESSION_ID_TOKEN){
+        const result = await getSuggestionAnime(MAL_SESSION_ID_TOKEN)
+        console.log(result)
+      }else{ 
+        if(token && passMal){ 
+          const res = await authMALJwt(token, passMal, 1)
+          if(!res){
+            this.isActiveModalAuth = 'is-active'
+          }else{
+            this.isActiveModalAdd = 'is-active'
+          }
+        }else{
+          this.isActiveModalAuth ='is-active'
+        }
+      }
     },
-    authMAL(){
+    async authMAL(){
       if(this.usernameMAL && this.passwordMAL){
-        authMALJwt(this.usernameMAL,this.passwordMAL)
+       const result = await authMALJwt(this.usernameMAL,this.passwordMAL, 0) 
+       console.log(result)
+       if(result){
+         this.isActiveModalAdd = 'is-active'
+         this.msg='Authentification success'
+       }else{
+         this.msg = 'Echec of authentification, try again'
+       }
       }else{
         this.colorInput='border-color:red';
       }
     },
     makeButtonVisible(idCard){   
-     document.getElementById('ph-id'+idCard).setAttribute("style", "visibility:visible")
+      document.getElementById('ph-id'+idCard).setAttribute("style", "visibility:visible")
     },
     makeButtonDisapear(idCard){
      document.getElementById('ph-id'+idCard).setAttribute("style", "visibility:hidden")
