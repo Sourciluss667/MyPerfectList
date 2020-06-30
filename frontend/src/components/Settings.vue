@@ -23,12 +23,26 @@
 
       <div class="column has-background-white-bis" id="settings-content">
         <div id="personal-information" v-if="pInformation">
-          perso
+          <form @submit.prevent="pInfoHandler">
+            <label for="imdb">Name : </label><input type="text" name="name" placeholder="ex: John Doe" id="name" v-model="pInfoObj.name"><br>
+            <label for="imdb">Username : </label><input type="text" name="username" placeholder="ex: Anonymous" id="usrname" v-model="pInfoObj.username"><br>
+            <label for="imdb">Email : </label><input type="email" name="email" placeholder="ex: example@gmail.com" id="email" v-model="pInfoObj.email"><br>
+            <label for="imdb">Birthdate : </label><input type="date" name="birthdate" id="birthdate" v-model="pInfoObj.birthdate"><br>
+            <label for="imdb">Gender : </label><select name="gender" id="gender" v-model="pInfoObj.gender">
+              <option value="M">Man</option>
+              <option value="F">Woman</option>
+              <option value="">Other</option>
+            </select>
+            <br>
+            <label for="imdb">Password : </label><input type="password" name="pass" id="pass" v-model="pInfoObj.pass"><br>
+            <label for="imdb">Re-type password : </label><input type="password" name="passVerif" id="passVerif" v-model="pInfoObj.passVerif"><br><br>
+            <input type="submit" value="Change !">
+          </form>
         </div>
         <div id="linked-accounts" v-if="linkedAcc">
           <form @submit.prevent="linkedAccHandler">
             <label for="imdb">IMDB Token : </label><input type="text" name="imdb" placeholder="ex: ur115944803" id="imdb" v-model="linkedAccObj.imdb"><br>
-            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="ex: xxxxxxxxx" id="mal" v-model="linkedAccObj.mal"><br>
+            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="ex: username" id="mal" v-model="linkedAccObj.mal"><br>
             <label for="rym">RYM Token : </label><input type="text" name="rym" placeholder="ex: xxxxxxxxx" id="rym" v-model="linkedAccObj.rym"><br>
             <label for="gd">GoodReads Token : </label><input type="text" name="gd" placeholder="ex: xxxxxxxxx" id="gd" v-model="linkedAccObj.gd"><br>
             <label for="rt">RottentTomatoes Token : </label><input type="text" name="rt" placeholder="ex: xxxxxxxxx" id="rt" v-model="linkedAccObj.rt"><br><br>
@@ -47,7 +61,13 @@
 </template>
 
 <script>
-import { changeTokens } from "../services/users.js";
+import { changeTokens, changeName, changeUsername } from "../services/users.js";
+
+function parseDate(str) {
+  let s = str.split('/')
+  // 0 = day, 1 = month, 2 = year
+  return `${s[2]}-${s[1]}-${s[0]}`
+}
 
 export default {
   name: "Settings",
@@ -58,6 +78,7 @@ export default {
       pref: false,
       other: false,
       linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''},
+      pInfoObj: {name: '', username: '', email: '', birthdate: '', gender: '', pass: '', passVerif: ''},
       parentUserLoaded: false
     }
   },
@@ -69,11 +90,21 @@ export default {
   },
   updated () {
     if (!this.parentUserLoaded) {
+      // tokens
       this.linkedAccObj.imdb = this.$parent.user.imdb
       this.linkedAccObj.mal = this.$parent.user.myanimelist
       this.linkedAccObj.rym = this.$parent.user.rateyourmusic
       this.linkedAccObj.gd = this.$parent.user.goodreads
       this.linkedAccObj.rt = this.$parent.user.rottentomatoes
+
+      // pInfo
+      this.pInfoObj.name = this.$parent.user.name
+      this.pInfoObj.username = this.$parent.user.username
+      this.pInfoObj.email = this.$parent.user.email
+      this.pInfoObj.birthdate = new Date(this.$parent.user.birthdate).toLocaleDateString()
+      this.pInfoObj.birthdate = parseDate(this.pInfoObj.birthdate)
+      this.pInfoObj.gender = this.$parent.user.gender
+
       this.parentUserLoaded = true
     }
   },
@@ -83,6 +114,16 @@ export default {
       const res = await changeTokens(this.linkedAccObj)
       if (res.status === 200) {
         console.log('TOKENS CHANGE !')
+      }
+    },
+    async pInfoHandler () {
+      if (this.pInfoObj.name != this.$parent.user.name) {
+        changeName(this.pInfoObj.name)
+        console.log('change name!')
+      }
+      if (this.pInfoObj.username != this.$parent.user.username) {
+        changeUsername(this.pInfoObj.username)
+        console.log('change username!')
       }
     },
     pInfoState () {
