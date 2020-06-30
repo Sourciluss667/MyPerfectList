@@ -33,6 +33,8 @@
 import Loading from "vue-loading-overlay";
 // Import stylesheet
 import "vue-loading-overlay/dist/vue-loading.css";
+import { getUserByUsername } from '../../services/users'
+
 
 export default {
   name: "IMDb",
@@ -54,9 +56,21 @@ export default {
   async created () {
     let token = undefined
     this.isLoading = true
+    let nonBlock = 0
     do {
       token = this.$parent.user.imdb
-    } while (token === undefined || token === null)
+      nonBlock++
+    } while ((token === undefined || token === null) && nonBlock < 2000)
+    
+
+    if (this.$route.params.username != undefined) {
+      let u = await getUserByUsername(this.$route.params.username)
+      console.log(u)
+      token = u.imdb
+    } else if (nonBlock >= 2000) {
+      token = 'ur115944803' // Error find user token
+    }
+
     console.log('token: ' + token)
     let req = await fetch(`http://localhost:4200/imdb/${token}`)
     req = await req.json()
