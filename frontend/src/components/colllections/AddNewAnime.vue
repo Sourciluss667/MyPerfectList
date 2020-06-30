@@ -205,7 +205,7 @@
         <section class="modal-card-body">
           <div class="message is-warning">
               <div class="message-body">
-                <p><strong>*Vos données seront uniquement utilisées afin de communiquer avec le site MyAnimeList. Elles ne seront pas conservées directement sur notre serveur et ne seront jamais utilisées sans votre autorisation</strong></p>
+                <p><strong>*Vos données seront uniquement utilisées afin de communiquer avec le site MyAnimeList. Elles ne seront pas conservées directement sur notre serveur et ne seront jamais utilisées sans votre autorisation.</strong></p>
               </div>
           </div>
           <p :style="colorMsg">{{msg}}<br/></p>

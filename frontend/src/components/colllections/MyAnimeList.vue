@@ -161,6 +161,11 @@
           <button class="delete" @click="closeModal()" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
+          <div class="message is-warning">
+            <div class="message-body">
+              <p><strong>*Vos données seront uniquement utilisées afin de communiquer avec le site MyAnimeList. Elles ne seront pas conservées directement sur notre serveur et ne seront jamais utilisées sans votre autorisation.</strong></p>
+            </div>
+          </div>
           <div class="field">
             <div class="control">
               <input :style="colorInput" class="input" v-model="usernameMAL" type="text" placeholder="">
