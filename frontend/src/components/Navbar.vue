@@ -67,6 +67,11 @@ export default {
     isConnected: Boolean,
     username: String
   },
+  mounted () {
+    this.$root.$on('changeUsername', username => {
+        this.username = username
+    })
+  },
   methods: {
     siginOption() { 
       this.$router.push('/signup')

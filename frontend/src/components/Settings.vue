@@ -23,16 +23,122 @@
 
       <div class="column has-background-white-bis" id="settings-content">
         <div id="personal-information" v-if="pInformation">
-          perso
+          <form @submit.prevent="pInfoHandler">
+            <div class="columns is-centered">
+              <div class="column is-one-quarter">
+                <!-- NAME -->
+                <div class="field">
+                  <label class="label">Name</label>
+                  <div class="control">
+                    <input class="input" type="text" name="name" id="name" v-model="pInfoObj.name">
+                  </div>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="field">
+                  <label class="label">Username</label>
+                  <div class="control">
+                    <input class="input" type="text" name="username" id="username" v-model="pInfoObj.username">
+                  </div>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="field">
+                  <label class="label">Email</label>
+                  <div class="control">
+                    <input class="input" type="email" name="email" id="email" v-model="pInfoObj.email">
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-one-quarter">
+                <div class="field">
+                  <label class="label">Birthdate</label>
+                  <div class="control">
+                    <input class="input" type="date" name="birthdate" id="birthdate" v-model="pInfoObj.birthdate">
+                  </div>
+                </div>
+
+                <div class="select">
+                  <select name="gender" id="gender" v-model="pInfoObj.gender">
+                    <option value="">Gender</option>
+                    <option value="M">Man</option>
+                    <option value="F">Woman</option>
+                    <option value="">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="column is-one-quarter">
+
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control">
+                    <input class="input" type="password" name="pass" id="pass" v-model="pInfoObj.pass" autocomplete="no">
+                  </div>
+                  <p class="help">Rules for password</p>
+                </div>
+
+                <div class="field">
+                  <label class="label">Re-Type Password</label>
+                  <div class="control">
+                    <input class="input" type="password" name="passVerif" id="passVerif" v-model="pInfoObj.passVerif">
+                  </div>
+                  <p class="help"><span v-if="pInfoObj.pass === pInfoObj.passVerif" class="has-text-success">It's good !</span><span v-else class="has-text-danger">Not good !</span></p>
+                </div>
+
+              </div>
+            </div>
+
+            <input class="button" type="submit" value="Change !">
+
+          </form>
         </div>
         <div id="linked-accounts" v-if="linkedAcc">
           <form @submit.prevent="linkedAccHandler">
-            <label for="imdb">IMDB Token : </label><input type="text" name="imdb" placeholder="ex: ur115944803" id="imdb" v-model="linkedAccObj.imdb"><br>
-            <label for="mal">MAL Token : </label><input type="text" name="mal" placeholder="ex: xxxxxxxxx" id="mal" v-model="linkedAccObj.mal"><br>
-            <label for="rym">RYM Token : </label><input type="text" name="rym" placeholder="ex: xxxxxxxxx" id="rym" v-model="linkedAccObj.rym"><br>
-            <label for="gd">GoodReads Token : </label><input type="text" name="gd" placeholder="ex: xxxxxxxxx" id="gd" v-model="linkedAccObj.gd"><br>
-            <label for="rt">RottentTomatoes Token : </label><input type="text" name="rt" placeholder="ex: xxxxxxxxx" id="rt" v-model="linkedAccObj.rt"><br><br>
-            <input type="submit" value="Change !">
+            <div class="columns is-centered">
+              <div class="column is-one-quarter">
+            <div class="field">
+              <label class="label">IMDB Token</label>
+              <div class="control">
+                <input class="input" type="text" name="imdb" id="imdb" v-model="linkedAccObj.imdb">
+              </div>
+              <p class="help"><a href="https://www.imdb.com/list/watchlist?ref_=nv_usr_wl" target="_blank" rel="noopener noreferrer"><i class="fas fa-info-circle"></i></a> Like this : ur115944803</p>
+            </div>
+            <div class="field">
+              <label class="label">MAL Token</label>
+              <div class="control">
+                <input class="input" type="text" name="mal" id="mal" v-model="linkedAccObj.mal">
+              </div>
+              <p class="help">Use your MAL username</p>
+            </div>
+            <div class="field">
+              <label class="label">RYM Token</label>
+              <div class="control">
+                <input class="input" type="text" name="rym" id="rym" v-model="linkedAccObj.rym">
+              </div>
+              <p class="help">Like this : xxxxxxx</p>
+            </div>
+              </div>
+              <div class="column is-one-quarter">
+            <div class="field">
+              <label class="label">GoodReads Token</label>
+              <div class="control">
+                <input class="input" type="text" name="gd" id="gd" v-model="linkedAccObj.gd">
+              </div>
+              <p class="help">Like this : xxxxxxx</p>
+            </div>
+            <div class="field">
+              <label class="label">RottentTomatoes Token</label>
+              <div class="control">
+                <input class="input" type="text" name="rt" id="rt" v-model="linkedAccObj.rt">
+              </div>
+              <p class="help">Like this : xxxxxx</p>
+            </div>
+            <br>
+            <input class="button" id="tokensubmit" type="submit" value="Change !">
+              </div>
+            </div>
           </form>
         </div>
         <div id="preferences" v-if="pref">
@@ -47,7 +153,13 @@
 </template>
 
 <script>
-import { changeTokens } from "../services/users.js";
+import { changeTokens, changeName, changeUsername } from "../services/users.js";
+
+function parseDate(str) {
+  let s = str.split('/')
+  // 0 = day, 1 = month, 2 = year
+  return `${s[2]}-${s[1]}-${s[0]}`
+}
 
 export default {
   name: "Settings",
@@ -58,6 +170,7 @@ export default {
       pref: false,
       other: false,
       linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''},
+      pInfoObj: {name: '', username: '', email: '', birthdate: '', gender: '', pass: '', passVerif: ''},
       parentUserLoaded: false
     }
   },
@@ -69,11 +182,21 @@ export default {
   },
   updated () {
     if (!this.parentUserLoaded) {
+      // tokens
       this.linkedAccObj.imdb = this.$parent.user.imdb
       this.linkedAccObj.mal = this.$parent.user.myanimelist
       this.linkedAccObj.rym = this.$parent.user.rateyourmusic
       this.linkedAccObj.gd = this.$parent.user.goodreads
       this.linkedAccObj.rt = this.$parent.user.rottentomatoes
+
+      // pInfo
+      this.pInfoObj.name = this.$parent.user.name
+      this.pInfoObj.username = this.$parent.user.username
+      this.pInfoObj.email = this.$parent.user.email
+      this.pInfoObj.birthdate = new Date(this.$parent.user.birthdate).toLocaleDateString()
+      this.pInfoObj.birthdate = parseDate(this.pInfoObj.birthdate)
+      this.pInfoObj.gender = this.$parent.user.gender
+
       this.parentUserLoaded = true
     }
   },
@@ -82,7 +205,19 @@ export default {
       // Send new token to backend with JSON obj
       const res = await changeTokens(this.linkedAccObj)
       if (res.status === 200) {
-        console.log('TOKENS CHANGE !')
+        document.getElementById('tokensubmit').classList.add('has-text-success')
+      } else {
+        document.getElementById('tokensubmit').classList.add('has-text-danger')
+      }
+    },
+    async pInfoHandler () {
+      if (this.pInfoObj.name != this.$parent.user.name) {
+        changeName(this.pInfoObj.name)
+        console.log('change name!')
+      }
+      if (this.pInfoObj.username != this.$parent.user.username) {
+        changeUsername(this.pInfoObj.username)
+        console.log('change username!')
       }
     },
     pInfoState () {

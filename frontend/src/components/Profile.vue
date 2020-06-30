@@ -152,6 +152,7 @@ export default {
       if (usernamePrompt !== '') {
         this.userData.username = usernamePrompt
         changeUsername(usernamePrompt)
+        this.$root.$emit('changeUsername', usernamePrompt)
       }
     },
     editName () {
@@ -181,6 +182,24 @@ export default {
             break;
             case 'rym':
             this.$router.push('/collections/RateYourMusic')
+            break;
+        }
+      } else {
+        switch (listName) {
+          case 'mal':
+            this.$router.push('/collections/MyAnimeList/' + this.userData.username)
+            break;
+            case 'imdb':
+            this.$router.push('/collections/IMDb/' + this.userData.username)
+            break;
+            case 'rt':
+            this.$router.push('/collections/Rottentomatoes/' + this.userData.username)
+            break;
+            case 'gd':
+            this.$router.push('/collections/GoodReads/' + this.userData.username)
+            break;
+            case 'rym':
+            this.$router.push('/collections/RateYourMusic/' + this.userData.username)
             break;
         }
       }
