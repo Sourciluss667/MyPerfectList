@@ -65,10 +65,11 @@ export default {
 
     if (this.$route.params.username != undefined) {
       let u = await getUserByUsername(this.$route.params.username)
-      console.log(u)
       token = u.imdb
     } else if (nonBlock >= 2000) {
-      token = 'ur115944803' // Error find user token
+      // Error find user token via parent, so use getUserByUsername with localStorage username
+      let u = await getUserByUsername(localStorage.username)
+      token = u.imdb
     }
 
     console.log('token: ' + token)

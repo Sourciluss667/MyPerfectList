@@ -86,6 +86,7 @@ export default {
     if (user) {
       this.user = { ...user };
       this.isConnected = true;
+      localStorage.username = this.user.username
     } else {
       this.init();
     }
