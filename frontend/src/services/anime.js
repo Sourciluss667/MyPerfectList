@@ -54,7 +54,11 @@ export async function searchAnime(malUserName, bdOption) {
 }
 export async function searchAnimeUsingToken(token, bdOption) {
     const result = await axios.get(`${SERVER_URL}/animes/tokenusing/${token}/${bdOption}`)
-    return result.data
+    if(result.status===200){
+        return result.data
+    }else{
+        return []
+    }
 }
 // authentification with MAL account
 export async function authMALJwt(username, password, newRequest) {
@@ -62,8 +66,9 @@ export async function authMALJwt(username, password, newRequest) {
         console.log(res)
         if (res.data.statusCodeMAL === 200) {
             await localStorage.setItem('MAL_USER_TOKEN', res.data.MAL_USER_TOKEN)
-            await localStorage.setItem('MAL_SESSION_ID_TOKEN', res.data.MAL_SESSION_ID_TOKEN)
+           // await localStorage.setItem('MAL_SESSION_ID_TOKEN', res.data.MAL_SESSION_ID_TOKEN)
             await localStorage.setItem('MAL_PS_ID_TOKEN', res.data.MAL_PS_ID_TOKEN)
+           // await localStorage.setItem('MAL_LOG_TOKEN', res.data.MAL_LOG_TOKEN)
             return true
         }
         return false
@@ -74,10 +79,22 @@ export async function authMALJwt(username, password, newRequest) {
     return result
 }
 // get suggestion anime to add to the list
-export async function getSuggestionAnime(MAL_SESSION_ID_TOKEN) {
+export async function getSuggestionAnime(obj) {
     try {
-        const result = await axios.get(`${SERVER_URL}/animes/suggestionAnime/${MAL_SESSION_ID_TOKEN}`)
+        const result = await axios.post(`${SERVER_URL}/animes/suggestionAnime`,obj) 
         return result.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+// save anime to the list
+export async function saveAnime(animeObj) {
+    try { 
+        const result = await axios.post(`${SERVER_URL}/animes/saveAnime`, animeObj)
+        if (result.data.statusCode === 200) { 
+            return {etat:true,msg:result.data.msg}
+        }
+        return {etat: false, msg:result.data.msg}
     } catch (error) {
         console.log(error)
     }
