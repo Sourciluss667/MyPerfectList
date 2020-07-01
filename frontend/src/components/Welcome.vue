@@ -80,8 +80,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
-<style>
+<style scoped>
 * {
   box-sizing: border-box;
 }
@@ -97,8 +96,8 @@ export default {
 .column {
   flex: 40%;
   padding: 20px;
-  /*outline-style: solid;
-  outline-color:black;*/
+  outline-style: solid;
+  outline-color:black;
 }
 
 /* On screens that are 992px wide or less, go from four columns to two columns */
