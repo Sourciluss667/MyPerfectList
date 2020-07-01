@@ -41,13 +41,13 @@
           </div>
         </div>
         <div v-else>
-          <div class="icon" style="color: blue;" v-if="userData.gender === 'M'">
+          <div class="icon" style="color: blue;" v-if="userData.gender === 'MALE'">
             <i class="fas fa-mars"></i>
           </div>
           <div
             class="icon"
             style="color: pink;"
-            v-else-if="userData.gender === 'F'"
+            v-else-if="userData.gender === 'FEMALE'"
           >
             <i class="fas fa-venus"></i>
           </div>

@@ -9,6 +9,8 @@ const changeTokens = require('../controllers/post.changeTokens')
 const changeAvatar = require('../controllers/post.changeAvatar')
 const changeName = require('../controllers/post.changeName')
 const changeUsername = require('../controllers/post.changeUsername')
+const changeEmail = require('../controllers/post.changeEmail')
+const changeGender = require('../controllers/post.changeGender')
 const { check } = require('express-validator')
 
 function logOut (req, res) {
@@ -29,6 +31,8 @@ router.post('/sigin', [
 router.post('/changeTokens', changeTokens)
 router.post('/changeAvatar', changeAvatar)
 router.post('/changeUsername', changeUsername)
+router.post('/changeEmail', changeEmail)
+router.post('/changeGender', changeGender)
 router.post('/changeName', changeName)
 router.get('/logout', logOut)
 router.get('/current_user', getCurrentUser)

@@ -62,9 +62,9 @@
                 <div class="select">
                   <select name="gender" id="gender" v-model="pInfoObj.gender">
                     <option value="">Gender</option>
-                    <option value="M">Man</option>
-                    <option value="F">Woman</option>
-                    <option value="">Other</option>
+                    <option value="MALE">Man</option>
+                    <option value="FEMALE">Woman</option>
+                    <option value="OTHER">Other</option>
                   </select>
                 </div>
               </div>
@@ -142,10 +142,10 @@
           </form>
         </div>
         <div id="preferences" v-if="pref">
-          pref
+          Under construction
         </div>
         <div id="other" v-if="other">
-          other
+          Under construction
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { changeTokens, changeName, changeUsername } from "../services/users.js";
+import { changeTokens, changeName, changeUsername, changeEmail, changeGender } from "../services/users.js";
 
 function parseDate(str) {
   let s = str.split('/')
@@ -218,6 +218,14 @@ export default {
       if (this.pInfoObj.username != this.$parent.user.username) {
         changeUsername(this.pInfoObj.username)
         console.log('change username!')
+      }
+      if (this.pInfoObj.email != this.$parent.user.email) {
+        changeEmail(this.pInfoObj.email)
+        console.log('change email!')
+      }
+      if (this.pInfoObj.gender != this.$parent.user.gender) {
+        changeGender(this.pInfoObj.gender)
+        console.log('change gender!')
       }
     },
     pInfoState () {
