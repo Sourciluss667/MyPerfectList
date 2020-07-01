@@ -84,10 +84,10 @@ router.get('/:token', async (req, res) => {
 
   const bookData = bookTitle.concat(imageURLBooks)
   console.log(bookData)
-  console.log("lol")
 
   const allData = bookData  
   res.send(allData)
+
 })
 
 module.exports = router

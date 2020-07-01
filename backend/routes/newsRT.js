@@ -4,14 +4,13 @@ var superagent = require('superagent')
 
 /* GET home page. */
 router.get('/:token', async (req, res) => {
-  const token = req.params.token
   const agent = superagent.agent()
 
-  let html = await agent.get(`https://www.goodreads.com/review/list/${token}`)
+  let html = await agent.get(`https://www.rottentomatoes.com/user/id/${token}/ratings`)
   html = html.text
 
-  let indexStart = html.search('<tbody id="booksBody">')
-  let indexEnd = html.indexOf('</tbody>', indexStart)
+  let indexStart = html.search('<li class="ratings__user-rating-review">')
+  let indexEnd = html.indexOf('<footer', indexStart)
 
   const indexStartConst = indexStart
   const indexEndConst = indexEnd
@@ -21,36 +20,27 @@ router.get('/:token', async (req, res) => {
   let htmlData = result
   const htmlDataConst = result
 
-  // retrieving the book title
-  let bookTitle = ''
+  // retrieving the movie title
+  let movieTitle = ''
   let htmlDatasub = htmlData.substring(indexStart, indexEnd)
 
   for (let index = 0; index < 100; index++) {
-    indexStart = htmlData.search('<a title=')
-    indexEnd = htmlData.indexOf('" href="/book/', indexStart)
-    result = htmlData.substring(indexStart + 10, indexEnd)
+    indexStart = htmlData.search('title="')
+    indexEnd = htmlData.indexOf('">', indexStart)
+    result = htmlData.substring(indexStart + 7, indexEnd)
     htmlDatasub = htmlData.substring(indexStart, indexEnd)
     htmlData = htmlData.replace(htmlDatasub, '')
-    bookTitle = bookTitle.replace(result, '')
-    bookTitle = bookTitle + result + ';'
+    movieTitle = movieTitle.replace(result, '')
+    movieTitle = movieTitle + result + ','
   }
-  bookTitle = bookTitle + '****XY'
   for (let index = 0; index < 100; index++) {
-    bookTitle = bookTitle.replace(',">', '')
-    bookTitle = bookTitle.replace('\n', '')
-    bookTitle = bookTitle.replace(',,', ',')
-    bookTitle = bookTitle.replace(';;', ';')
+    movieTitle = movieTitle.replace(',">', '')
+    movieTitle = movieTitle.replace('\n', '')
+    movieTitle = movieTitle.replace(',,', ',')
   }
 
-  indexStart = bookTitle.search('Body">              ')
-  indexEnd = bookTitle.indexOf('****XY', indexStart)
-  result = bookTitle.substring(indexStart, indexEnd)
-
-  bookTitle = bookTitle.replace(result, '')
-  bookTitle = bookTitle.replace('****XY', '')
-
-  bookTitle = bookTitle.replace('tings__user-rating-review,   ,', '')
-  bookTitle = bookTitle.replace(',', '')
+  movieTitle = movieTitle.replace('tings__user-rating-review,   ,', '')
+  movieTitle = movieTitle.replace(',', '')
 
   // retrieving the image URL
   let imageUrl = ''
@@ -59,34 +49,34 @@ router.get('/:token', async (req, res) => {
   indexEnd = indexEndConst
   htmlDatasub = htmlData.substring(indexStart, indexEnd)
 
-  for (let index = 0; index < bookTitle.length; index++) {
+  for (let index = 0; index < movieTitle.length; index++) {
     indexStart = htmlData.search('src="')
-    indexEnd = htmlData.indexOf('" /></a>', indexStart + 5)
+    indexEnd = htmlData.indexOf('" alt="', indexStart + 5)
     result = htmlData.substring(indexStart + 5, indexEnd)
     htmlDatasub = htmlData.substring(indexStart, indexEnd)
     htmlData = htmlData.replace(htmlDatasub, '')
     imageUrl = imageUrl.replace(result, '')
-    imageUrl = imageUrl + result + ';'
+    imageUrl = imageUrl + result + ','
   }
   imageUrl = imageUrl + '****XY'
-  for (let index = 0; index < bookTitle; index++) {
+  for (let index = 0; index < movieTitle; index++) {
     imageUrl = imageUrl.replace(',">', '')
     imageUrl = imageUrl.replace('\n', '')
     imageUrl = imageUrl.replace(',,', ',')
-    imageUrl = imageUrl.replace(';;', ';')
   }
 
-  indexStart = imageUrl.search('booksBody">')
+  indexStart = imageUrl.search('ratings__user-rating-review">')
   indexEnd = imageUrl.indexOf('****XY', indexStart)
   result = imageUrl.substring(indexStart, indexEnd)
 
   imageUrl = imageUrl.replace(result, '')
   imageUrl = imageUrl.replace('****XY', '')
 
-  const bookData = bookTitle.concat(imageUrl)
-  console.log(bookData)
+  const movieData = movieTitle.concat(imageUrl)
+  console.log(movieData)
 
-  res.send(bookData)
+  res.send(movieData)
+
 })
 
 module.exports = router

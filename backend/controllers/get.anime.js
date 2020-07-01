@@ -134,7 +134,7 @@ async function authToMAL (req, res) {
 }
 
 async function getAnimeSuggestion (req, res) {
-  const html = await agent.get('https://myanimelist.net/addtolist.php?hidenav=1') 
+  const html = await agent.get('https://myanimelist.net/addtolist.php?hidenav=1')
     .send({
       cookie: { MALHLOGSESSID: 'd4ee9ef3d876bf38162d1b3e630f779f' }
     })
