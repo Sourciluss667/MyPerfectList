@@ -1,8 +1,6 @@
 <template>
   <div class="welcome">
-    <!-- <p>
-        Welcome to our website !
-    </p>-->
+    <!--
 <div class="row">
   <div class="column" style="background-color:#ccc;">
     <h1>Latest book releases</h1>
@@ -20,7 +18,7 @@
   </div>
   
 </div>
-   
+   -->
   </div>
 </template>
 
@@ -46,6 +44,10 @@ export default {
   },
   async created () {
     let req = await fetch(`http://localhost:4200/welcome/`)
+    let json = await req.json()
+    console.log(json)
+
+    /*
     req = await req.text()
     this.infoToDisplay = req.split(';')
     this.infoToDisplay.push(req)
@@ -74,7 +76,7 @@ export default {
 
 
     this.numberArray.push(req)
-    
+    */
   }
 };
 </script>
