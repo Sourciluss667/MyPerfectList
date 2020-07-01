@@ -5,17 +5,17 @@
     </p>-->
 <div class="row">
   <div class="column" style="background-color:#ccc;">
-    <h2>Latest book releases</h2>
+    <h1>Latest book releases</h1>
     <p><span v-html="bookTable2"></span></p>
   </div>
   
   <div class="column" style="background-color:#ccc;">
-    <h2>Latest movie releases</h2>
+    <h1>Latest movie releases</h1>
     <p><span v-html="filmTable2"></span></p>
   </div>
   
   <div class="column" style="background-color:#ccc;">
-    <h2>Latest anime releases</h2>
+    <h1>Latest anime releases</h1>
     <p><span v-html="animeTable2"></span></p>
   </div>
   
@@ -46,16 +46,15 @@ export default {
   },
   async created () {
     let req = await fetch(`http://localhost:4200/welcome/`)
-    console.log("yo")
     req = await req.text()
     this.infoToDisplay = req.split(';')
     this.infoToDisplay.push(req)
-    this.numberArray = this.infoToDisplay.length
+    this.numberArray = 100
 
-    for (let index = 0; index < 101; index++) {
-      if(this.infoToDisplay[(this.numberArray/2 -1) + index] === '' || this.infoToDisplay[(this.numberArray/2 -1) + index] === "undefined" || this.infoToDisplay[(this.numberArray/2 -1) + index] === null ){index =100}else{
-      this.bookTable2 = this.bookTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
-      }
+    for (let index = 0; index < this.numberArray/2 - 1; index++) {
+      
+      this.bookTable2 = this.bookTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 +1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
+      
     }
     this.bookTable2.push(req)
 
@@ -96,7 +95,7 @@ export default {
 
 /* Create four equal columns */
 .column {
-  flex: 33%;
+  flex: 40%;
   padding: 20px;
   outline-style: solid;
   outline-color:black;
