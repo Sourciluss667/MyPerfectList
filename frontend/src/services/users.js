@@ -67,4 +67,12 @@ function changeName (name) {
   return axios.post(`${SERVER_URL}/users/changeName`, { name })
 }
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl, changeName, changeUsername }
+function changeEmail (email) {
+  return axios.post(`${SERVER_URL}/users/changeEmail`, { email })
+}
+
+function changeGender (gender) {
+  return axios.post(`${SERVER_URL}/users/changeGender`, { gender })
+}
+
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl, changeName, changeUsername, changeEmail, changeGender }
