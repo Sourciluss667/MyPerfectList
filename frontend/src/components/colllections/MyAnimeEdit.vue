@@ -129,7 +129,7 @@
       </div>
     </div> 
   
-    <div  class="modal" :class="isActiveModalAuth"  >
+    <div  class="modal" :class="isActiveModalAuth">
       <div class="modal-background"></div>
       <div class="modal-card" style="width:35%">
         <header class="modal-card-head">

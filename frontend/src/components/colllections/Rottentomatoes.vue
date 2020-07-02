@@ -1,20 +1,100 @@
 <template>
-  <div id="rottentomatoes-watchlist" style="position: relative; top: -90px;">
-                    
-    <h3 class="has-text-white">{{ infoToDisplay[numberArray/2 -1] }}</h3>
-    
-                <span v-html="bookTable2"></span>
+   <div id="page" style="position: relative; top: -90px;"> 
+    <BreadCrumb/>
+   
+    <nav class="level">
+      <!-- Left side -->
+      <div class="level-left">
+        <div class="level-item"> 
+          <span class="tag is-link">{{counter}}</span>
+        </div> 
+         
+        <div class="control has-icons-left">
+           
+        </div>
+       
+        <div class="level-item" style="margin-left:5%">
+          <div class="field has-addons">
+            <p class="control">
+              <input v-model="searchValue"
+                class="input is-focused"
+                style="width:400px"
+                type="text"
+                placeholder="Find an element"
+              />
+            </p>
+            <p class="control">
+              <button class="button" @click="search()">
+                Search
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
 
+      <!-- Right side -->
+    
+    </nav> 
+    <section class="hero is-light">
+      <div class="hero-body" style="padding: 1rem 1rem;">
+        <div class="container">
+          <Loading
+            :active.sync="isLoading"
+            :can-cancel="false"  
+            :is-full-page="false"
+            loader="bars"
+          ></Loading>
+          <div class="columns is-multiline">
+            <div v-for="(item,index) in dataList" :key="index"  class="column is-12-tablet is-6-desktop">
+              <div class="card" style="height: 100%">
+                <div class="card-image"  >
+                  
+                  <div  style="margin-left:1%;text-align:left">
+                    <div  style="display:inline-block;width: 87.5%;">
+                      <div  style="float:left; width:20%; margin-top:1.1%" >
+                        <img :src="item.imgUrl" :alt="item.name"/>
+                      </div>
+                      <div style="margin-left:100px">
+                        <h5 style="font-weight: bold;">{{item.name}} </h5>
+                      </div>
+                    </div>   
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+          <div v-if="counter==0" class="notification is-warning"> 
+              {{msg}}
+          </div> 
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+import BreadCrumb from '../BreadCrumb';  
+import Loading from "vue-loading-overlay";
+// Import stylesheet
+import "vue-loading-overlay/dist/vue-loading.css"; 
 export default {
   name: "RottenTomatoes",
     data () {
     return {
-      infoToDisplay: ''
+      infoToDisplay: '',
+      dataList:[],
+      dataHistories:[],
+      counter:0,
+      searchValue:'',
+      isLoading: false,
+      msg:''
     }
+  },
+  components: { 
+    BreadCrumb,
+    Loading, 
   },
    methods: {
      mouseover: function (row) {
@@ -22,7 +102,20 @@ export default {
      },
      mouseleave: function (row) {
        row.showdetails = false
-     }
+     },
+    search(){
+      this.isLoading=true;
+      this.msg=''; 
+      const data = this.dataHistories.filter(element => element.name.toLowerCase().indexOf(this.searchValue.toLowerCase())!=-1);  
+      this.dataList = [...data];
+      this.counter = this.dataList.length;
+      setTimeout(() => {
+        this.isLoading = false;  
+        if(this.counter===0){
+          this.msg = "No result found!"
+        }
+      }, 1000);
+    },
   },
   async created () {
     
@@ -34,22 +127,30 @@ export default {
       nonBlock++
     } while ((token === undefined || token === null) && nonBlock < 2000)
     */
+   this.isLoading=true
     let req = await fetch(`http://localhost:4200/rottentomatoes/${token}`)
     req = await req.text()
     this.infoToDisplay = req.split(',')
     this.infoToDisplay.push(req)
     this.numberArray = this.infoToDisplay.length
     this.bookTable2 = ''
+    let imgUrl
+    let name
     for (let index = 0; index < this.numberArray/2 - 1; index++) {
-      
       this.bookTable2 = this.bookTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
-      
+      imgUrl = this.infoToDisplay[(this.numberArray/2-1)+index]
+      name= this.infoToDisplay[index]
+      this.dataList[index] = {imgUrl,name}
     }
-    
-    this.bookTable2.push(req)
-    this.numberArray.push(req)
-    this.infoToDisplay.push(req)
+    this.dataHistories = [...this.dataList]
+    this.counter = this.dataList.length
+    if(this.counter===0){
+      this.msg = 'No result found!'
+    }
+    console.log(this.dataList)
+    this.isLoading = false
   }
+
 };
 </script>
 
