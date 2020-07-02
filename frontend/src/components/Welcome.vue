@@ -58,17 +58,17 @@ export default {
     }
     this.bookTable2.push(req)
 
-    for (let index = 101; index < 200; index++) {
-      if(this.infoToDisplay[(this.numberArray/2 -1) + index] === ''){index =200} else{
-      this.filmTable2 = this.filmTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
-      }
+    for (let index = 0; index < this.numberArray/2 - 1; index++) {
+      
+      this.filmTable2 = this.filmTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 +1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
+      
     }
     this.filmTable2.push(req)
 
-    for (let index = 201; index < 300; index++) {
-      if(this.infoToDisplay[(this.numberArray/2 -1) + index] === ''){index =200}else{
-      this.animeTable2 = this.animeTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
-      }
+    for (let index = 0; index < this.numberArray/2 - 1; index++) {
+      
+      this.animeTable2 = this.animeTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 +1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
+      
     }
     this.animeTable2.push(req)
 
@@ -80,8 +80,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
-<style>
+<style scoped>
 * {
   box-sizing: border-box;
 }
@@ -97,8 +96,8 @@ export default {
 .column {
   flex: 40%;
   padding: 20px;
-  /*outline-style: solid;
-  outline-color:black;*/
+  outline-style: solid;
+  outline-color:black;
 }
 
 /* On screens that are 992px wide or less, go from four columns to two columns */

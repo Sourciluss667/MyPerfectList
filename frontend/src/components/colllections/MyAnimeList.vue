@@ -25,10 +25,11 @@
         <div class="level-item" style="margin-left:5%">
           <div class="field has-addons">
             <p class="control">
-              <input v-model="searchValue" @keyup="searchBd"
+              <input v-model="searchValue"
                 class="input is-focused"
                 style="width:400px"
                 type="text"
+                autocomplete="off"
                 placeholder="Find an anime"
               />
             </p>

@@ -6,7 +6,7 @@
           <form @submit="search" onsubmit="return false;">
             <div class="field">
             <div class="control">
-              <input class="input" type="text" placeholder="Search..." v-model="searchText" title="Search here">
+              <input class="input" type="text" placeholder="Search movies, series, animes, etc..." v-model="searchText" title="Search here">
             </div>
           </div>
 
