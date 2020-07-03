@@ -5,7 +5,7 @@ var superagent = require('superagent')
 /* GET home page. */
 router.get('/:token', async (req, res) => {
   const agent = superagent.agent()
-  let allData = { books: [], movies: [], animes: [] }
+  const allData = { books: [], movies: [], animes: [] }
 
   // BOOKS
 
@@ -24,9 +24,9 @@ router.get('/:token', async (req, res) => {
   for (let i = 0; i < 50; i++) {
     indexStart = htmlData.indexOf('<a title=', indexStart + 10)
     indexEnd = htmlData.indexOf('" class="leftAlignedImage', indexStart)
-    if (indexStart != -1 && indexEnd != -1) {
+    if (indexStart !== -1 && indexEnd !== -1) {
       result = htmlData.substring(indexStart + 10, indexEnd)
-      allData.books.push({title: result})
+      allData.books.push({ title: result })
     }
   }
 
@@ -36,7 +36,7 @@ router.get('/:token', async (req, res) => {
   for (let i = 0; i < allData.books.length; i++) {
     indexStart = htmlData.indexOf('src="https://i.gr-assets.com/', indexStart + 10)
     indexEnd = htmlData.indexOf('" /></a>', indexStart)
-    if (indexStart != -1 && indexEnd != -1) {
+    if (indexStart !== -1 && indexEnd !== -1) {
       result = htmlData.substring(indexStart + 5, indexEnd)
       allData.books[i].img = result
     }
@@ -47,9 +47,9 @@ router.get('/:token', async (req, res) => {
   let countMovies = 0
 
   html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=1')
-  movies = JSON.parse(html.text)
+  let movies = JSON.parse(html.text)
   for (let i = 0; i < movies.results.length; i++) {
-    allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
+    allData.movies.push({ title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary })
   }
 
   countMovies = movies.results.length
@@ -57,7 +57,7 @@ router.get('/:token', async (req, res) => {
   html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=2')
   movies = JSON.parse(html.text)
   for (let i = 0; i < movies.results.length - (countMovies + movies.results.length - 50); i++) {
-    allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
+    allData.movies.push({ title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary })
   }
 
   // ANIMES
@@ -68,15 +68,15 @@ router.get('/:token', async (req, res) => {
   indexStart = html.indexOf('<div class="js-categories-seasonal"><div class="seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix">')
   indexEnd = html.indexOf('<div class="btn-top js-btn-top"></div>', indexStart)
 
-  if (indexStart != -1 && indexEnd != -1) {
+  if (indexStart !== -1 && indexEnd !== -1) {
     htmlData = html.substring(indexStart, indexEnd)
     indexStart = 0
     for (let i = 0; i < 50; i++) {
       indexStart = htmlData.indexOf('<div class="seasonal-anime js-seasonal-anime"', indexStart + 10)
       indexEnd = htmlData.indexOf('<span class="score score-label score-na" title="Score">', indexStart)
 
-      if (indexStart != -1 && indexEnd != -1) {
-        one = htmlData.substring(indexStart + 10, indexEnd)
+      if (indexStart !== -1 && indexEnd !== -1) {
+        const one = htmlData.substring(indexStart + 10, indexEnd)
         // console.log('\n-----------------------------------------------\n\n' + one + '\n\n---------------------------------------------\n\n')
 
         // TITLE
@@ -94,33 +94,32 @@ router.get('/:token', async (req, res) => {
         // IMAGES
         tIndexStart = one.search(/https:\/\/cdn.myanimelist.net\/images\/anime\/.+\/.+webp"/g)
 
-        if (tIndexStart != -1) {
+        if (tIndexStart !== -1) {
           tIndexEnd = one.indexOf('.webp"', tIndexStart) + 5
         } else {
           tIndexStart = one.search(/https:\/\/cdn.myanimelist.net\/images\/anime\/.+\/.+jpg"/g)
           tIndexEnd = one.indexOf('.jpg"', tIndexStart) + 4
         }
 
-        let img = one.substring(tIndexStart, tIndexEnd)
-        //console.log('\n' + img)
+        const img = one.substring(tIndexStart, tIndexEnd)
+        // console.log('\n' + img)
 
         // SYNOPSIS
         let synopsis = ''
-        
+
         tIndexStart = one.search(/<div class="synopsis js-synopsis">/g) + 61
-        
-        if (tIndexStart != 1) {
+
+        if (tIndexStart !== 1) {
           tIndexEnd = one.indexOf('</span>', tIndexStart)
           synopsis = one.substring(tIndexStart, tIndexEnd)
         }
 
-        allData.animes.push({title: title, count: eps, img: img, synopsis: synopsis})
+        allData.animes.push({ title: title, count: eps, img: img, synopsis: synopsis })
       }
     }
-
   }
 
-  //console.log(allData)
+  // console.log(allData)
   res.json(allData)
 })
 
