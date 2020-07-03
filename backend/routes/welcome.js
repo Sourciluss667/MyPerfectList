@@ -44,15 +44,19 @@ router.get('/:token', async (req, res) => {
 
   // MOVIES
 
+  let countMovies = 0
+
   html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=1')
   movies = JSON.parse(html.text)
   for (let i = 0; i < movies.results.length; i++) {
     allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
   }
 
+  countMovies = movies.results.length
+
   html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=2')
   movies = JSON.parse(html.text)
-  for (let i = 0; i < movies.results.length; i++) {
+  for (let i = 0; i < movies.results.length - (countMovies + movies.results.length - 50); i++) {
     allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
   }
 
@@ -98,8 +102,6 @@ router.get('/:token', async (req, res) => {
         }
 
         let img = one.substring(tIndexStart, tIndexEnd)
-
-        console.log(tIndexStart + ' ' + tIndexEnd)
         //console.log('\n' + img)
 
         // SYNOPSIS
