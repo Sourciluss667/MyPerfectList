@@ -5,6 +5,9 @@ var superagent = require('superagent')
 /* GET home page. */
 router.get('/:token', async (req, res) => {
   const agent = superagent.agent()
+  let allData = { books: [], movies: [], animes: [] }
+
+  // BOOKS
 
   let html = await agent.get('https://www.goodreads.com/shelf/show/new-releases')
   html = html.text
@@ -12,291 +15,113 @@ router.get('/:token', async (req, res) => {
   let indexStart = html.search('leftContainer')
   let indexEnd = html.indexOf('rightContainer', indexStart)
 
-  const indexStartConst = indexStart
-  const indexEndConst = indexEnd
+  let htmlData = html.substring(indexStart + 7, indexEnd)
 
-  let result = html.substring(indexStart + 7, indexEnd)
+  // BOOKS TITLES
+  indexStart = 0
+  let result = ''
 
-  let htmlData = result
-  const htmlDataConst = result
-
-  // retrieving the book title
-  let bookTitle = ''
-  let htmlDatasub = htmlData.substring(indexStart, indexEnd)
-
-  for (let index = 0; index < 100; index++) {
-    indexStart = htmlData.search('<a title=')
+  for (let i = 0; i < 50; i++) {
+    indexStart = htmlData.indexOf('<a title=', indexStart + 10)
     indexEnd = htmlData.indexOf('" class="leftAlignedImage', indexStart)
-    result = htmlData.substring(indexStart + 10, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    bookTitle = bookTitle.replace(result, '')
-    bookTitle = bookTitle + result + ';'
-  }
-  // console.log(bookTitle)
-  bookTitle = bookTitle + '****XY'
-  for (let index = 0; index < 100; index++) {
-    bookTitle = bookTitle.replace(',">', '')
-    bookTitle = bookTitle.replace('\n', '')
-    bookTitle = bookTitle.replace(',,', ',')
-    bookTitle = bookTitle.replace(';;', ';')
+    if (indexStart != -1 && indexEnd != -1) {
+      result = htmlData.substring(indexStart + 10, indexEnd)
+      allData.books.push({title: result})
+    }
   }
 
-  indexStart = bookTitle.search('<div class="breadcrumbs">')
-  indexEnd = bookTitle.indexOf('****XY', indexStart)
-  result = bookTitle.substring(indexStart, indexEnd)
+  // BOOKS IMAGES
+  indexStart = 0
 
-  bookTitle = bookTitle.replace(result, '')
-  bookTitle = bookTitle.replace('****XY', '')
-
-  bookTitle = bookTitle.replace('tings__user-rating-review,   ,', '')
-  bookTitle = bookTitle.replace(',', '')
-  // retrieving the image URL
-  let imageUrl = ''
-  htmlData = htmlDataConst
-  indexStart = indexStartConst
-  indexEnd = indexEndConst
-  htmlDatasub = htmlData.substring(indexStart, indexEnd)
-
-  for (let index = 0; index < bookTitle.length; index++) {
-    indexStart = htmlData.search('src="')
+  for (let i = 0; i < allData.books.length; i++) {
+    indexStart = htmlData.indexOf('src="https://i.gr-assets.com/', indexStart + 10)
     indexEnd = htmlData.indexOf('" /></a>', indexStart)
-    result = htmlData.substring(indexStart, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    imageUrl = imageUrl.replace(result, '')
-    imageUrl = imageUrl + result + ';'
-  }
-  imageUrl = imageUrl + '****XY'
-  for (let index = 0; index < bookTitle; index++) {
-    imageUrl = imageUrl.replace(',">', '')
-    imageUrl = imageUrl.replace('\n', '')
-    imageUrl = imageUrl.replace(',,', ',')
-    imageUrl = imageUrl.replace(';;', ';')
+    if (indexStart != -1 && indexEnd != -1) {
+      result = htmlData.substring(indexStart + 5, indexEnd)
+      allData.books[i].img = result
+    }
   }
 
-  indexStart = imageUrl.search('src')
-  indexEnd = imageUrl.indexOf('leftAlignedImage', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
+  // MOVIES
 
-  imageUrl = imageUrl.replace(result, '')
-  imageUrl = imageUrl.replace('leftAlignedImage', '')
-
-  indexStart = imageUrl.search('  " href')
-  indexEnd = imageUrl.indexOf('src', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-  for (let index = 0; index < 100; index++) {
-    imageUrl = imageUrl.replace('src="', '')
-  }
-
-  indexStart = imageUrl.search('<div class="breadcrumbs">')
-  indexEnd = imageUrl.indexOf('****XY', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-  imageUrl = imageUrl.replace('****XY', '')
-
-  const bookData = bookTitle.concat(imageUrl)
-  // console.log(bookData)
-
-  // ----------------------------------------------------film
+  let countMovies = 0
 
   html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=1')
-  const html2 = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=2')
-  html = html.text + html2.text
-
-  indexStart = html.search('title":')
-  indexEnd = html.indexOf('elasticbeanstalk', indexStart)
-
-  const indexStartFilmConst = indexStart
-  const indexEndFilmConst = indexEnd
-
-  result = html.substring(indexStart + 7, indexEnd)
-
-  htmlData = result
-  const htmlDataFilmConst = result
-
-  // retrieving the book title
-  bookTitle = ''
-  htmlDatasub = htmlData.substring(indexStart, indexEnd)
-
-  for (let index = 0; index < 100; index++) {
-    indexStart = htmlData.search('"title":"')
-    indexEnd = htmlData.indexOf('","url', indexStart)
-    result = htmlData.substring(indexStart + 9, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    bookTitle = bookTitle.replace(result, '')
-    bookTitle = bookTitle + result + ';'
-  }
-  bookTitle = bookTitle + '****XY'
-  for (let index = 0; index < 100; index++) {
-    bookTitle = bookTitle.replace(',">', '')
-    bookTitle = bookTitle.replace('\n', '')
-    bookTitle = bookTitle.replace(',,', ',')
-    bookTitle = bookTitle.replace(';;', ';')
+  movies = JSON.parse(html.text)
+  for (let i = 0; i < movies.results.length; i++) {
+    allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
   }
 
-  indexStart = bookTitle.search('","url":')
-  indexEnd = bookTitle.indexOf('****XY', indexStart)
-  result = bookTitle.substring(indexStart, indexEnd)
+  countMovies = movies.results.length
 
-  bookTitle = bookTitle.replace(result, '')
-  bookTitle = bookTitle.replace('****XY', '')
-
-  bookTitle = bookTitle.replace('tings__user-rating-review,   ,', '')
-  bookTitle = bookTitle.replace(',', '')
-  // retrieving the image URL
-  imageUrl = ''
-  htmlData = htmlDataFilmConst
-  indexStart = indexStartFilmConst
-  indexEnd = indexEndFilmConst
-  htmlDatasub = htmlData.substring(indexStart, indexEnd)
-
-  for (let index = 0; index < bookTitle.length; index++) {
-    indexStart = htmlData.search('"primary":"')
-    indexEnd = htmlData.indexOf('"},"actors"', indexStart)
-    result = htmlData.substring(indexStart + 11, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    imageUrl = imageUrl.replace(result, '')
-    imageUrl = imageUrl + result + ';'
-  }
-  imageUrl = imageUrl + '****XY'
-  for (let index = 0; index < bookTitle; index++) {
-    imageUrl = imageUrl.replace(',">', '')
-    imageUrl = imageUrl.replace('\n', '')
-    imageUrl = imageUrl.replace(',,', ',')
-    imageUrl = imageUrl.replace(';;', ';')
+  html = await agent.get('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=popularity&type=in-theaters&page=2')
+  movies = JSON.parse(html.text)
+  for (let i = 0; i < movies.results.length - (countMovies + movies.results.length - 50); i++) {
+    allData.movies.push({title: movies.results[i].title, synopsis: movies.results[i].synopsis, releaseDate: movies.results[i].theaterReleaseDate, runtime: movies.results[i].runtime, img: movies.results[i].posters.primary})
   }
 
-  indexStart = imageUrl.search('the Beach')
-  indexEnd = imageUrl.indexOf('",', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-
-  indexStart = imageUrl.search('","')
-  indexEnd = imageUrl.indexOf('"},', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-
-  imageUrl = imageUrl.replace('"},', '')
-  imageUrl = imageUrl.replace('"actors;', '')
-  imageUrl = imageUrl.replace('****XY', '')
-
-  const filmData = bookTitle.concat(imageUrl)
-
-  // ------------------------------------------anime
+  // ANIMES
 
   html = await agent.get('https://myanimelist.net/anime/season')
   html = html.text
 
-  indexStart = html.search('TV (New)')
-  indexEnd = html.indexOf('anime-header">ONA', indexStart)
+  indexStart = html.indexOf('<div class="js-categories-seasonal"><div class="seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix">')
+  indexEnd = html.indexOf('<div class="btn-top js-btn-top"></div>', indexStart)
 
-  const indexStartAnimeConst = indexStart
-  const indexEndAnimeConst = indexEnd
+  if (indexStart != -1 && indexEnd != -1) {
+    htmlData = html.substring(indexStart, indexEnd)
+    indexStart = 0
+    for (let i = 0; i < 50; i++) {
+      indexStart = htmlData.indexOf('<div class="seasonal-anime js-seasonal-anime"', indexStart + 10)
+      indexEnd = htmlData.indexOf('<span class="score score-label score-na" title="Score">', indexStart)
 
-  result = html.substring(indexStart + 7, indexEnd)
+      if (indexStart != -1 && indexEnd != -1) {
+        one = htmlData.substring(indexStart + 10, indexEnd)
+        // console.log('\n-----------------------------------------------\n\n' + one + '\n\n---------------------------------------------\n\n')
 
-  htmlData = result
-  const htmlDataAnimeConst = result
+        // TITLE
+        let tIndexStart = one.search(/<a href="https:\/\/myanimelist.net\/anime\/.+\/.+" class="link-title">/g)
+        let tIndexEnd = one.indexOf('</a>', tIndexStart)
+        let title = one.substring(tIndexStart, tIndexEnd)
+        title = title.substring(title.indexOf('class="link-title">') + 19)
 
-  // retrieving the book title
-  bookTitle = ''
-  htmlDatasub = htmlData.substring(indexStart, indexEnd)
+        // Episodes count
+        tIndexStart = one.search(/<a href="https:\/\/myanimelist.net\/anime\/.+\/.+\/episode"><span>/g)
+        tIndexEnd = one.indexOf('</span>', tIndexStart)
+        let eps = one.substring(tIndexStart, tIndexEnd)
+        eps = eps.substring(eps.indexOf('<span>') + 6, eps.indexOf(' ep'))
 
-  for (let index = 0; index < 100; index++) {
-    indexStart = htmlData.search('link-title">')
-    indexEnd = htmlData.indexOf('</a>', indexStart)
-    result = htmlData.substring(indexStart + 12, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    bookTitle = bookTitle.replace(result, '')
-    bookTitle = bookTitle + result + ';'
+        // IMAGES
+        tIndexStart = one.search(/https:\/\/cdn.myanimelist.net\/images\/anime\/.+\/.+webp"/g)
+
+        if (tIndexStart != -1) {
+          tIndexEnd = one.indexOf('.webp"', tIndexStart) + 5
+        } else {
+          tIndexStart = one.search(/https:\/\/cdn.myanimelist.net\/images\/anime\/.+\/.+jpg"/g)
+          tIndexEnd = one.indexOf('.jpg"', tIndexStart) + 4
+        }
+
+        let img = one.substring(tIndexStart, tIndexEnd)
+        //console.log('\n' + img)
+
+        // SYNOPSIS
+        let synopsis = ''
+        
+        tIndexStart = one.search(/<div class="synopsis js-synopsis">/g) + 61
+        
+        if (tIndexStart != 1) {
+          tIndexEnd = one.indexOf('</span>', tIndexStart)
+          synopsis = one.substring(tIndexStart, tIndexEnd)
+        }
+
+        allData.animes.push({title: title, count: eps, img: img, synopsis: synopsis})
+      }
+    }
+
   }
 
-  bookTitle = bookTitle + '****XY'
-  for (let index = 0; index < 100; index++) {
-    bookTitle = bookTitle.replace(',">', '')
-    bookTitle = bookTitle.replace('\n', '')
-    bookTitle = bookTitle.replace(',,', ',')
-    bookTitle = bookTitle.replace(';;', ';')
-  }
-
-  indexStart = bookTitle.search('BLIC')
-  indexEnd = bookTitle.indexOf('****XY', indexStart)
-  result = bookTitle.substring(indexStart, indexEnd)
-
-  bookTitle = bookTitle.replace(result, '')
-  bookTitle = bookTitle.replace('****XY', '')
-
-  bookTitle = bookTitle.replace('tings__user-rating-review,   ,', '')
-  bookTitle = bookTitle.replace(',', '')
-
-  // retrieving the image URL
-  imageUrl = ''
-  htmlData = htmlDataAnimeConst
-  indexStart = indexStartAnimeConst
-  indexEnd = indexEndAnimeConst
-  htmlDatasub = htmlData.substring(indexStart, indexEnd)
-
-  for (let index = 0; index < bookTitle.length; index++) {
-    indexStart = htmlData.search('<img src="')
-    indexEnd = htmlData.indexOf('" width="167"', indexStart)
-    result = htmlData.substring(indexStart + 10, indexEnd)
-    htmlDatasub = htmlData.substring(indexStart, indexEnd)
-    htmlData = htmlData.replace(htmlDatasub, '')
-    imageUrl = imageUrl.replace(result, '')
-    imageUrl = imageUrl + result + ';'
-  }
-
-  imageUrl = imageUrl + '****XY'
-  for (let index = 0; index < bookTitle; index++) {
-    imageUrl = imageUrl.replace(',">', '')
-    imageUrl = imageUrl.replace('\n', '')
-    imageUrl = imageUrl.replace(',,', ',')
-    imageUrl = imageUrl.replace(';;', ';')
-  }
-
-  indexStart = imageUrl.search('PUBLIC')
-  indexEnd = imageUrl.indexOf('width=";', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-
-  indexStart = imageUrl.search('src">')
-  indexEnd = imageUrl.indexOf('<img ', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-
-  indexStart = imageUrl.search('  " href')
-  indexEnd = imageUrl.indexOf('src', indexStart)
-  result = imageUrl.substring(indexStart, indexEnd)
-
-  imageUrl = imageUrl.replace(result, '')
-  for (let index = 0; index < 100; index++) {
-    imageUrl = imageUrl.replace('src="', '')
-    imageUrl = imageUrl.replace('" width=', '')
-  }
-  imageUrl = imageUrl.replace('width=";', '')
-  imageUrl = imageUrl.replace(result, '')
-  imageUrl = imageUrl.replace('****XY', '')
-
-  const animeData = bookTitle.concat(imageUrl)
-  // console.log(animeData)
-  // ----------------------------------------------sending data
-
-  let allData = bookData.concat(filmData)
-  allData = allData.concat(animeData)
-
-  console.log(allData)
-  res.send(allData)
+  //console.log(allData)
+  res.json(allData)
 })
 
 module.exports = router

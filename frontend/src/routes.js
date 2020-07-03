@@ -2,7 +2,6 @@ import Login from './components/Login'
 import SiginUp from './components/SiginUp'
 import ConfirmationSiginUp from './components/ConfirmationSiginUp'
 import Welcome from './components/Welcome'
-import Welcome2 from './components/Welcome2'
 import Profile from './components/Profile'
 import Search from './components/Search'
 import Page404 from './components/Page404'
@@ -17,7 +16,7 @@ import Settings from './components/Settings'
 
 export const routes = [
   { path: '/', component: Welcome },
-  { path: '/welcome', component: Welcome2 },
+  { path: '/welcome', component: Welcome },
   { path: '/login', component: Login },
   { path: '/signup', component: SiginUp },
   { path: '/confirmation_sigin', component: ConfirmationSiginUp },
