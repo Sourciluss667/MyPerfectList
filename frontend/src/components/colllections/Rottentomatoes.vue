@@ -31,9 +31,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Right side -->
-    
     </nav> 
     <section class="hero is-light">
       <div class="hero-body" style="padding: 1rem 1rem;">
@@ -141,8 +138,7 @@ export default {
     this.counter = this.dataList.length
     if(this.counter===0){
       this.msg = 'No result found!'
-    }
-    console.log(this.dataList)
+    } 
     this.isLoading = false
   }
 

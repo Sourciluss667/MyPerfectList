@@ -26,8 +26,8 @@ export const routes = [
   { path: '/collections/MyAnimeList', component: MyAnimeList, meta: {title: 'Anime', breadCrumb:{1:['home','Home','/'],2:['isActive','Anime','']}}},
   { path: '/collections/IMDb/:username?', component: IMDb,meta: {title: 'IMDb', breadCrumb:{1:['home','Home','/'],2:['isActive','IMDb','']}} },
   { path: '/collections/Rottentomatoes/:username?', component: Rottentomatoes, meta: {title: 'Rottentomatoes', breadCrumb:{1:['home','Home','/'],2:['isActive','Rottentomatoes','']}} },
-  { path: '/collections/GoodReads/:username?', component: GoodReads },
-  { path: '/collections/RateYourMusic/:username?', component: RateYourMusic },
+  { path: '/collections/GoodReads/:username?', component: GoodReads, meta: {title: 'GoodReads', breadCrumb:{1:['home','Home','/'],2:['isActive','GoodReads','']}} },
+  { path: '/collections/RateYourMusic/:username?', component: RateYourMusic,  meta: {title: 'RateYourMusic', breadCrumb:{1:['home','Home','/'],2:['isActive','RateYourMusic','']}}  },
   { path: '/collections/others', component: Others },
   { path: '/reset_password', component: PasswordLost },
   { path: '/settings', component: Settings}
