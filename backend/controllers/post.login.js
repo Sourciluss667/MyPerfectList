@@ -7,6 +7,7 @@ const User = require('../models/user_model')
 async function postLogin (req, res) {
   // si l'utilisateur est déjà connecté, alors on lui retourne Unauthorized
   if (req.session.userId) {
+    console.log('Already auth')
     res.status(400).json('Already authenticated')
     return
   }

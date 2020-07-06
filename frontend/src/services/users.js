@@ -75,4 +75,8 @@ function changeGender (gender) {
   return axios.post(`${SERVER_URL}/users/changeGender`, { gender })
 }
 
-export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl, changeName, changeUsername, changeEmail, changeGender }
+function changePass (pass, verifPass) {
+  return axios.post(`${SERVER_URL}/users/changePass`, {pass, verifPass})
+}
+
+export { login, siginUp, getCurrentUser, logout, getUserByUsername, passwordLost, changeTokens, changeAvatarUrl, changeName, changeUsername, changeEmail, changeGender, changePass }
