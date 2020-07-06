@@ -44,23 +44,17 @@
             :is-full-page="false"
             loader="bars"
           ></Loading>
-          <div class="columns is-multiline">
-            <div v-for="(item,index) in dataList" :key="index"  class="column is-12-tablet is-6-desktop">
-              <div class="card" style="height: 100%">
-                <div class="card-image"  >
-                  
-                  <div  style="margin-left:1%;text-align:left">
-                    <div  style="display:inline-block;width: 87.5%;">
-                      <div  style="float:left; width:20%; margin-top:1.1%" >
-                        <img :src="item.imgUrl" :alt="item.name"/>
-                      </div>
-                      <div style="margin-left:100px">
-                        <h5 style="font-weight: bold;">{{item.name}} </h5>
-                      </div>
-                    </div>   
+          <div class="columns is-multiline" >
+            <div v-for="(item,index) in dataList" :key="index"  class="column is-12-tablet is-3-desktop" >
+              <div class="card" >
+                <div class="card-image "  style="padding-top: 5%;padding-bottom: 0.1%;">  
+                  <img :src="item.imgUrl" class="content-image">
+                </div>
+                <div class="card-content" style="padding: .1rem">
+                  <div class="content">
+                    <h6>{{ item.name }}</h6>
                   </div>
                 </div>
-                
               </div>
             </div>
             
@@ -98,6 +92,7 @@ export default {
   },
    methods: {
      mouseover: function (row) {
+       console.log('enter')
        row.showdetails = true
      },
      mouseleave: function (row) {
@@ -140,7 +135,7 @@ export default {
       this.bookTable2 = this.bookTable2 + '<div class="row"><tr><td><img src="' + this.infoToDisplay[(this.numberArray/2 -1) + index] + '" alt="' + this.infoToDisplay[index] + '" style="width:96px;height:136px;"></td><td>' + this.infoToDisplay[index] + '</td></tr></p></div>'
       imgUrl = this.infoToDisplay[(this.numberArray/2-1)+index]
       name= this.infoToDisplay[index]
-      this.dataList[index] = {imgUrl,name}
+      this.dataList[index] = {showdetails:false,imgUrl,name}
     }
     this.dataHistories = [...this.dataList]
     this.counter = this.dataList.length
