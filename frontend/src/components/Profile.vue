@@ -19,12 +19,12 @@
           </div>
         </figure>
         <br />
-        <span class="title is-4">{{ userData.username }}</span>
+        <span class="title is-4" id="username">{{ userData.username }}</span>
         <div class="icon" style="margin-right: 5px;" v-if="editMode" @click="editUsername">
           <i class="fas fa-pen"></i>
         </div>
         <br />
-        <span class="subtitle is-5">{{ userData.name }}</span>
+        <span class="subtitle is-5" id="name">{{ userData.name }}</span>
         <div class="icon" style="margin-right: 5px;" v-if="editMode" @click="editName">
           <i class="fas fa-pen"></i>
         </div>
@@ -51,7 +51,7 @@
           >
             <i class="fas fa-venus"></i>
           </div>
-          <div class="icon has-text-primary" v-else>
+          <div class="icon has-text-primary" v-else-if="userData.gender === 'OTHER'">
             <i class="fas fa-venus-mars"></i>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default {
   async created() {
     await this.init();
   },
-  methods: {
+  methods: { // TODO -------------------------------------------------------------------- EDIT AVATAR, EDIT GENDER
     edit () {
       this.editMode = !this.editMode;
     },
@@ -147,19 +147,34 @@ export default {
         changeAvatarUrl(url)
       }
     },
+    editGender () {
+
+    },
     editUsername () {
-      const usernamePrompt = prompt('Username :', this.username)
-      if (usernamePrompt !== '') {
-        this.userData.username = usernamePrompt
-        changeUsername(usernamePrompt)
-        this.$root.$emit('changeUsername', usernamePrompt)
+      let e = document.getElementById('username').innerHTML
+      if (e != '<input class="input" type="text" name="username" id="username-input" placeholder="' + this.userData.username + '">') {
+        document.getElementById('username').innerHTML = '<input class="input" type="text" name="username" id="username-input" placeholder="' + this.userData.username + '">'
+      } else if (e === '<input class="input" type="text" name="username" id="username-input" placeholder="' + this.userData.username + '">') {
+        const value = document.getElementById('username-input').value
+        if (value != '' && value.length > 2) {
+          this.userData.username = document.getElementById('username-input').value
+          changeUsername(this.userData.username)
+          this.$root.$emit('changeUsername', this.userData.username)
+        }
+        document.getElementById('username').innerHTML = `${this.userData.username}`
       }
     },
     editName () {
-      const name = prompt('Name :', this.userData.name)
-      if (name !== '') {
-        this.userData.name = name
-        changeName(name)
+      let e = document.getElementById('name').innerHTML
+      if (e != '<input class="input" type="text" name="name" id="name-input" placeholder="' + this.userData.name + '">') {
+        document.getElementById('name').innerHTML = '<input class="input" type="text" name="name" id="name-input" placeholder="' + this.userData.name + '">'
+      } else if (e === '<input class="input" type="text" name="name" id="name-input" placeholder="' + this.userData.name + '">') {
+        const value = document.getElementById('name-input').value
+        if (value != '' && value.length > 2) {
+          this.userData.name = document.getElementById('name-input').value
+          changeName(this.userData.name)
+        }
+        document.getElementById('name').innerHTML = `${this.userData.name}`
       }
     },
     editBio () {
