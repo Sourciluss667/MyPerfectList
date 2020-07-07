@@ -1,5 +1,14 @@
 <template>
   <div class="welcome">
+    <div style="margin-bottom: 10%;">
+      <div class="title">WELCOME !</div>
+      <p>
+        Welcome to our website !<br />
+        This website it's useful when you watch lot of media content and save that on multiples website like IMDb or MyAnimeList !<br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.<br> Itaque tempora officia expedita minima maiores soluta sed sequi quia?<br> Sit illum, delectus quam magnam totam accusamus ipsa placeat quidem labore corporis.
+      </p>
+    </div>
+
     <div class="title">NEW RELEASES</div>
     <div class="columns">
       <div class="column">

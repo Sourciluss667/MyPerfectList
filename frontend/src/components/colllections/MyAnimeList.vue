@@ -28,7 +28,7 @@
               <input v-model="searchValue"
                 class="input is-focused"
                 style="width:400px"
-                type="text"
+                type="search"
                 autocomplete="off"
                 placeholder="Find an anime"
               />
