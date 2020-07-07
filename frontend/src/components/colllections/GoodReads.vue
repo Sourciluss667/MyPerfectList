@@ -78,6 +78,7 @@ import BreadCrumb from '../BreadCrumb';
 import Loading from "vue-loading-overlay";
 // Import stylesheet
 import "vue-loading-overlay/dist/vue-loading.css"; 
+import { getUserByUsername } from '../../services/users'
 
 export default {
   name: "GoodReads",
@@ -121,24 +122,25 @@ export default {
   },
   async created () {
     this.isLoading=true
-    const token = '103381785-zack-drake'
-    /*
+    // const token = '103381785-zack-drake'
+
+    let token = undefined
+
     let nonBlock = 0
-    let token = 0
     do {
-      token = this.$parent.user.gr
+      token = this.$parent.user.goodreads
       nonBlock++
     } while ((token === undefined || token === null) && nonBlock < 2000)
+    
 
     if (this.$route.params.username != undefined) {
       let u = await getUserByUsername(this.$route.params.username)
-      token = u.imdb
+      token = u.goodreads
     } else if (nonBlock >= 2000) {
       // Error find user token via parent, so use getUserByUsername with localStorage username
       let u = await getUserByUsername(localStorage.username)
-      token = u.imdb
+      token = u.goodreads
     }
-    */
 
     let req = await fetch(`http://localhost:4200/goodreads/${token}`)
     req = await req.text()

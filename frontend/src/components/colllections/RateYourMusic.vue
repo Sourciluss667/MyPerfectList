@@ -44,20 +44,15 @@
             :is-full-page="false"
             loader="bars"
           ></Loading>
-          <div class="columns is-multiline">
-            <div v-for="(item,index) in dataList" :key="index"  class="column is-12-tablet is-6-desktop">
-              <div class="card" style="height: 100%">
-                <div class="card-image"  >
-                  
-                  <div  style="margin-left:1%;text-align:left">
-                    <div  style="display:inline-block;width: 87.5%;">
-                      <div  style="float:left; width:20%; margin-top:1.1%" >
-                        <img :src="item.imgUrl" :alt="item.name"/>
-                      </div>
-                      <div style="margin-left:100px">
-                        <h5 style="font-weight: bold;">{{item.name}} </h5>
-                      </div>
-                    </div>   
+          <div class="columns is-multiline" >
+            <div v-for="(item,index) in dataList" :key="index"  class="column is-12-tablet is-3-desktop" >
+              <div class="card" >
+                <div class="card-image "  style="padding-top: 5%;padding-bottom: 0.1%;">  
+                  <img :src="item.imgUrl" class="content-image">
+                </div>
+                <div class="card-content" style="padding: .1rem">
+                  <div class="content">
+                    <h6>{{ item.name }}</h6> 
                   </div>
                 </div>
                 
@@ -79,7 +74,8 @@
 import BreadCrumb from '../BreadCrumb';  
 import Loading from "vue-loading-overlay";
 // Import stylesheet
-import "vue-loading-overlay/dist/vue-loading.css"; 
+import "vue-loading-overlay/dist/vue-loading.css";
+import { getUserByUsername } from '../../services/users'
 
 export default {
   name: "RateYourMusic",
@@ -100,6 +96,7 @@ export default {
   },
    methods: {
      mouseover: function (row) {
+       console.log('enter')
        row.showdetails = true
      },
      mouseleave: function (row) {
@@ -121,7 +118,25 @@ export default {
   },
   async created () {
     this.isLoading=true
-    const token = 'zackdrake'
+    // const token = 'zackdrake'
+    let token = undefined
+
+    let nonBlock = 0
+    do {
+      token = this.$parent.user.rateyourmusic
+      nonBlock++
+    } while ((token === undefined || token === null) && nonBlock < 2000)
+    
+
+    if (this.$route.params.username != undefined) {
+      let u = await getUserByUsername(this.$route.params.username)
+      token = u.rateyourmusic
+    } else if (nonBlock >= 2000) {
+      // Error find user token via parent, so use getUserByUsername with localStorage username
+      let u = await getUserByUsername(localStorage.username)
+      token = u.rateyourmusic
+    }
+
     
     let req = await fetch(`http://localhost:4200/rateyourmusic/${token}`)
     req = await req.text()
