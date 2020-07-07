@@ -23,14 +23,14 @@
 
       <div class="column has-background-white-bis" id="settings-content">
         <div id="personal-information" v-if="pInformation">
-          <form @submit.prevent="pInfoHandler">
+          <form @submit.prevent="pInfoHandler" autocomplete="off">
             <div class="columns is-centered">
               <div class="column is-one-quarter">
                 <!-- NAME -->
                 <div class="field">
                   <label class="label">Name</label>
                   <div class="control">
-                    <input class="input" type="text" name="name" id="name" v-model="pInfoObj.name">
+                    <input :class="'input ' + colorStatus(infoStatus.name)" type="text" name="name" id="name" v-model="pInfoObj.name">
                   </div>
                 </div>
 
@@ -38,7 +38,7 @@
                 <div class="field">
                   <label class="label">Username</label>
                   <div class="control">
-                    <input class="input" type="text" name="username" id="username" v-model="pInfoObj.username">
+                    <input :class="'input ' + colorStatus(infoStatus.username)" type="text" name="username" id="username" v-model="pInfoObj.username">
                   </div>
                 </div>
 
@@ -46,7 +46,7 @@
                 <div class="field">
                   <label class="label">Email</label>
                   <div class="control">
-                    <input class="input" type="email" name="email" id="email" v-model="pInfoObj.email">
+                    <input :class="'input ' + colorStatus(infoStatus.email)" type="email" name="email" id="email" v-model="pInfoObj.email">
                   </div>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                   </div>
                 </div>
 
-                <div class="select">
+                <div :class="'select ' + colorStatus(infoStatus.name)">
                   <select name="gender" id="gender" v-model="pInfoObj.gender">
                     <option value="">Gender</option>
                     <option value="MALE">Man</option>
@@ -74,7 +74,7 @@
                 <div class="field">
                   <label class="label">Password</label>
                   <div class="control">
-                    <input class="input" type="password" name="pass" id="pass" v-model="pInfoObj.pass" autocomplete="no">
+                    <input :class="'input ' + colorStatus(infoStatus.name)" type="password" name="pass" id="pass" v-model="pInfoObj.pass" autocomplete="no">
                   </div>
                   <p class="help">Rules for password</p>
                 </div>
@@ -90,8 +90,9 @@
               </div>
             </div>
 
-            <input class="button" type="submit" value="Change !">
-
+            <input v-if="infoChangeGood === 1" class="button has-text-success" type="submit" value="Change !">
+            <input v-else-if="infoChangeGood === -1" class="button has-text-danger" type="submit" value="Change !">
+            <input v-else class="button" type="submit" value="Change !">
           </form>
         </div>
         <div id="linked-accounts" v-if="linkedAcc">
@@ -153,7 +154,7 @@
 </template>
 
 <script>
-import { changeTokens, changeName, changeUsername, changeEmail, changeGender } from "../services/users.js";
+import { changeTokens, changeName, changeUsername, changeEmail, changeGender, changePass } from "../services/users.js";
 
 function parseDate(str) {
   let s = str.split('/')
@@ -171,7 +172,9 @@ export default {
       other: false,
       linkedAccObj: {imdb: '', mal: '', rym: '', gd: '', rt: ''},
       pInfoObj: {name: '', username: '', email: '', birthdate: '', gender: '', pass: '', passVerif: ''},
-      parentUserLoaded: false
+      parentUserLoaded: false,
+      infoChangeGood: 0,
+      infoStatus: {name: '', username: '', email: '', gender: '', pass: ''}
     }
   },
   created () {
@@ -210,23 +213,45 @@ export default {
         document.getElementById('tokensubmit').classList.add('has-text-danger')
       }
     },
+    colorStatus (statusCode) {
+      if (statusCode === 200) return 'has-text-success'
+      else if (statusCode === '') return ''
+      else return 'has-text-danger'
+    },
     async pInfoHandler () {
+      let status = {name: '', username: '', email: '', gender: '', pass: ''}
       if (this.pInfoObj.name != this.$parent.user.name) {
-        changeName(this.pInfoObj.name)
-        console.log('change name!')
+        const r = await changeName(this.pInfoObj.name)
+        status.name = r.status
       }
       if (this.pInfoObj.username != this.$parent.user.username) {
-        changeUsername(this.pInfoObj.username)
-        console.log('change username!')
+        const r = await changeUsername(this.pInfoObj.username)
+        status.username = r.status
+        if (r.status === 200) {
+          this.$root.$emit('changeUsername', this.pInfoObj.username)
+        }
       }
       if (this.pInfoObj.email != this.$parent.user.email) {
-        changeEmail(this.pInfoObj.email)
-        console.log('change email!')
+        const r = await changeEmail(this.pInfoObj.email)
+        status.email = r.status
       }
       if (this.pInfoObj.gender != this.$parent.user.gender) {
-        changeGender(this.pInfoObj.gender)
-        console.log('change gender!')
+        const r = await changeGender(this.pInfoObj.gender)
+        status.gender = r.status
       }
+      if (this.pInfoObj.pass != '' && this.pInfoObj.pass === this.pInfoObj.passVerif) {
+        const r = await changePass(this.pInfoObj.pass, this.pInfoObj.passVerif)
+        status.pass = r.status
+      }
+
+      this.infoChangeGood = 1
+      
+      for (const value of Object.entries(status)) {
+        console.log(value)
+        if (value[1] != 200 && value[1] != '') this.infoChangeGood = -1
+      }
+
+      this.infoStatus = status
     },
     pInfoState () {
       this.pInformation = true

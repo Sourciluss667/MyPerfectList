@@ -112,8 +112,8 @@ class User {
     // on le stocke avec le reste en base de données
 
     const result = await PostgresStore.pool.query({
-      text: `INSERT INTO ${User.tableName} (name, username, email, birthdate, password)
-        VALUES ($1, $2, $3, $4,$5) RETURNING *`,
+      text: `INSERT INTO ${User.tableName} (name, username, email, birthdate, password, creation_date)
+        VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
       values: [
         user.name,
         user.username,
@@ -238,6 +238,37 @@ class User {
 
     const userResult = result.rows[0]
     delete userResult.password
+    return userResult
+  }
+
+  /**
+   * @param {String} pass
+   * @param {String} verifPass
+   * @param {Number} id
+   * @return {Promise<User>}
+   */
+  static async changePass (pass, verifPass, id) {
+    let userResult = null
+    if (pass === verifPass) {
+      // VERIF SQL INJECTION HERE
+      const hashedPassword = await bcrypt.hash(pass, 10)
+
+      const result = await PostgresStore.pool.query({
+        text: `UPDATE ${User.tableName} SET password=$1 WHERE id=$2 RETURNING *`,
+        values: [
+          hashedPassword,
+          id
+        ]
+      })
+
+      userResult = result.rows[0]
+      if (userResult.password === hashedPassword) {
+        delete userResult.password
+      } else {
+        userResult = null
+      }
+    }
+    
     return userResult
   }
 
