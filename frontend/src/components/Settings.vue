@@ -118,7 +118,7 @@
               <div class="control">
                 <input class="input" type="text" name="rym" id="rym" v-model="linkedAccObj.rym">
               </div>
-              <p class="help">Like this : xxxxxxx</p>
+              <p class="help">Use your RYM username</p>
             </div>
               </div>
               <div class="column is-one-quarter">
@@ -127,14 +127,14 @@
               <div class="control">
                 <input class="input" type="text" name="gd" id="gd" v-model="linkedAccObj.gd">
               </div>
-              <p class="help">Like this : xxxxxxx</p>
+              <p class="help"><a><i class="fas fa-info-circle"></i></a> Like this : 103381785-zack-drake</p>
             </div>
             <div class="field">
               <label class="label">RottentTomatoes Token</label>
               <div class="control">
                 <input class="input" type="text" name="rt" id="rt" v-model="linkedAccObj.rt">
               </div>
-              <p class="help">Like this : xxxxxx</p>
+              <p class="help"><a><i class="fas fa-info-circle"></i></a> Like this : 978507916</p>
             </div>
             <br>
             <input class="button" id="tokensubmit" type="submit" value="Change !">
